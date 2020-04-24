@@ -9,7 +9,7 @@ const App = () => {
   }, []);
 
   const getDB = async() => {
-    const res = await axios.get('/api/db');
+    const res = await axios.get('/get/db');
       console.log(res.data);
   }
     return (
