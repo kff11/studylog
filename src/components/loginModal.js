@@ -83,14 +83,13 @@ const LoginModal = () => {
             data: {id, password},
             password: password,
             headers: new Headers(),
-        })
+        });
+
         if (res.data) {
-            if (res.data.suc) {
-                sessionStorage.setItem('login', true)
-                setLogin(true)
-            } else {
-                return alert('아이디 혹은 비밀번호가 일치하지 않습니다.')
-            }
+            sessionStorage.setItem('login', true)
+            setLogin(true)
+        } else {
+            return alert('아이디 혹은 비밀번호가 일치하지 않습니다.')
         }
 
     }
@@ -98,58 +97,54 @@ const LoginModal = () => {
     return (
         sessionStorage.getItem('login') ? <Redirect to="/home"/> :
 
-        <Container maxWidth="xs">
-            <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon/>
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                    로그인
-                </Typography>
-                <form className={classes.form} noValidate>
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        label="아이디"
-                        id="id"
-                        name="id"
-                        autoFocus
-                        onChange={changeID}
-                    />
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="비밀번호"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                        onChange={changePW}
-                    />
-                    <FormControlLabel
-                        control={<Checkbox value="remember" color="primary"/>}
-                        label="자동 로그인"
-                    />
-                    <Button
-                        type="button"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        onClick={selectUserData}
-                    >
+            <Container maxWidth="xs">
+                <div className={classes.paper}>
+                    <Avatar className={classes.avatar}>
+                        <LockOutlinedIcon/>
+                    </Avatar>
+                    <Typography component="h1" variant="h5">
                         로그인
-                    </Button>
-
-                </form>
-            </div>
-            <Box mt={8}>
-                <Copyright/>
-            </Box>
-        </Container>
+                    </Typography>
+                    <form className={classes.form} noValidate>
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            label="아이디"
+                            id="id"
+                            name="id"
+                            autoFocus
+                            onChange={changeID}
+                        />
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="비밀번호"
+                            type="password"
+                            id="password"
+                            autoComplete="current-password"
+                            onChange={changePW}
+                        />
+                        <FormControlLabel
+                            control={<Checkbox value="remember" color="primary"/>}
+                            label="자동 로그인"
+                        />
+                        <Button
+                            type="button"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            onClick={selectUserData}>로그인</Button>
+                    </form>
+                </div>
+                <Box mt={8}>
+                    <Copyright/>
+                </Box>
+            </Container>
 
 
     )

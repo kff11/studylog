@@ -42,17 +42,22 @@ module.exports = {
         login: (body, hash, callback) => {
             User.findAll({
                 where: {[Op.and]: [{id: body.id, password: hash}]}
-            }).then(data => {
-                callback(data)
+            }).then(result => {
+                if (result[0]) {
+                    callback(true);
+                } else {
+                    callback(false);
+                }
+
             }).catch(err => {
                 throw err;
             })
         },
         addUser: (body, hash_pw, now, callback) => {
-            User.count({
+            User.findAll({
                 where: {id: body.id},
-            }).then(cnt => {
-                if (cnt > 0) {
+            }).then(result => {
+                if (result[0]) {
                     callback(false);
                 } else {
                     User.create({

@@ -56,6 +56,7 @@ const SignUpModal = () => {
 
     const changeID = () => {
         const id_v = document.getElementById('id').value;
+        console.log(id_v)
         setID(id_v);
     }
 
@@ -183,7 +184,7 @@ const SignUpModal = () => {
                         color="primary"
                         onClick={pushUserData}
                     >
-                        Sign Up
+                        회원가입
                     </Button>
                 </form>
             </div>
