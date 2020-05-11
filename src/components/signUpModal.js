@@ -103,7 +103,6 @@ const SignUpModal = () => {
             data: data,
             headers: new Headers(),
         });
-        console.log(signUp);
 
         if(!signUp.data){
             return alert('이미 존재하는 아이디입니다.')
