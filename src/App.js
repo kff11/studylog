@@ -3,6 +3,7 @@ import React from 'react';
 import './App.css';
 import {Login, Main} from './pages/index';
 import {Head} from "./inc/index";
+import {Redirect} from "react-router-dom";
 
 const App = () => {
 
@@ -18,7 +19,10 @@ const App = () => {
                 </div>
             </div>
             :
-            <Login/>
+            <div>
+                <Redirect to='/'/>
+                <Login/>
+            </div>
     )
         ;
 }

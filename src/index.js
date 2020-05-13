@@ -25,7 +25,7 @@ ReactDOM.render(
                     <App/>
                 </div>
             </BrowserRouter>
-        </MuiThemeProvider>
+        </MuiThemeProvider>,
     </React.StrictMode>,
     document.getElementById('root')
 );
