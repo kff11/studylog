@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const LoginButton = withStyles({
+const _Button = withStyles({
     root: {
         fontSize: 20,
     }
@@ -74,21 +74,18 @@ const Login = () => {
     }
 
     return (
-        sessionStorage.getItem('login') ? <Redirect to="/home"/> :
-            <div className='centered'>
-                <h2>스터디로그</h2>
-                <h3>명지전문대 소프트웨어콘텐츠과 소문난 김가네팀</h3>
-                <LoginButton variant="outlined" color="primary" size="Large" onClick={loginOpen}>
-                    로그인
-                </LoginButton>
-                <br/><br/>
-                <LoginButton variant="contained" color="primary" size="Large" onClick={signUpOpen}>
-                    회원가입
-                </LoginButton>
-                <br/><br/>
-
-                {modalCompoenent()}
-            </div>
+        <div className='centered'>
+            <h2>스터디로그</h2>
+            <h3>명지전문대 소프트웨어콘텐츠과 소문난 김가네팀</h3>
+            <_Button variant="outlined" color="primary" size="large" onClick={loginOpen}>
+                로그인
+            </_Button>
+            <br/><br/>
+            <_Button variant="contained" color="primary" size="large" onClick={signUpOpen}>
+                회원가입
+            </_Button>
+            {modalCompoenent()}
+        </div>
     )
 }
 export default Login;
