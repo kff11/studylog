@@ -1,21 +1,26 @@
 import React from 'react';
 
 import './App.css';
-import {Login, Home, Diary, Write} from './pages/index';
-import {Switch, Route} from "react-router-dom";
+import {Login, Main} from './pages/index';
+import {Head} from "./inc/index";
 
 const App = () => {
 
+
     return (
-        <div>
-            <Switch>
-                <Route exact path='/' component={Login}></Route>
-                <Route path='/home' component={Home}></Route>
-                <Route path='/diary' component={Diary}></Route>
-                <Route path='/write' component={Write}></Route>
-            </Switch>
-        </div>
-    );
+        sessionStorage.getItem('login') ?
+            <div>
+                <div>
+                    <Head/>
+                </div>
+                <div>
+                    <Main/>
+                </div>
+            </div>
+            :
+            <Login/>
+    )
+        ;
 }
 
 export default App;

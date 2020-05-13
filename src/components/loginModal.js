@@ -88,6 +88,7 @@ const LoginModal = () => {
         if (res.data) {
             sessionStorage.setItem('login', true)
             setLogin(true)
+            window.location.reload();
         } else {
             return alert('아이디 혹은 비밀번호가 일치하지 않습니다.')
         }
@@ -95,7 +96,7 @@ const LoginModal = () => {
     }
 
     return (
-        sessionStorage.getItem('login') ? <Redirect to="/home"/> :
+        sessionStorage.getItem('login') ? <Redirect to="/"/> :
 
             <Container maxWidth="xs">
                 <div className={classes.paper}>
@@ -145,8 +146,6 @@ const LoginModal = () => {
                     <Copyright/>
                 </Box>
             </Container>
-
-
     )
 }
 export default LoginModal;

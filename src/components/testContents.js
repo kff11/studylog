@@ -92,13 +92,12 @@ const TestContents = () => {
 
     return (
         <div className='App'>
-            <br/>
             <form className={classes.input} noValidate autoComplete="off" method='POST' onSubmit={addData}>
                 <TextField id="outlined-basic" label="한마디 남기기" variant="outlined" type='text'
-                           maxLength='150'
+                           maxLength='150' margin='2'
                            onChange={(e) => postUpdate(e)}/>
                 <WriteButton type="submit" variant="contained" color="primary" size="large">
-                    글쓰기
+                       　글쓰기　
                 </WriteButton>
             </form>
             <br/>
