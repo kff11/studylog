@@ -39,7 +39,18 @@ const _Drawer = () => {
     const classes = useStyles();
 
     const path = (text) => {
-        return (text === '일기장' ? '/diary' : text === '멘토링' ? '/mentoring' : '/board')
+        switch(text) {
+            case '일기장':
+                return '/diary'
+            case '멘토링':
+                return '/mentoring'
+            case '게시판':
+                return '/board'
+            case '내 정보':
+                return '/profile'
+            case 'About':
+                return '/about'
+        }
     }
 
     return (
@@ -64,11 +75,13 @@ const _Drawer = () => {
                 </List>
                 <Divider/>
                 <List>
-                    {['About'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
-                            <ListItemText primary={text}/>
-                        </ListItem>
+                    {['내 정보','About'].map((text, index) => (
+                        <Link className={classes.link} to={path(text)}>
+                            <ListItem button key={text}>
+                                <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
+                                <ListItemText primary={text}/>
+                            </ListItem>
+                        </Link>
                     ))}
                 </List>
             </div>

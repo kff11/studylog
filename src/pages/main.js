@@ -1,7 +1,7 @@
 import React from "react";
 
 import {TestContents} from "../components/index";
-import {Diary, Mentoring, Write} from "./index";
+import {Diary, Mentoring, Profile, Write} from "./index";
 import {_Drawer} from "../inc/index";
 
 import Toolbar from "@material-ui/core/Toolbar";
@@ -32,6 +32,7 @@ const Main = () => {
                     <Route path='/diary' component={Diary}></Route>
                     <Route path='/write' component={Write}></Route>
                     <Route path='/mentoring' component={Mentoring}></Route>
+                    <Route path='/profile' component={Profile}></Route>
                 </Switch>
             </main>
         </div>

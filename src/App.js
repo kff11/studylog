@@ -6,10 +6,16 @@ import {Head} from "./inc/index";
 import {Redirect} from "react-router-dom";
 
 const App = () => {
+    const [logged, setLogged] = React.useState(false);
 
+    if(!logged) {
+
+    }
+    const token = document.cookie.user;
+    //console.log(document.cookie.);
 
     return (
-        sessionStorage.getItem('login') ?
+        logged ?
             <div>
                 <div>
                     <Head/>
@@ -20,8 +26,8 @@ const App = () => {
             </div>
             :
             <div>
-                <Redirect to='/'/>
-                <Login/>
+                <Redirect to='/login'/>
+                <Login setLogged={setLogged} />
             </div>
     )
         ;

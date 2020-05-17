@@ -9,11 +9,13 @@ import {MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
     typography: {
+        color: '#000',
         fontFamily: 'KopubWorldDotumMedium'
     },
 });
 
 const style = {
+    color: '#000',
     fontFamily: 'KopubWorldDotumMedium'
 }
 

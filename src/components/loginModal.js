@@ -13,6 +13,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import {Main} from "../pages/index";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -49,7 +50,7 @@ const Copyright = () => {
     );
 }
 
-const LoginModal = () => {
+const LoginModal = ({setLogged}) => {
     const classes = useStyles();
 
     const [id, setID] = React.useState("");
@@ -86,9 +87,10 @@ const LoginModal = () => {
         });
 
         if (res.data) {
-            sessionStorage.setItem('login', true)
-            setLogin(true)
             window.location.reload();
+            setLogged(true);
+            setLogin(true);
+
         } else {
             return alert('아이디 혹은 비밀번호가 일치하지 않습니다.')
         }
@@ -96,8 +98,7 @@ const LoginModal = () => {
     }
 
     return (
-        sessionStorage.getItem('login') ? <Redirect to="/"/> :
-
+        <div>
             <Container maxWidth="xs">
                 <div className={classes.paper}>
                     <Avatar className={classes.avatar}>
@@ -146,6 +147,7 @@ const LoginModal = () => {
                     <Copyright/>
                 </Box>
             </Container>
+        </div>
     )
 }
 export default LoginModal;

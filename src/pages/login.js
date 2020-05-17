@@ -33,7 +33,7 @@ const _Button = withStyles({
     }
 })(Button);
 
-const Login = () => {
+const Login = ({setLogged}) => {
     const classes = useStyles();
 
     const [open, setOpen] = React.useState(false);
@@ -66,7 +66,7 @@ const Login = () => {
                 }}>
                 <Fade in={open}>
                     <div className={classes.paper}>
-                        {modal === 'login' ? <LoginModal/> : <SignUpModal/>}
+                        {modal === 'login' ? <LoginModal setLogged={setLogged}/> : <SignUpModal/>}
                     </div>
                 </Fade>
             </Modal>

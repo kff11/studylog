@@ -44,7 +44,7 @@ module.exports = {
                 where: {[Op.and]: [{id: body.id, password: hash}]}
             }).then(result => {
                 if (result[0]) {
-                    callback(true);
+                    callback(result);
                 } else {
                     callback(false);
                 }
