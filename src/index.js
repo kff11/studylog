@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter} from 'react-router-dom';
+import {CookiesProvider} from "react-cookie";
 
 import {MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles';
 
@@ -21,13 +22,15 @@ const style = {
 
 ReactDOM.render(
     <React.StrictMode>
-        <MuiThemeProvider theme={theme}>
-            <BrowserRouter>
-                <div style={style}>
-                    <App/>
-                </div>
-            </BrowserRouter>
-        </MuiThemeProvider>,
+        <CookiesProvider>
+            <MuiThemeProvider theme={theme}>
+                <BrowserRouter>
+                    <div style={style}>
+                        <App/>
+                    </div>
+                </BrowserRouter>
+            </MuiThemeProvider>
+        </CookiesProvider>
     </React.StrictMode>,
     document.getElementById('root')
 );

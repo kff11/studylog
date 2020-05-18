@@ -53,10 +53,7 @@ module.exports = {
                         jwtKey.secret,{
                             expiresIn: '1h'
                         })
-                    res.cookie('user', token, {httpOnly: true});
-                    res.json({
-                        token: token
-                    })
+                    res.cookie('user', token );
                 }
                 res.send(result);
             })

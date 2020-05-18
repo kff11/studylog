@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import {Redirect} from "react-router-dom";
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -13,7 +12,6 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {Main} from "../pages/index";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -50,12 +48,11 @@ const Copyright = () => {
     );
 }
 
-const LoginModal = ({setLogged}) => {
+const LoginModal = () => {
     const classes = useStyles();
 
     const [id, setID] = React.useState("");
     const [password, setPassword] = React.useState("");
-    const [login, setLogin] = React.useState(false);
 
     const changeID = () => {
         const id_v = document.getElementById('id').value;
@@ -88,8 +85,6 @@ const LoginModal = ({setLogged}) => {
 
         if (res.data) {
             window.location.reload();
-            setLogged(true);
-            setLogin(true);
 
         } else {
             return alert('아이디 혹은 비밀번호가 일치하지 않습니다.')

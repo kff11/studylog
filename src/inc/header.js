@@ -5,7 +5,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import {AccountCircle} from "@material-ui/icons";
-import {Link, Redirect} from "react-router-dom";
+import {Link} from "react-router-dom";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Head = () => {
+const Head = ({handleLogout}) => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -47,11 +47,6 @@ const Head = () => {
         setAnchorEl(null);
     };
 
-    const sessionLogout = () => {
-        sessionStorage.removeItem('login');
-        window.location.reload();
-    }
-
     const menuId = 'primary-search-account-menu';
 
     const renderMenu = (
@@ -64,7 +59,7 @@ const Head = () => {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={sessionLogout}>로그아웃</MenuItem>
+            <MenuItem onClick={handleLogout}>로그아웃</MenuItem>
         </Menu>
     );
 

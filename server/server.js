@@ -15,6 +15,7 @@ app.use('/', router);
 app.use('/', require('redirect-https')());
 
 if (process.env.NODE_ENV === 'production') {
+    // 배포일 때
     const options = {
         key: fs.readFileSync('/etc/letsencrypt/live/studylog.shop/privkey.pem'),
         cert: fs.readFileSync('/etc/letsencrypt/live/studylog.shop/cert.pem')
@@ -25,6 +26,8 @@ if (process.env.NODE_ENV === 'production') {
     });
     http.createServer(app).listen(process.env.PORT);
     https.createServer(options, app).listen(process.env.SSL_PORT);
+
+    // 개발일 때
 } else {
     http.createServer(app).listen(4000);
 }

@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const _Drawer = () => {
+const SideDrawer = () => {
     const classes = useStyles();
 
     const path = (text) => {
@@ -50,6 +50,8 @@ const _Drawer = () => {
                 return '/profile'
             case 'About':
                 return '/about'
+            default:
+                return '/'
         }
     }
 
@@ -88,4 +90,4 @@ const _Drawer = () => {
         </Drawer>
     );
 }
-export default _Drawer;
+export default SideDrawer;
