@@ -13,9 +13,6 @@ const salt = require(path.join(__dirname, 'config', 'db.json')).salt;
 // 현재 시간 찍기 *회원가입 날짜를 알기 위해! *moment를 사용한 이유는 자바스크립트의 new Data()가 한국 시간이 아니기 때문..
 moment.tz.setDefault("Asia/Seoul");
 
-
-
-
 module.exports = {
     post: {
         add: (req, res) => {

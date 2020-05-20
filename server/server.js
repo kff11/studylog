@@ -3,6 +3,7 @@ const http = require('http');
 const https = require('https');
 const path = require('path');
 const router = require('./route');
+const cookieParser = require('cookie-parser');
 const fs = require('fs');
 const sequelize = require('./models').sequelize;
 
@@ -10,9 +11,11 @@ const app = express();
 
 sequelize.sync();
 
+app.use(cookieParser());
 app.use(express.json());
 app.use('/', router);
 app.use('/', require('redirect-https')());
+
 
 if (process.env.NODE_ENV === 'production') {
     // 배포일 때
