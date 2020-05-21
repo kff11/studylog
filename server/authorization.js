@@ -8,7 +8,10 @@ const verifyToken = (req, res, next) => {
 
         if (decoded) {
             res.locals.userId = decoded.id;
+            console.log('권한이 확인되었습니다.');
             next()
+        } else {
+            res.status(401).json({error: 'unauthorized'});
         }
     } catch (err) {
         throw err;

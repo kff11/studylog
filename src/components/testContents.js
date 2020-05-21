@@ -47,6 +47,7 @@ const TestContents = () => {
             return setList(cover);
         }
         setList(res.data);
+
     }
 
     const addData = async (e) => {
