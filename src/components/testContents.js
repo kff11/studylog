@@ -47,6 +47,7 @@ const TestContents = () => {
             return setList(cover);
         }
         setList(res.data);
+
     }
 
     const addData = async (e) => {
@@ -94,7 +95,7 @@ const TestContents = () => {
         <div className='App'>
             <form className={classes.input} noValidate autoComplete="off" method='POST' onSubmit={addData}>
                 <TextField id="outlined-basic" label="한마디 남기기" variant="outlined" type='text'
-                           maxLength='150' margin='2'
+                           maxLength='150'
                            onChange={(e) => postUpdate(e)}/>
                 <WriteButton type="submit" variant="contained" color="primary" size="large">
                        　글쓰기　

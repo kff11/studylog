@@ -27,13 +27,19 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const _Button = withStyles({
+const LoginButton = withStyles({
     root: {
         fontSize: 20,
     }
 })(Button);
 
-const Login = () => {
+const SignUpButton = withStyles({
+    root: {
+        fontSize: 20,
+    }
+})(Button);
+
+const Login = ({logged}) => {
     const classes = useStyles();
 
     const [open, setOpen] = React.useState(false);
@@ -55,37 +61,39 @@ const Login = () => {
 
     const modalCompoenent = () => {
         return (
-            <Modal
-                className={classes.modal}
-                open={open}
-                onClose={handleClose}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                    timeout: 500,
-                }}>
-                <Fade in={open}>
-                    <div className={classes.paper}>
-                        {modal === 'login' ? <LoginModal/> : <SignUpModal/>}
-                    </div>
-                </Fade>
-            </Modal>
+            <div>
+                <Modal
+                    className={classes.modal}
+                    open={open}
+                    onClose={handleClose}
+                    closeAfterTransition
+                    BackdropComponent={Backdrop}
+                    BackdropProps={{
+                        timeout: 500,
+                    }}>
+                    <Fade in={open}>
+                        <div className={classes.paper}>
+                            {modal === 'login' ? <LoginModal/> : <SignUpModal/>}
+                        </div>
+                    </Fade>
+                </Modal>
+            </div>
         );
     }
 
     return (
-        <div className='centered'>
-            <h2>스터디로그</h2>
-            <h3>명지전문대 소프트웨어콘텐츠과 소문난 김가네팀</h3>
-            <_Button variant="outlined" color="primary" size="large" onClick={loginOpen}>
-                로그인
-            </_Button>
-            <br/><br/>
-            <_Button variant="contained" color="primary" size="large" onClick={signUpOpen}>
-                회원가입
-            </_Button>
-            {modalCompoenent()}
-        </div>
+        logged ? <Redirect to='/'/> :
+            <div className='centered'>
+                <h2>스터디로그</h2>
+                <LoginButton variant="outlined" color="primary" size="large" onClick={loginOpen}>
+                    로그인
+                </LoginButton>
+                <br/><br/>
+                <SignUpButton variant="contained" color="primary" size="large" onClick={signUpOpen}>
+                    회원가입
+                </SignUpButton>
+                {modalCompoenent()}
+            </div>
     )
 }
 export default Login;

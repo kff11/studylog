@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import {Redirect} from "react-router-dom";
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -54,7 +53,6 @@ const LoginModal = () => {
 
     const [id, setID] = React.useState("");
     const [password, setPassword] = React.useState("");
-    const [login, setLogin] = React.useState(false);
 
     const changeID = () => {
         const id_v = document.getElementById('id').value;
@@ -86,9 +84,8 @@ const LoginModal = () => {
         });
 
         if (res.data) {
-            sessionStorage.setItem('login', true)
-            setLogin(true)
             window.location.reload();
+
         } else {
             return alert('아이디 혹은 비밀번호가 일치하지 않습니다.')
         }
@@ -96,8 +93,7 @@ const LoginModal = () => {
     }
 
     return (
-        sessionStorage.getItem('login') ? <Redirect to="/"/> :
-
+        <div>
             <Container maxWidth="xs">
                 <div className={classes.paper}>
                     <Avatar className={classes.avatar}>
@@ -146,6 +142,7 @@ const LoginModal = () => {
                     <Copyright/>
                 </Box>
             </Container>
+        </div>
     )
 }
 export default LoginModal;

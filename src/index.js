@@ -4,28 +4,33 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter} from 'react-router-dom';
+import {CookiesProvider} from "react-cookie";
 
 import {MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
     typography: {
+        color: '#000',
         fontFamily: 'KopubWorldDotumMedium'
     },
 });
 
 const style = {
+    color: '#000',
     fontFamily: 'KopubWorldDotumMedium'
 }
 
 ReactDOM.render(
     <React.StrictMode>
-        <MuiThemeProvider theme={theme}>
-            <BrowserRouter>
-                <div style={style}>
-                    <App/>
-                </div>
-            </BrowserRouter>
-        </MuiThemeProvider>,
+        <CookiesProvider>
+            <MuiThemeProvider theme={theme}>
+                <BrowserRouter>
+                    <div style={style}>
+                        <App/>
+                    </div>
+                </BrowserRouter>
+            </MuiThemeProvider>
+        </CookiesProvider>
     </React.StrictMode>,
     document.getElementById('root')
 );

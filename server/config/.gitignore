@@ -2,4 +2,6 @@
 
 # database
 /db.json
-/db.json
+
+# JWT
+/jwt.js
