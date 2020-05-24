@@ -34,6 +34,11 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.DATE,
                 allowNull: false
             },
+
+            refreshToken: {
+                type: DataTypes.STRING(200),
+                allowNull: false
+            },
         },
         {
             charset: 'utf8',

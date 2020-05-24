@@ -69,7 +69,26 @@ module.exports = {
                     }).then(() => callback(true));
                 }
             })
-        }
-    }
+        },
+        addRefreshToken: (body, refreshToken) => {
+            User.update({
+                refreshToken: refreshToken
+            }, {where: {id: body.id}})
+                .catch(err => {
+                    throw err;
+                })
+        },
+    },
+    auth: {
+        authRefreshToken: (id, refreshToken, callback) => {
+            User.findAll({
+                where: {id: id}
+            }).then(result => {
+                result[0].refreshToken === refreshToken ? callback(true) : callback(false)
+            }).catch(err => {
+                throw err;
+            })
+        },
+    },
 
 }

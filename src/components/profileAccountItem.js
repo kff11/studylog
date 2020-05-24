@@ -1,4 +1,8 @@
-import React from "react";
+import React, {useEffect} from "react";
+
+import jwt from "jsonwebtoken";
+import jwtKey from "../config/jwt";
+import {useCookies} from "react-cookie";
 
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -19,7 +23,14 @@ const useStyles = makeStyles((theme) => ({
 const ProfileAccountItem = () => {
     const classes = useStyles();
 
-    const [name, setName] = React.useState(sessionStorage.getItem('name'));
+    const [cookies, setCookies] = useCookies('user');
+    const [name, setName] = React.useState();
+
+    const decoded = jwt.verify(cookies, jwtKey.secret);
+
+    useEffect(() => {
+        setName(decoded.name)
+    }, [])
 
 
     return (
