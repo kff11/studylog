@@ -6,24 +6,27 @@ const model = require('./model');
 const verifyToken = (req, res, next) => {
     const clientToken = req.cookies.user;
 
-    jwt.verify(clientToken, jwtKey.secret, (err, decoded) => {
-        if (err) {
-            controller.auth.RefreshToken(req, res);
-            try {
-                const clientToken = req.cookies.user;
-                const decoded = jwt.verify(clientToken, jwtKey.secret);
-                if (decoded) {
-                    console.log('토큰 바꿈');
-                    next();
-                }
-            } catch (err) {
-                res.status(401);
+    jwt.verify(clientToken, jwtKey.secret, async (err, decoded) => {
+            if (err) {
+                controller.auth.RefreshToken(req, res, clientToken => {
+                    console.log(req.cookies.user);
+                    try {
+                        // const clientToken = req.cookies.user;
+                        const decoded = jwt.verify(clientToken, jwtKey.secret);
+                        if (decoded) {
+                            console.log('토큰 바꿈');
+                            next();
+                        }
+                    } catch (err) {
+                        res.status(401);
+                    }
+                })
+            } else {
+                console.log('권한이 확인되었습니다.');
+                next();
             }
-        } else {
-            console.log('권한이 확인되었습니다.');
-            next();
         }
-    })
+    )
 
 
     /*try {

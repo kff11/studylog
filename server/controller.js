@@ -76,8 +76,8 @@ module.exports = {
         }
     },
     auth: {
-        RefreshToken: (req, res) => {
-            const clientToken = req.cookies.user;
+        RefreshToken: (req, res, callback) => {
+            let clientToken = req.cookies.user;
             const refreshToken = req.cookies.userRefreshToken;
 
             const id = jwt.decode(clientToken, jwtKey.secret).id;
@@ -85,16 +85,18 @@ module.exports = {
 
             model.auth.authRefreshToken(id, refreshToken, result => {
                 if (result) {
-                    const clientToken = jwt.sign({
+                    clientToken = jwt.sign({
                             id: id,
                             name: name
                         },
                         jwtKey.secret, {
                             expiresIn: '1m'
                         });
-                    res.cookie('user', clientToken).end();
+                    res.cookie('user', clientToken);
+                    callback(clientToken);
                 }
             })
+
         }
     }
 
