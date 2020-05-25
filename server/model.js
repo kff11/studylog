@@ -66,10 +66,13 @@ module.exports = {
                         signUp_date: now,
                         name: body.name,
                         admin: false,
+                        refreshToken: "none",
                     }).then(() => callback(true));
                 }
             })
         },
+    },
+    token: {
         addRefreshToken: (body, refreshToken) => {
             User.update({
                 refreshToken: refreshToken
@@ -78,8 +81,6 @@ module.exports = {
                     throw err;
                 })
         },
-    },
-    auth: {
         authRefreshToken: (id, refreshToken, callback) => {
             User.findAll({
                 where: {id: id}

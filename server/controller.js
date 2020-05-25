@@ -44,22 +44,22 @@ module.exports = {
                 // 로그인에 성공하면
                 if (result[0]) {
                     // Access Token 생성
-                    const accessToken = jwt.sign({
+                    const clientToken = jwt.sign({
                             id: body.id,
                             name: result[0].name
                         },
                         jwtKey.secret, {
-                            expiresIn: '1m'
+                            expiresIn: '1h'
                         });
 
                     // Refresh Token 생성
                     const refreshToken = jwt.sign({
                         refreshToken: true
                     }, jwtKey.secret, {expiresIn: '1w'});
-                    model.user.addRefreshToken(body, refreshToken)
+                    model.token.addRefreshToken(body, refreshToken)
 
                     // 쿠키에 토큰 할당
-                    res.cookie('user', accessToken);
+                    res.cookie('user', clientToken);
                     res.cookie('userRefreshToken', refreshToken);
                 }
                 res.send(result);
@@ -83,14 +83,14 @@ module.exports = {
             const id = jwt.decode(clientToken, jwtKey.secret).id;
             const name = jwt.decode(clientToken, jwtKey.secret).name;
 
-            model.auth.authRefreshToken(id, refreshToken, result => {
+            model.token.authRefreshToken(id, refreshToken, result => {
                 if (result) {
                     clientToken = jwt.sign({
                             id: id,
                             name: name
                         },
                         jwtKey.secret, {
-                            expiresIn: '1m'
+                            expiresIn: '1h'
                         });
                     res.cookie('user', clientToken);
                     callback(clientToken);

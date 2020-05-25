@@ -79,9 +79,9 @@ const SignUpModal = () => {
 
         const eng_check = /^[a-z]+[a-z0-9]{5,14}$/g; // 정규표현식!
         if (!eng_check.test(id)) {
-            return alert('아이디는 영문자로 시작하는 6~15자여야만 합니다.')
+            return alert('아이디는 영문자로 시작하는 6~15자여야만 합니다. (소문자)')
         }
-        const pw_check = /^[a-z]+[a-z0-9]{5,19}$/g;
+        const pw_check = /^[A-za-z0-9]{5,19}$/g;
         if (!pw_check.test(password)) {
             return alert('비밀번호는 영문자로 시작하는 6~20자여야만 합니다.')
         } else if (password !== password_crt) {

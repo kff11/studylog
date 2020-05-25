@@ -1,24 +1,21 @@
 const jwt = require('jsonwebtoken');
 const jwtKey = require('./config/jwt');
 const controller = require('./controller');
-const model = require('./model');
 
 const verifyToken = (req, res, next) => {
     const clientToken = req.cookies.user;
-
-    jwt.verify(clientToken, jwtKey.secret, async (err, decoded) => {
+    jwt.verify(clientToken, jwtKey.secret, (err) => {
             if (err) {
                 controller.auth.RefreshToken(req, res, clientToken => {
-                    console.log(req.cookies.user);
                     try {
-                        // const clientToken = req.cookies.user;
                         const decoded = jwt.verify(clientToken, jwtKey.secret);
                         if (decoded) {
-                            console.log('토큰 바꿈');
+                            console.log('토큰 재발급 성공!');
                             next();
                         }
                     } catch (err) {
                         res.status(401);
+                        throw err;
                     }
                 })
             } else {
@@ -27,37 +24,6 @@ const verifyToken = (req, res, next) => {
             }
         }
     )
-
-
-    /*try {
-        const decoded = jwt.verify(clientToken, jwtKey.secret);
-        if (decoded) {
-            console.log('권한이 확인되었습니다.');
-            next()
-        }
-    } catch (err) {
-        res.status(401).json({error: 'unauthorized'});
-        const id = jwt.decode(clientToken, jwtKey.secret).id;
-        const name = jwt.decode(clientToken, jwtKey.secret).name;
-
-        const decoded = jwt.verify(refreshToken, jwtKey.secret);
-        if (decoded) {
-            model.user.authRefreshToken(id, refreshToken, result => {
-                if (result) {
-                    const accessToken = jwt.sign({
-                            id: id,
-                            name: name
-                        },
-                        jwtKey.secret, {
-                            expiresIn: '1m'
-                        });
-                    res.cookie('user', '');
-                    next();
-                }
-            })
-        }
-        throw err;
-    } */
 }
 
 exports.verifyToken = verifyToken;
