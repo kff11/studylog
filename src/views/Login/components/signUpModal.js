@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const SignUpModal = () => {
+const SignUpModal = ({handleClose}) => {
 
     const classes = useStyles();
 
@@ -55,18 +55,18 @@ const SignUpModal = () => {
     const [name, setName] = React.useState("");
 
     const changeID = () => {
-        const id_v = document.getElementById('id').value;
+        const id_v = document.getElementById('signId').value;
         console.log(id_v)
         setID(id_v);
     }
 
     const changePW = () => {
-        const pw_v = document.getElementById('password').value;
+        const pw_v = document.getElementById('signPassword').value;
         setPassword(pw_v);
     }
 
     const changePW_C = () => {
-        const pwc_v = document.getElementById('password_correct').value;
+        const pwc_v = document.getElementById('signPassword_correct').value;
         setPassword_crt(pwc_v);
     }
 
@@ -76,18 +76,24 @@ const SignUpModal = () => {
     }
 
     const pushUserData = async () => {
+        // 정규표현식!
+        const id_check = /^[a-z]+[a-z0-9]{5,14}$/g; // 아이디 *영소문자 시작 6~15자
+        const pw_check = /^[A-za-z0-9]{5,19}$/g; // 비밀번호 *영문 시작 6~20자
+        const name_check = /^[가-힣]{2,10}$/; // 이름 *한글 2~10자
 
-        const eng_check = /^[a-z]+[a-z0-9]{5,14}$/g; // 정규표현식!
-        if (!eng_check.test(id)) {
+        // 아이디 체크
+        if (!id_check.test(id)) {
             return alert('아이디는 영문자로 시작하는 6~15자여야만 합니다. (소문자)')
         }
-        const pw_check = /^[A-za-z0-9]{5,19}$/g;
+
+        // 비밀번호 체크
         if (!pw_check.test(password)) {
             return alert('비밀번호는 영문자로 시작하는 6~20자여야만 합니다.')
         } else if (password !== password_crt) {
             return alert('비밀번호 확인이 일치하지 않습니다.')
         }
-        const name_check = /^[가-힣]{2,10}$/;
+
+        // 이름 체크
         if (!name_check.test(name)) {
             return alert("이름은 한글로 시작하는 2~10자여야만 합니다.")
         }
@@ -104,13 +110,12 @@ const SignUpModal = () => {
             headers: new Headers(),
         });
 
-        if(!signUp.data){
+        if (!signUp.data) {
             return alert('이미 존재하는 아이디입니다.')
         } else {
             alert('회원가입이 완료되었습니다!');
-            return window.location.reload();
+            handleClose();
         }
-
 
     }
 
@@ -130,9 +135,8 @@ const SignUpModal = () => {
                                 variant="outlined"
                                 required
                                 fullWidth
-                                id="id"
+                                id="signId"
                                 label="아이디"
-                                name="id"
                                 autoFocus
                                 onChange={changeID}
                             />
@@ -142,10 +146,9 @@ const SignUpModal = () => {
                                 variant="outlined"
                                 required
                                 fullWidth
-                                name="password"
                                 label="비밀번호"
                                 type="password"
-                                id="password"
+                                id="signPassword"
                                 autoComplete="current-password"
                                 onChange={changePW}
                             />
@@ -155,10 +158,9 @@ const SignUpModal = () => {
                                 variant="outlined"
                                 required
                                 fullWidth
-                                name="password_correct"
                                 label="비밀번호 확인"
                                 type="password"
-                                id="password_correct"
+                                id="signPassword_correct"
                                 autoComplete="current-password"
                                 onChange={changePW_C}
                             />

@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
 
 import './App.css';
-import {Login, Main} from './pages/index';
-import {Head} from "./inc/index";
+import {Login} from './views';
+import {Head} from "./layouts/components";
 import {Redirect} from "react-router-dom";
 import {useCookies} from "react-cookie";
+import Main from "./layouts";
 
 const App = () => {
 
@@ -20,7 +21,7 @@ const App = () => {
 
     return (
         logged ?
-            <div>
+            <div className='background-main'>
                 <div>
                     <Head handleLogout={() => {
                         setCookies('user');

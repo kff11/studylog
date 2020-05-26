@@ -1,13 +1,17 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {makeStyles} from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import {AccountCircle} from "@material-ui/icons";
-import {Link} from "react-router-dom";
+
+import {Link, useHistory} from "react-router-dom";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import {useCookies} from "react-cookie";
+import jwt from "jsonwebtoken";
+import jwtKey from "../../config/jwt";
 
 const useStyles = makeStyles((theme) => ({
     appBar: {
@@ -35,7 +39,14 @@ const useStyles = makeStyles((theme) => ({
 
 const Head = ({handleLogout}) => {
     const classes = useStyles();
+
+    const history = useHistory();
+
+    const [cookies] = useCookies('user');
+    const [name, setName] = React.useState('');
     const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const decoded = jwt.decode(cookies.user, jwtKey.secret);
 
     const isMenuOpen = Boolean(anchorEl);
 
@@ -47,7 +58,16 @@ const Head = ({handleLogout}) => {
         setAnchorEl(null);
     };
 
+    const redirectProfile = () => {
+        history.push('/profile');
+        handleMenuClose();
+    }
+
     const menuId = 'primary-search-account-menu';
+
+    useEffect(() => {
+        setName(decoded.name)
+    }, [decoded])
 
     const renderMenu = (
         <Menu
@@ -59,10 +79,11 @@ const Head = ({handleLogout}) => {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
+            <MenuItem onClick={redirectProfile}>내 정보</MenuItem>
             <MenuItem onClick={handleLogout}>로그아웃</MenuItem>
+
         </Menu>
     );
-
 
 
     return (
@@ -75,12 +96,13 @@ const Head = ({handleLogout}) => {
                         </Typography>
                     </Link>
                     <div className={classes.grow}/>
+                    <Link className={classes.link} onClick={handleProfileMenuOpen}>
                         <IconButton
-                            color="inherit"
-                            onClick={handleProfileMenuOpen}
-                        >
+                            color="inherit">
                             <AccountCircle/>
                         </IconButton>
+                        {name}
+                    </Link>
                 </Toolbar>
             </AppBar>
             {renderMenu}
