@@ -4,12 +4,15 @@ import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
+import EventNoteIcon from '@material-ui/icons/EventNote';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
+import InfoIcon from '@material-ui/icons/Info';
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import {makeStyles} from "@material-ui/core/styles";
 import {Link} from "react-router-dom";
+
 
 const drawerWidth = 240;
 
@@ -46,8 +49,6 @@ const SideDrawer = () => {
                 return '/mentoring'
             case '게시판':
                 return '/board'
-            case '내 정보':
-                return '/profile'
             case 'About':
                 return '/about'
             default:
@@ -69,7 +70,8 @@ const SideDrawer = () => {
                     {['일기장', '멘토링', '게시판'].map((text, index) => (
                         <Link className={classes.link} to={path(text)}>
                             <ListItem button key={text}>
-                                <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
+                                <ListItemIcon>{text === '일기장' ? <EventNoteIcon/> :
+                                    text === '멘토링' ? <SupervisedUserCircleIcon/> : <AssignmentIcon/>}</ListItemIcon>
                                 <ListItemText primary={text}/>
                             </ListItem>
                         </Link>
@@ -77,10 +79,10 @@ const SideDrawer = () => {
                 </List>
                 <Divider/>
                 <List>
-                    {['내 정보','About'].map((text, index) => (
+                    {['About'].map((text, index) => (
                         <Link className={classes.link} to={path(text)}>
                             <ListItem button key={text}>
-                                <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
+                                <ListItemIcon><InfoIcon/></ListItemIcon>
                                 <ListItemText primary={text}/>
                             </ListItem>
                         </Link>

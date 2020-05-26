@@ -45,6 +45,13 @@
   position: fixed;
 }
 
+.background-main {
+  width: 100%;
+  height: 100%;
+  background-color: #FAFAFA;
+  position: fixed;
+}
+
 .flex-container {
   display: flex;
   justify-content: center;

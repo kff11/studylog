@@ -6,19 +6,16 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Box from '@material-ui/core/Box';
-import {loginPic} from '../images/index';
-
-import {LoginItem, SignUpModal} from "../components/index"
-import {Redirect} from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 
+import {loginPic} from '../../images';
+
+import {LoginItem, SignUpModal} from "./components"
+import {Redirect} from "react-router-dom";
+
+
 const useStyles = makeStyles((theme) => ({
-    root: {
-        '& > *': {
-            margin: theme.spacing(1),
-        },
-    },
     modal: {
         display: 'flex',
         alignItems: 'center',
@@ -70,7 +67,7 @@ const Login = ({logged}) => {
         setOpen(false);
     };
 
-    const modalCompoenent = () => {
+    const renderSignUpModal = () => {
         return (
             <div>
                 <Modal
@@ -119,7 +116,7 @@ const Login = ({logged}) => {
                         <Copyright/>
                     </Box>
                 </div>
-                {modalCompoenent()}
+                {renderSignUpModal()}
             </div>
 
 
