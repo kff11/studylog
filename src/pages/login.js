@@ -1,13 +1,17 @@
 import React from 'react';
 
-import {makeStyles, withStyles} from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
+import Box from '@material-ui/core/Box';
+import {loginPic} from '../images/index';
 
-import {LoginModal, SignUpModal} from "../components/index"
+import {LoginItem, SignUpModal} from "../components/index"
 import {Redirect} from "react-router-dom";
+import Typography from "@material-ui/core/Typography";
+import Link from "@material-ui/core/Link";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -22,38 +26,45 @@ const useStyles = makeStyles((theme) => ({
     },
     paper: {
         backgroundColor: theme.palette.background.paper,
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
+        boxShadow: theme.shadows[2],
+        padding: theme.spacing(5, 7, 7),
     },
+    image: {
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[2],
+        padding: theme.spacing(1, 6),
+        marginRight: theme.spacing(5),
+    },
+    signUp: {
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[2],
+        padding: theme.spacing(4, 7),
+    }
 }));
 
-const LoginButton = withStyles({
-    root: {
-        fontSize: 20,
-    }
-})(Button);
 
-const SignUpButton = withStyles({
-    root: {
-        fontSize: 20,
-    }
-})(Button);
+const Copyright = () => {
+    return (
+        <Typography variant="body2" color="textSecondary" align="center">
+            {'Copyright © '}
+            <Link color="inherit" href="https://www.mjc.ac.kr/mjcIndex.do">
+                소문난 김가네
+            </Link>
+            {' '}
+            {new Date().getFullYear()}
+            {'.'}
+        </Typography>
+    );
+}
 
 const Login = ({logged}) => {
     const classes = useStyles();
 
     const [open, setOpen] = React.useState(false);
-    const [modal, setModal] = React.useState("");
 
-    const signUpOpen = () => {
-        setModal('signUp');
+    const handleOpen = () => {
         setOpen(true);
     }
-
-    const loginOpen = () => {
-        setModal('login');
-        setOpen(true);
-    };
 
     const handleClose = () => {
         setOpen(false);
@@ -73,7 +84,7 @@ const Login = ({logged}) => {
                     }}>
                     <Fade in={open}>
                         <div className={classes.paper}>
-                            {modal === 'login' ? <LoginModal/> : <SignUpModal/>}
+                            <SignUpModal handleClose={handleClose}/>
                         </div>
                     </Fade>
                 </Modal>
@@ -83,17 +94,35 @@ const Login = ({logged}) => {
 
     return (
         logged ? <Redirect to='/'/> :
-            <div className='centered'>
-                <h2>스터디로그</h2>
-                <LoginButton variant="outlined" color="primary" size="large" onClick={loginOpen}>
-                    로그인
-                </LoginButton>
-                <br/><br/>
-                <SignUpButton variant="contained" color="primary" size="large" onClick={signUpOpen}>
-                    회원가입
-                </SignUpButton>
+            <div className='background'>
+                <div className='centered'>
+                    <div className='flex-container'>
+                        <div className={classes.image} width='100' height='100'>
+                            <img src={loginPic} alt=""/>
+                        </div>
+                        <div>
+                            <div className={classes.paper}>
+                                <LoginItem/>
+                            </div>
+
+                            <Box mt={2} className={classes.signUp}>
+                                <Button
+                                    type="button"
+                                    variant="contained"
+                                    color="secondary"
+                                    fullWidth
+                                    onClick={handleOpen}>회원가입</Button>
+                            </Box>
+                        </div>
+                    </div>
+                    <Box mt={3}>
+                        <Copyright/>
+                    </Box>
+                </div>
                 {modalCompoenent()}
             </div>
+
+
     )
 }
 export default Login;
