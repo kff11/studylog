@@ -1,0 +1,1 @@
+export {default as loginPic} from './login.png';
