@@ -1,8 +1,8 @@
 import React from "react";
 
-import {TestContents} from "../components/index";
-import {Diary, Login, Mentoring, Profile, Write} from "./index";
-import {SideDrawer} from "../inc/index";
+import {TestContents} from "../components";
+import {Diary, Login, Mentoring, Profile, Write} from "../views";
+import {SideDrawer} from "./components";
 
 import Toolbar from "@material-ui/core/Toolbar";
 import {makeStyles} from "@material-ui/core/styles";

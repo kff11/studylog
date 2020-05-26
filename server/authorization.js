@@ -1,21 +1,29 @@
 const jwt = require('jsonwebtoken');
 const jwtKey = require('./config/jwt');
+const controller = require('./controller');
 
 const verifyToken = (req, res, next) => {
-    try {
-        const clientToken = req.cookies.user;
-        const decoded = jwt.verify(clientToken, jwtKey.secret);
-
-        if (decoded) {
-            res.locals.userId = decoded.id;
-            console.log('권한이 확인되었습니다.');
-            next()
-        } else {
-            res.status(401).json({error: 'unauthorized'});
+    const clientToken = req.cookies.user;
+    jwt.verify(clientToken, jwtKey.secret, (err) => {
+            if (err) {
+                controller.auth.RefreshToken(req, res, clientToken => {
+                    try {
+                        const decoded = jwt.verify(clientToken, jwtKey.secret);
+                        if (decoded) {
+                            console.log('토큰 재발급 성공!');
+                            next();
+                        }
+                    } catch (err) {
+                        res.status(401);
+                        throw err;
+                    }
+                })
+            } else {
+                console.log('권한이 확인되었습니다.');
+                next();
+            }
         }
-    } catch (err) {
-        throw err;
-    }
+    )
 }
 
 exports.verifyToken = verifyToken;
