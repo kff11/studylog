@@ -1,15 +1,14 @@
 import React, {useState, useEffect} from 'react';
 
 import './App.css';
-import {Login} from './views';
-import {Head} from "./layouts/components";
-import {Redirect} from "react-router-dom";
+import {Login as LoginView} from './views';
+import {Redirect, Route} from "react-router-dom";
 import {useCookies} from "react-cookie";
-import Main from "./layouts";
+import Routes from "./routes";
 
 const App = () => {
 
-    const [cookies, setCookies] = useCookies(['user']);
+    const [cookies] = useCookies(['user']);
     const [logged, setLogged] = useState(false);
 
     useEffect(() => {
@@ -21,24 +20,17 @@ const App = () => {
 
     return (
         logged ?
-            <div>
-                <div>
-                    <Head handleLogout={() => {
-                        setCookies('user');
-                        setLogged(false);
-                    }}/>
-                </div>
-                <div  className='background-main'>
-                    <Main logged={logged}/>
-                </div>
-            </div>
+            <Routes logged={logged}/>
             :
             <div>
                 <Redirect to='/login'/>
-                <Login/>
+                <Route
+                    exact
+                    component={() => <LoginView logged={logged}/>}
+                    path='/login'
+                />
             </div>
     )
-        ;
 }
 
 export default App;

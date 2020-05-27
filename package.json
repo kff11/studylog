@@ -53,6 +53,9 @@
   },
   "proxy": "http://localhost:4000/",
   "devDependencies": {
-    "concurrently": "^5.2.0"
+    "@material-ui/styles": "^4.10.0",
+    "clsx": "^1.1.0",
+    "concurrently": "^5.2.0",
+    "prop-types": "^15.7.2"
   }
 }
