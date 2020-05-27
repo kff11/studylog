@@ -21,14 +21,14 @@ const App = () => {
 
     return (
         logged ?
-            <div className='background-main'>
+            <div>
                 <div>
                     <Head handleLogout={() => {
                         setCookies('user');
                         setLogged(false);
                     }}/>
                 </div>
-                <div>
+                <div  className='background-main'>
                     <Main logged={logged}/>
                 </div>
             </div>

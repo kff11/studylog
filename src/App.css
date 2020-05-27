@@ -50,6 +50,7 @@
   height: 100%;
   background-color: #FAFAFA;
   position: fixed;
+  overflow-y: auto;
 }
 
 .flex-container {
