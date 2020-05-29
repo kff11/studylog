@@ -11,7 +11,8 @@ import {loginIcon} from '../../../images';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        width: '250px',
+        minWidth: '250px',
+        maxWidth: '300px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

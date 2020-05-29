@@ -13,6 +13,7 @@ import {loginPic} from '../../images';
 
 import {LoginItem, SignUpModal} from "./components"
 import {Redirect} from "react-router-dom";
+import {Hidden} from "@material-ui/core";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -94,23 +95,41 @@ const Login = ({logged}) => {
             <div className='background'>
                 <div className='centered'>
                     <div className='flex-container'>
-                        <div className={classes.image} width='100' height='100'>
-                            <img src={loginPic} alt=""/>
-                        </div>
-                        <div>
-                            <div className={classes.paper}>
-                                <LoginItem/>
+                        <Hidden smDown>
+                            <div className={classes.image} width='100' height='100'>
+                                <img src={loginPic} alt=""/>
                             </div>
+                            <div>
+                                <div className={classes.paper}>
+                                    <LoginItem/>
+                                </div>
 
-                            <Box mt={2} className={classes.signUp}>
-                                <Button
-                                    type="button"
-                                    variant="contained"
-                                    color="secondary"
-                                    fullWidth
-                                    onClick={handleOpen}>회원가입</Button>
-                            </Box>
-                        </div>
+                                <Box mt={2} className={classes.signUp}>
+                                    <Button
+                                        type="button"
+                                        variant="contained"
+                                        color="secondary"
+                                        fullWidth
+                                        onClick={handleOpen}>회원가입</Button>
+                                </Box>
+                            </div>
+                        </Hidden>
+                        <Hidden mdUp>
+                            <div>
+                                <div className={classes.paper}>
+                                    <LoginItem/>
+                                </div>
+
+                                <Box mt={2} className={classes.signUp}>
+                                    <Button
+                                        type="button"
+                                        variant="contained"
+                                        color="secondary"
+                                        fullWidth
+                                        onClick={handleOpen}>회원가입</Button>
+                                </Box>
+                            </div>
+                        </Hidden>
                     </div>
                     <Box mt={3}>
                         <Copyright/>
