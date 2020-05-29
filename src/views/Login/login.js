@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(5, 7, 7),
     },
     image: {
+        width: '350px',
         backgroundColor: theme.palette.background.paper,
         boxShadow: theme.shadows[2],
         padding: theme.spacing(1, 6),
@@ -96,14 +97,11 @@ const Login = ({logged}) => {
                 <div className='centered'>
                     <div className='flex-container'>
                         <Hidden smDown>
-                            <div className={classes.image} width='100' height='100'>
-                                <img src={loginPic} alt=""/>
-                            </div>
+                            <img src={loginPic} alt="" className={classes.image}/>
                             <div>
                                 <div className={classes.paper}>
                                     <LoginItem/>
                                 </div>
-
                                 <Box mt={2} className={classes.signUp}>
                                     <Button
                                         type="button"
