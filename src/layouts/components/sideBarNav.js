@@ -54,7 +54,7 @@ const SidebarNav = props => {
 
     return (
         <List
-            {...rest}
+
             className={clsx(classes.root, className)}
         >
             {pages.map(page => (

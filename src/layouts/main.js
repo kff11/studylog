@@ -32,12 +32,9 @@ const Main = props => {
     const {children} = props;
 
     const theme = useTheme();
-    const isDesktop = useMediaQuery(theme.breakpoints.up('lg'), {
-        defaultMatches: true
-    });
+    const isDesktop = useMediaQuery(theme.breakpoints.up('lg'), );
 
     const [openSidebar, setOpenSidebar] = useState(false);
-
 
     const handleSidebarOpen = () => {
         setOpenSidebar(true);

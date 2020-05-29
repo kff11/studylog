@@ -1,19 +1,12 @@
 import React, {useEffect} from 'react';
 import {makeStyles} from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import {AccountCircle} from "@material-ui/icons";
+import {AppBar, Menu, Toolbar, Typography, IconButton, MenuItem, Hidden} from "@material-ui/core";
+import {AccountCircle, Menu as MenuIcon} from "@material-ui/icons";
 
 import {Link, useHistory} from "react-router-dom";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import MenuIcon from '@material-ui/icons/Menu';
 import {useCookies} from "react-cookie";
 import jwt from "jsonwebtoken";
 import jwtKey from "../../config/jwt";
-import {Hidden} from "@material-ui/core";
 import clsx from "clsx";
 import * as PropTypes from "prop-types";
 
@@ -42,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Head = props => {
-    const {className, onSidebarOpen, ...rest} = props;
+    const {onSidebarOpen} = props;
 
     const classes = useStyles();
 
@@ -97,12 +90,9 @@ const Head = props => {
         </Menu>
     );
 
-
     return (
         <div>
-            <AppBar {...rest}
-                    className={clsx(classes.root, className)}
-            >
+            <AppBar className={classes.root}>
                 <Toolbar>
                     <Link className={classes.link} to='/'>
                         <Typography variant="h6" noWrap>
@@ -136,7 +126,6 @@ const Head = props => {
 }
 
 Head.propTypes = {
-    className: PropTypes.string,
     onSidebarOpen: PropTypes.func
 };
 

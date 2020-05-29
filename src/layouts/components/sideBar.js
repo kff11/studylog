@@ -1,6 +1,5 @@
 import React from "react";
-import Drawer from "@material-ui/core/Drawer";
-import clsx from 'clsx';
+import {Drawer} from "@material-ui/core";
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
@@ -40,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SideBar = props => {
-    const { open, variant, onClose, className, ...rest } = props;
+    const { open, variant, onClose} = props;
 
     const classes = useStyles();
 
@@ -65,9 +64,7 @@ const SideBar = props => {
             href: '/about',
             icon: <InfoIcon/>
         },
-
-
-    ]
+    ];
 
     return (
         <Drawer
@@ -77,10 +74,7 @@ const SideBar = props => {
             open={open}
             variant={variant}
         >
-            <div
-                {...rest}
-                className={clsx(classes.root, className)}
-            >
+            <div className={classes.root}>
                 <Divider className={classes.divider} />
                 <SideBarNav
                     className={classes.nav}
@@ -92,7 +86,6 @@ const SideBar = props => {
 }
 
 SideBar.propTypes = {
-    className: PropTypes.string,
     onClose: PropTypes.func,
     open: PropTypes.bool.isRequired,
     variant: PropTypes.string.isRequired
