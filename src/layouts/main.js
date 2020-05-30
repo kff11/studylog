@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 import {Head, SideBar} from "./components";
 
@@ -6,6 +6,9 @@ import clsx from 'clsx';
 import {makeStyles, useTheme} from "@material-ui/core/styles";
 import {useMediaQuery} from "@material-ui/core";
 import * as PropTypes from "prop-types";
+import jwt from "jsonwebtoken";
+import jwtKey from "../config/jwt";
+import {useCookies} from "react-cookie";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -32,9 +35,13 @@ const Main = props => {
     const {children} = props;
 
     const theme = useTheme();
-    const isDesktop = useMediaQuery(theme.breakpoints.up('lg'), );
+    const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
+    const [cookies, setCookies] = useCookies('user');
 
     const [openSidebar, setOpenSidebar] = useState(false);
+    const [name, setName] = useState('');
+
+    const decoded = jwt.decode(cookies.user, jwtKey.secret);
 
     const handleSidebarOpen = () => {
         setOpenSidebar(true);
@@ -46,6 +53,10 @@ const Main = props => {
 
     const shouldOpenSidebar = isDesktop ? true : openSidebar;
 
+    useEffect(() => {
+        setName(decoded.name)
+    }, [decoded])
+
     return (
         <div className={clsx({
             [classes.root]: true,
@@ -53,6 +64,7 @@ const Main = props => {
         })}>
             <Head onSidebarOpen={handleSidebarOpen}/>
             <SideBar
+                name={name}
                 onClose={handleSidebarClose}
                 open={shouldOpenSidebar}
                 variant={isDesktop ? 'persistent' : 'temporary'}

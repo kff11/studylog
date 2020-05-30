@@ -5,9 +5,6 @@ import {AccountCircle, Menu as MenuIcon} from "@material-ui/icons";
 
 import {Link, useHistory} from "react-router-dom";
 import {useCookies} from "react-cookie";
-import jwt from "jsonwebtoken";
-import jwtKey from "../../config/jwt";
-import clsx from "clsx";
 import * as PropTypes from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
@@ -42,10 +39,7 @@ const Head = props => {
     const history = useHistory();
 
     const [cookies, setCookies] = useCookies('user');
-    const [name, setName] = React.useState('');
     const [anchorEl, setAnchorEl] = React.useState(null);
-
-    const decoded = jwt.decode(cookies.user, jwtKey.secret);
 
     const isMenuOpen = Boolean(anchorEl);
 
@@ -70,9 +64,6 @@ const Head = props => {
 
     const menuId = 'primary-search-account-menu';
 
-    useEffect(() => {
-        setName(decoded.name)
-    }, [decoded])
 
     const renderMenu = (
         <Menu

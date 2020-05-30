@@ -6,7 +6,7 @@ import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import InfoIcon from '@material-ui/icons/Info';
 import {makeStyles} from "@material-ui/core/styles";
 
-import {SideBarNav} from "./index";
+import {SideBarNav, ProfileNav} from "./index";
 import * as PropTypes from "prop-types";
 import Divider from "@material-ui/core/Divider";
 
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SideBar = props => {
-    const { open, variant, onClose} = props;
+    const { open, variant, onClose, name} = props;
 
     const classes = useStyles();
 
@@ -75,6 +75,7 @@ const SideBar = props => {
             variant={variant}
         >
             <div className={classes.root}>
+                <ProfileNav name={name}/>
                 <Divider className={classes.divider} />
                 <SideBarNav
                     className={classes.nav}
@@ -88,7 +89,8 @@ const SideBar = props => {
 SideBar.propTypes = {
     onClose: PropTypes.func,
     open: PropTypes.bool.isRequired,
-    variant: PropTypes.string.isRequired
+    variant: PropTypes.string.isRequired,
+    name: PropTypes.string
 };
 
 export default SideBar;
