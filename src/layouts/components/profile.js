@@ -23,14 +23,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ProfileNav = props => {
-    const {name} = props;
+    const {name, mento} = props;
 
     const classes = useStyles();
 
     const user = {
         name: name,
         avatar: AvatarPic,
-        bio: '학습자',
+        mento: mento ? '멘토' : '학습자',
     }
 
     return (
@@ -48,7 +48,7 @@ const ProfileNav = props => {
             >
                 {user.name}
             </Typography>
-            <Typography variant="body2">{user.bio}</Typography>
+            <Typography variant="body2">{user.mento}</Typography>
         </div>
     );
 }

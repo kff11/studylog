@@ -66,6 +66,7 @@ module.exports = {
                         signUp_date: now,
                         name: body.name,
                         admin: false,
+                        mento: false,
                         refreshToken: "none",
                     }).then(() => callback(true));
                 }

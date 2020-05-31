@@ -40,6 +40,7 @@ const Main = props => {
 
     const [openSidebar, setOpenSidebar] = useState(false);
     const [name, setName] = useState('');
+    const [mento, setMento] = useState('');
 
     const decoded = jwt.decode(cookies.user, jwtKey.secret);
 
@@ -54,7 +55,8 @@ const Main = props => {
     const shouldOpenSidebar = isDesktop ? true : openSidebar;
 
     useEffect(() => {
-        setName(decoded.name)
+        setName(decoded.name);
+        setMento(decoded.mento);
     }, [decoded])
 
     return (
@@ -65,6 +67,7 @@ const Main = props => {
             <Head onSidebarOpen={handleSidebarOpen}/>
             <SideBar
                 name={name}
+                mento={mento}
                 onClose={handleSidebarClose}
                 open={shouldOpenSidebar}
                 variant={isDesktop ? 'persistent' : 'temporary'}

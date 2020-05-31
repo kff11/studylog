@@ -10,6 +10,20 @@ require('moment-timezone');
 const hashing = require(path.join(__dirname, 'config', 'hashing.js'));
 const salt = require(path.join(__dirname, 'config', 'db.json')).salt;
 
+// 액세스 토큰 발급
+const clientTokenSign = (result) => {
+    return (
+        jwt.sign({
+                id: result[0].id,
+                name: result[0].name,
+                mento: result[0].mento,
+            },
+            jwtKey.secret, {
+                expiresIn: '1h',
+            })
+    )
+}
+
 // 현재 시간 찍기 *회원가입 날짜를 알기 위해! *moment를 사용한 이유는 자바스크립트의 new Data()가 한국 시간이 아니기 때문..
 moment.tz.setDefault("Asia/Seoul");
 
@@ -44,13 +58,9 @@ module.exports = {
                 // 로그인에 성공하면
                 if (result[0]) {
                     // Access Token 생성
-                    const clientToken = jwt.sign({
-                            id: body.id,
-                            name: result[0].name
-                        },
-                        jwtKey.secret, {
-                            expiresIn: '1h'
-                        });
+                    const clientToken = clientTokenSign(result);
+
+                    console.log(clientToken);
 
                     // Refresh Token 생성
                     const refreshToken = jwt.sign({
@@ -85,13 +95,7 @@ module.exports = {
 
             model.token.authRefreshToken(id, refreshToken, result => {
                 if (result) {
-                    clientToken = jwt.sign({
-                            id: id,
-                            name: name
-                        },
-                        jwtKey.secret, {
-                            expiresIn: '1h'
-                        });
+                    clientToken = clientTokenSign(result);
                     res.cookie('user', clientToken);
                     callback(clientToken);
                 }
