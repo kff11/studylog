@@ -1,6 +1,7 @@
 import React from "react";
-import { WriteDiary, DiaryList } from "./component/index";
+import { WriteDiary, DiaryItem, DiaryList } from "../components/index";
 
+import Button from "@material-ui/core/Button";
 import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid";
 import Paper from '@material-ui/core/Paper';
