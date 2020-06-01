@@ -1,11 +1,12 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {makeStyles} from "@material-ui/core/styles";
-import {AppBar, Menu, Toolbar, Typography, IconButton, MenuItem, Hidden} from "@material-ui/core";
-import {AccountCircle, Menu as MenuIcon} from "@material-ui/icons";
+import {AppBar, Toolbar, Typography, IconButton, MenuItem, Hidden} from "@material-ui/core";
+import {Menu as MenuIcon, Input, Notifications} from "@material-ui/icons";
 
-import {Link, useHistory} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useCookies} from "react-cookie";
 import * as PropTypes from "prop-types";
+import Badge from "@material-ui/core/Badge";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -19,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('md')]: {
             display: 'flex',
         },
+    },
+    signOutButton: {
+        marginLeft: theme.spacing(1)
     },
     link: {
         color: '#FFF',
@@ -36,50 +40,22 @@ const Head = props => {
 
     const classes = useStyles();
 
-    const history = useHistory();
-
     const [cookies, setCookies] = useCookies('user');
-    const [anchorEl, setAnchorEl] = React.useState(null);
-
-    const isMenuOpen = Boolean(anchorEl);
-
-    const handleProfileMenuOpen = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [notifications, setNotifications] = useState([]);
 
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
 
     const handleLogout = () => {
+        // 토큰 비우기
         setCookies('user');
+        setCookies('userRefreshToken');
+
         window.location.reload();
         handleMenuClose();
     }
-
-    const redirectProfile = () => {
-        history.push('/profile');
-        handleMenuClose();
-    }
-
-    const menuId = 'primary-search-account-menu';
-
-
-    const renderMenu = (
-        <Menu
-            anchorEl={anchorEl}
-            anchorOrigin={{vertical: 'top', horizontal: 'right'}}
-            id={menuId}
-            keepMounted
-            transformOrigin={{vertical: 'top', horizontal: 'right'}}
-            open={isMenuOpen}
-            onClose={handleMenuClose}
-        >
-            <MenuItem onClick={redirectProfile}>내 정보</MenuItem>
-            <MenuItem onClick={handleLogout}>로그아웃</MenuItem>
-
-        </Menu>
-    );
 
     return (
         <div>
@@ -92,16 +68,24 @@ const Head = props => {
                     </Link>
                     <div className={classes.grow}/>
                     <Hidden mdDown>
-                        <IconButton onClick={handleProfileMenuOpen}
-                                    color="inherit">
-                            <AccountCircle/>
+                        <IconButton color="inherit">
+                            <Badge
+                                badgeContent={notifications.length}
+                                color="primary"
+                                variant="dot"
+                            >
+                                <Notifications/>
+                            </Badge>
+                        </IconButton>
+                        <IconButton
+                            className={classes.signOutButton}
+                            color="inherit"
+                            onClick={handleLogout}
+                        >
+                            <Input/>
                         </IconButton>
                     </Hidden>
                     <Hidden lgUp>
-                        <IconButton onClick={handleProfileMenuOpen}
-                                    color="inherit">
-                            <AccountCircle/>
-                        </IconButton>
                         <IconButton
                             color="inherit"
                             onClick={onSidebarOpen}
@@ -111,7 +95,6 @@ const Head = props => {
                     </Hidden>
                 </Toolbar>
             </AppBar>
-            {renderMenu}
         </div>
     );
 }

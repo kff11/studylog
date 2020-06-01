@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DiaryItem } from "../components/index";
+import { DiaryItem } from "./index";
 
 const DiaryList= ({diaries}) => {
 

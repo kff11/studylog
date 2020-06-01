@@ -1,5 +1,5 @@
 import React from "react";
-import { WriteDiary, DiaryList } from "./component/index";
+import { WriteDiary, DiaryList } from "./components/index";
 
 import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid";
