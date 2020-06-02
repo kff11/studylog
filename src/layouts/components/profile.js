@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from 'react-router-dom';
-import * as PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import {AvatarPic} from "../../images";
 import {Avatar, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
@@ -54,6 +54,7 @@ const ProfileNav = props => {
 }
 ProfileNav.propTypes = {
     name: PropTypes.string,
+    mento: PropTypes.string,
 }
 
 export default ProfileNav;

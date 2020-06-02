@@ -5,7 +5,7 @@ import {Menu as MenuIcon, Input, Notifications} from "@material-ui/icons";
 
 import {Link} from "react-router-dom";
 import {useCookies} from "react-cookie";
-import * as PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import Badge from "@material-ui/core/Badge";
 
 const useStyles = makeStyles((theme) => ({
@@ -41,12 +41,7 @@ const Head = props => {
     const classes = useStyles();
 
     const [cookies, setCookies] = useCookies('user');
-    const [anchorEl, setAnchorEl] = useState(null);
     const [notifications, setNotifications] = useState([]);
-
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-    };
 
     const handleLogout = () => {
         // 토큰 비우기
@@ -54,7 +49,6 @@ const Head = props => {
         setCookies('userRefreshToken');
 
         window.location.reload();
-        handleMenuClose();
     }
 
     return (

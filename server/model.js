@@ -86,7 +86,7 @@ module.exports = {
             User.findAll({
                 where: {id: id}
             }).then(result => {
-                result[0].refreshToken === refreshToken ? callback(true) : callback(false)
+                result[0].refreshToken === refreshToken ? callback(result) : callback(false)
             }).catch(err => {
                 throw err;
             })

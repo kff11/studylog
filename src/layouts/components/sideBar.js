@@ -6,8 +6,8 @@ import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import InfoIcon from '@material-ui/icons/Info';
 import {makeStyles} from "@material-ui/core/styles";
 
-import {SideBarNav, ProfileNav} from "./index";
-import * as PropTypes from "prop-types";
+import {SideBarNav, ProfileNav} from "./";
+import PropTypes from "prop-types";
 import Divider from "@material-ui/core/Divider";
 
 
