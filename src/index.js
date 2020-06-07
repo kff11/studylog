@@ -13,11 +13,15 @@ const theme = createMuiTheme({
         color: '#000',
         fontFamily: 'KopubWorldDotumMedium'
     },
+    zIndex: {
+        appBar: 1200,
+        drawer: 1100,
+    }
 });
 
 const style = {
-    color: '#000',
-    fontFamily: 'KopubWorldDotumMedium'
+    fontcolor: '#000',
+    fontFamily: 'KopubWorldDotumBold'
 }
 
 ReactDOM.render(

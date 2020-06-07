@@ -1,42 +1,86 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 
-import {TestContents} from "../components";
-import {Diary, Login, Mentoring, Profile, Write} from "../views";
-import {SideDrawer} from "./components";
+import {Head, SideBar} from "./components";
 
-import Toolbar from "@material-ui/core/Toolbar";
-import {makeStyles} from "@material-ui/core/styles";
-import {Switch, Route} from "react-router-dom";
+import clsx from 'clsx';
+import {makeStyles, useTheme} from "@material-ui/core/styles";
+import {useMediaQuery} from "@material-ui/core";
+import PropTypes from "prop-types";
+import jwt from "jsonwebtoken";
+import jwtKey from "../config/jwt";
+import {useCookies} from "react-cookie";
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        display: 'flex',
+        paddingTop: 56,
+        height: '100%',
+        [theme.breakpoints.up('sm')]: {
+            paddingTop: 64
+        }
+    },
+    shiftContent: {
+        paddingLeft: 240
     },
     content: {
         flexGrow: 1,
         padding: theme.spacing(3),
-    },
+
+    }
 }));
 
-const Main = ({logged}) => {
+const Main = props => {
     const classes = useStyles();
 
+    const {children} = props;
+
+    const theme = useTheme();
+    const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
+    const [cookies, setCookies] = useCookies('user');
+
+    const [openSidebar, setOpenSidebar] = useState(false);
+    const [name, setName] = useState('');
+    const [mento, setMento] = useState('');
+
+    const decoded = jwt.decode(cookies.user, jwtKey.secret);
+
+    const handleSidebarOpen = () => {
+        setOpenSidebar(true);
+    };
+
+    const handleSidebarClose = () => {
+        setOpenSidebar(false);
+    };
+
+    const shouldOpenSidebar = isDesktop ? true : openSidebar;
+
+    useEffect(() => {
+        setName(decoded.name);
+        setMento(decoded.mento);
+    }, [decoded])
+
     return (
-        <div className={classes.root}>
-            <SideDrawer/>
+        <div className={clsx({
+            [classes.root]: true,
+            [classes.shiftContent]: isDesktop
+        })}>
+            <Head onSidebarOpen={handleSidebarOpen}/>
+            <SideBar
+                name={name}
+                mento={mento}
+                onClose={handleSidebarClose}
+                open={shouldOpenSidebar}
+                variant={isDesktop ? 'persistent' : 'temporary'}
+            />
             <main className={classes.content}>
-                <Toolbar/>
-                <Switch>
-                    <Route exact path='/' component={TestContents}></Route>
-                    <Route path='/login' component={() => <Login logged={logged}/>}></Route>
-                    <Route path='/diary' component={Diary}></Route>
-                    <Route path='/write' component={Write}></Route>
-                    <Route path='/mentoring' component={Mentoring}></Route>
-                    <Route path='/profile' component={Profile}></Route>
-                </Switch>
+                {children}
             </main>
         </div>
-    );
+    )
+        ;
 }
+
+Main.propTypes = {
+    children: PropTypes.node
+};
 export default Main;

@@ -11,7 +11,8 @@ import {loginIcon} from '../../../images';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        width: '250px',
+        minWidth: '250px',
+        maxWidth: '300px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -27,17 +28,14 @@ const useStyles = makeStyles((theme) => ({
 const LoginItem = () => {
     const classes = useStyles();
 
-    const [id, setID] = React.useState("");
+    const [id, setId] = React.useState("");
     const [password, setPassword] = React.useState("");
 
-    const changeID = () => {
-        const id_v = document.getElementById('id').value;
-        console.log(id_v)
-        setID(id_v);
+    const handleChangeId = (e) => {
+        setId(e.target.value);
     }
-    const changePW = () => {
-        const pw_v = document.getElementById('password').value;
-        setPassword(pw_v);
+    const handleChangePw = (e) => {
+        setPassword(e.target.value);
     }
 
     const selectUserData = async (e) => {
@@ -81,10 +79,8 @@ const LoginItem = () => {
                         required
                         fullWidth
                         label="아이디"
-                        id="id"
-                        name="id"
                         autoFocus
-                        onChange={changeID}
+                        onChange={(e) => handleChangeId(e)}
                     />
                     <TextField
                         size="small"
@@ -92,12 +88,10 @@ const LoginItem = () => {
                         margin="dense"
                         required
                         fullWidth
-                        name="password"
                         label="비밀번호"
                         type="password"
-                        id="password"
                         autoComplete="current-password"
-                        onChange={changePW}
+                        onChange={(e) => handleChangePw(e)}
                     />
                     <Box mt={1}>
                         <Button

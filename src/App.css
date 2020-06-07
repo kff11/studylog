@@ -50,12 +50,12 @@
   height: 100%;
   background-color: #FAFAFA;
   position: fixed;
+  overflow-y: auto;
 }
 
 .flex-container {
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
 .centered {

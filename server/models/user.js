@@ -35,6 +35,11 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false
             },
 
+            mento: {
+                type: DataTypes.BOOLEAN,
+                allowNull: false
+            },
+
             refreshToken: {
                 type: DataTypes.STRING(200),
                 allowNull: false

@@ -7,6 +7,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import '../App.css';
 import {makeStyles, withStyles} from "@material-ui/core/styles";
 import axios from "axios";
@@ -24,6 +25,10 @@ const useStyles = makeStyles((theme) => ({
         table: {
             minWidth: 650,
         },
+
+    },
+    progress: {
+        margin: theme.spacing(2),
     }
 }));
 
@@ -41,27 +46,20 @@ const TestContents = () => {
 
     const getData = async () => {
         const res = await axios.get('/post/get');
-        if (res.data[0] === undefined) {
-            let cover = [];
-            cover.push(res.data);
-            return setList(cover);
-        }
         setList(res.data);
-
     }
 
     const addData = async (e) => {
-        console.log(post);
-        setPost('');
         e.preventDefault();
+        setPost('');
         const res = await axios('/post/add', {
             method: 'POST',
             data: {'data': post},
-            headers: new Headers(),
-        })
 
+        })
         if (res.data) {
-            return window.location.reload();
+            getData();
+            window.alert('작성이 완료되었습니다!');
         }
     }
 
@@ -69,22 +67,36 @@ const TestContents = () => {
         const remove = window.confirm(el.post + '를(을) 삭제하시겠습니까?');
 
         if (remove) {
-            const body = {id: el.id}
             const res = await axios('/post/del', {
                 method: 'POST',
-                data: {'delete': body},
+                data: {id: el.id},
                 headers: new Headers(),
             })
-
             if (res.data) {
-                return window.location.reload();
+                getData();
+                window.alert('삭제가 완료되었습니다!');
             }
         }
     }
 
+    const renderTable = () => {
+        return list.map((el, key) => {
+            return (
+                <TableRow key={el.id}>
+                    <TableCell align='center' component="th" scope="row">
+                        {el.id}
+                    </TableCell>
+                    <TableCell align="center">{el.post}</TableCell>
+                    <TableCell style={{color: '#ababab'}}
+                               onClick={() => delData(el)}
+                               align="center">삭제</TableCell>
+                </TableRow>
+            )
+        })
+    }
+
     const postUpdate = (e) => {
         setPost(e.target.value);
-        console.log(e.target.value);
     }
 
     useEffect(() => {
@@ -94,11 +106,11 @@ const TestContents = () => {
     return (
         <div className='App'>
             <form className={classes.input} noValidate autoComplete="off" method='POST' onSubmit={addData}>
-                <TextField id="outlined-basic" label="한마디 남기기" variant="outlined" type='text'
-                           maxLength='150'
+                <TextField id="post" label="한마디 남기기" variant="outlined" type='text'
+                           maxLength='150' value={post}
                            onChange={(e) => postUpdate(e)}/>
                 <WriteButton type="submit" variant="contained" color="primary" size="large">
-                       　글쓰기　
+                    글쓰기
                 </WriteButton>
             </form>
             <br/>
@@ -114,20 +126,12 @@ const TestContents = () => {
                         </TableHead>
                         <TableBody>
                             {list.length !== 0 ?
-                                list.map((el, key) => {
-                                    return (
-                                        <TableRow key={el.id}>
-                                            <TableCell align='center' component="th" scope="row">
-                                                {el.id}
-                                            </TableCell>
-                                            <TableCell align="center">{el.post}</TableCell>
-                                            <TableCell style={{color: '#ababab'}}
-                                                       onClick={() => delData(el)}
-                                                       align="center">삭제</TableCell>
-                                        </TableRow>
-                                    )
-                                })
-                                : null}
+                                renderTable()
+                                : <TableRow>
+                                    <TableCell colSpan='3' align='center'>
+                                        <CircularProgress/>
+                                    </TableCell>
+                                </TableRow>}
                         </TableBody>
                     </Table>
                 </TableContainer>

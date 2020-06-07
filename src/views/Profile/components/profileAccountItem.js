@@ -9,7 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from "@material-ui/core/Typography";
 import {Link} from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
-import {loginPic} from '../../../images';
+import {AvatarPic, loginPic} from '../../../images';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -36,7 +36,7 @@ const ProfileAccountItem = () => {
 
     return (
         <Paper className={classes.paper}>
-            <Avatar src={loginPic}/>
+            <Avatar src={AvatarPic}/>
             <Typography variant="h6">
                 <b>내 정보</b>
             </Typography>

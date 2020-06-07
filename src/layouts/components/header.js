@@ -1,21 +1,16 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {makeStyles} from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import {AccountCircle} from "@material-ui/icons";
+import {AppBar, Toolbar, Typography, IconButton, MenuItem, Hidden} from "@material-ui/core";
+import {Menu as MenuIcon, Input, Notifications} from "@material-ui/icons";
 
-import {Link, useHistory} from "react-router-dom";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
+import {Link} from "react-router-dom";
 import {useCookies} from "react-cookie";
-import jwt from "jsonwebtoken";
-import jwtKey from "../../config/jwt";
+import PropTypes from "prop-types";
+import Badge from "@material-ui/core/Badge";
 
 const useStyles = makeStyles((theme) => ({
-    appBar: {
-        zIndex: theme.zIndex.drawer + 1,
+    root: {
+        boxShadow: 'none'
     },
     grow: {
         flexGrow: 1,
@@ -25,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('md')]: {
             display: 'flex',
         },
+    },
+    signOutButton: {
+        marginLeft: theme.spacing(1)
     },
     link: {
         color: '#FFF',
@@ -37,58 +35,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Head = ({handleLogout}) => {
+const Head = props => {
+    const {onSidebarOpen} = props;
+
     const classes = useStyles();
 
-    const history = useHistory();
+    const [cookies, setCookies] = useCookies('user');
+    const [notifications, setNotifications] = useState([]);
 
-    const [cookies] = useCookies('user');
-    const [name, setName] = React.useState('');
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const handleLogout = () => {
+        // 토큰 비우기
+        setCookies('user');
+        setCookies('userRefreshToken');
 
-    const decoded = jwt.decode(cookies.user, jwtKey.secret);
-
-    const isMenuOpen = Boolean(anchorEl);
-
-    const handleProfileMenuOpen = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-    };
-
-    const redirectProfile = () => {
-        history.push('/profile');
-        handleMenuClose();
+        window.location.reload();
     }
 
-    const menuId = 'primary-search-account-menu';
-
-    useEffect(() => {
-        setName(decoded.name)
-    }, [decoded])
-
-    const renderMenu = (
-        <Menu
-            anchorEl={anchorEl}
-            anchorOrigin={{vertical: 'top', horizontal: 'right'}}
-            id={menuId}
-            keepMounted
-            transformOrigin={{vertical: 'top', horizontal: 'right'}}
-            open={isMenuOpen}
-            onClose={handleMenuClose}
-        >
-            <MenuItem onClick={redirectProfile}>내 정보</MenuItem>
-            <MenuItem onClick={handleLogout}>로그아웃</MenuItem>
-
-        </Menu>
-    );
-
-
     return (
-        <div className={classes.grow}>
-            <AppBar position="fixed" className={classes.appBar}>
+        <div>
+            <AppBar className={classes.root}>
                 <Toolbar>
                     <Link className={classes.link} to='/'>
                         <Typography variant="h6" noWrap>
@@ -96,18 +61,40 @@ const Head = ({handleLogout}) => {
                         </Typography>
                     </Link>
                     <div className={classes.grow}/>
-                    <Link className={classes.link} onClick={handleProfileMenuOpen}>
-                        <IconButton
-                            color="inherit">
-                            <AccountCircle/>
+                    <Hidden mdDown>
+                        <IconButton color="inherit">
+                            <Badge
+                                badgeContent={notifications.length}
+                                color="primary"
+                                variant="dot"
+                            >
+                                <Notifications/>
+                            </Badge>
                         </IconButton>
-                        {name}
-                    </Link>
+                        <IconButton
+                            className={classes.signOutButton}
+                            color="inherit"
+                            onClick={handleLogout}
+                        >
+                            <Input/>
+                        </IconButton>
+                    </Hidden>
+                    <Hidden lgUp>
+                        <IconButton
+                            color="inherit"
+                            onClick={onSidebarOpen}
+                        >
+                            <MenuIcon/>
+                        </IconButton>
+                    </Hidden>
                 </Toolbar>
             </AppBar>
-            {renderMenu}
         </div>
     );
 }
+
+Head.propTypes = {
+    onSidebarOpen: PropTypes.func
+};
 
 export default Head;

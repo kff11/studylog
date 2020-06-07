@@ -36,5 +36,6 @@ db.sequelize
 
 db.User = require('./user')(sequelize, Sequelize);
 db.Test = require('./test')(sequelize, Sequelize);
+db.Diary = require('./diary')(sequelize, Sequelize);
 
 module.exports = db;
