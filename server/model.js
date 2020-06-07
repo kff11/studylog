@@ -3,11 +3,13 @@ const sequelize = require('./models').sequelize;
 const {
     Test,
     User,
+    Diary,
     Sequelize: {Op}
 } = require('./models');
 sequelize.query('SET NAMES utf8;');
 
 module.exports = {
+    // 테스트용
     post: {
         addData: (req, callback) => {
             Test.create({
@@ -28,8 +30,44 @@ module.exports = {
             })
         },
         delData: (req, callback) => {
+            console.log(req.body.id);
             Test.destroy({
-                where: {id: req.body.delete.id}
+                where: {id: req.body.id}
+            }).then(result => {
+                callback(result)
+            }).catch(err => {
+                throw err
+            })
+        },
+    },
+    // 일기장
+    diary: {
+        addData: (req, id, name, date, callback) => {
+            Diary.create({
+                user_id: id,
+                user_name: name,
+                title: req.body.title,
+                contents: req.body.contents,
+                date: date,
+            }).then(result => {
+                callback(result)
+            }).catch(err => {
+                console.log(err)
+                throw err;
+            })
+        },
+        getData: (id, callback) => {
+            Diary.findAll({
+                where: {[Op.and]: [{user_id: id}]}
+            }).then(result => {
+                callback(result)
+            }).catch(err => {
+                throw err
+            })
+        },
+        delData: (req, callback) => {
+            Diary.destroy({
+                where: {id: req.body.id}
             }).then(result => {
                 callback(result)
             }).catch(err => {
@@ -86,7 +124,7 @@ module.exports = {
             User.findAll({
                 where: {id: id}
             }).then(result => {
-                result[0].refreshToken === refreshToken ? callback(true) : callback(false)
+                result[0].refreshToken === refreshToken ? callback(result) : callback(false)
             }).catch(err => {
                 throw err;
             })

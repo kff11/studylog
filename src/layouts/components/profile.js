@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from 'react-router-dom';
-import * as PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import {AvatarPic} from "../../images";
 import {Avatar, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ProfileNav = props => {
-    const {name, mento} = props;
+    const {name, mento, onClose} = props;
 
     const classes = useStyles();
 
@@ -41,6 +41,7 @@ const ProfileNav = props => {
                 component={Link}
                 src={user.avatar}
                 to="/profile"
+                onClick={onClose}
             />
             <Typography
                 className={classes.name}
@@ -53,7 +54,9 @@ const ProfileNav = props => {
     );
 }
 ProfileNav.propTypes = {
+    nClose: PropTypes.func,
     name: PropTypes.string,
+    mento: PropTypes.string,
 }
 
 export default ProfileNav;

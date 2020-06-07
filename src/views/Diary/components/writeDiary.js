@@ -1,27 +1,27 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import TextField from '@material-ui/core/TextField';
 
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
-    bottomMargin : {
+    bottomMargin: {
         marginBottom: 20,
     },
     button: {
         marginLeft: 12,
     },
-    textfield : {
-        height : 600,
-        overflow : "scroll"
+    textfield: {
+        height: 600,
+        overflow: "scroll"
     }
 }));
 
 
-const WriteDiary = ({value, contentValue, onChange, onCreate}) => {
+const WriteDiary = ({handleTitleChange, handleContentsChange, onCreate}) => {
     const classes = useStyles();
 
-    return(
+    return (
         <div>
             <div>
                 <TextField
@@ -30,8 +30,7 @@ const WriteDiary = ({value, contentValue, onChange, onCreate}) => {
                     label="Title"
                     fullWidth
                     multiline
-                    value={value}
-                    onChange={onChange}
+                    onChange={handleTitleChange}
                 />
 
                 <TextField
@@ -42,12 +41,12 @@ const WriteDiary = ({value, contentValue, onChange, onCreate}) => {
                     multiline
                     fullWidth
                     variant="outlined"
-                    value={contentValue}
+                    onChange={handleContentsChange}
                 />
             </div>
 
             <div>
-                <Button  variant="outlined" size="small" color="primary">
+                <Button variant="outlined" size="small" color="primary">
                     공유
                 </Button>
                 <Button

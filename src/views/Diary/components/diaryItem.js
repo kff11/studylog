@@ -23,14 +23,17 @@ const useStyles = makeStyles({
     }
 });
 
-const DiaryItem = ({id, title, date, key}) => {
+const DiaryItem = ({id, title, date, contents, key}) => {
     const classes = useStyles();
     return(
         <Card className={classes.root}>
             <CardActionArea>
                 <CardContent>
                     <Typography className={classes.title} variant="h6" component="h2" >
-                        {title + id +"key : " + key}
+                        {title}
+                    </Typography>
+                    <Typography variant="h6" component="h2" >
+                        {contents}
                     </Typography>
                     <Typography className={classes.date} variant="body2" color="textSecondary" component="p">
                         {date}
