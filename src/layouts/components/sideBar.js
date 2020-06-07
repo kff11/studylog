@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SideBar = props => {
-    const { open, variant, onClose, name, mento} = props;
+    const {open, variant, onClose, name, mento} = props;
 
     const classes = useStyles();
 
@@ -69,15 +69,20 @@ const SideBar = props => {
     return (
         <Drawer
             anchor="left"
-            classes={{ paper: classes.drawer }}
+            classes={{paper: classes.drawer}}
             onClose={onClose}
             open={open}
             variant={variant}
         >
             <div className={classes.root}>
-                <ProfileNav name={name} mento={mento}/>
-                <Divider className={classes.divider} />
+                <ProfileNav
+                    name={name}
+                    mento={mento}
+                    onClose={onClose}
+                />
+                <Divider className={classes.divider}/>
                 <SideBarNav
+                    onClose={onClose}
                     className={classes.nav}
                     pages={pages}
                 />

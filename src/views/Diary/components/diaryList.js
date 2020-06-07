@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
-import { DiaryItem } from "./index";
+import React, {useState} from 'react';
+import {DiaryItem} from "./index";
 
-const DiaryList= ({diaries}) => {
+const DiaryList = ({diaries}) => {
 
-    const diaryList = diaries.map( ({id, title, date}) => (
-        <DiaryItem
-            id={id}
-            title={title}
-            date={date}
-            key={id + title}
-        />
-    )
+    const diaryList = diaries.map(({id, title, contents, date}) => (
+            <DiaryItem
+                id={id}
+                contents={contents}
+                title={title}
+                date={date}
+            />
+        )
     );
 
 
-    return(
+    return (
         <div>
             {diaryList}
         </div>

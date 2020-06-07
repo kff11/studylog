@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ProfileNav = props => {
-    const {name, mento} = props;
+    const {name, mento, onClose} = props;
 
     const classes = useStyles();
 
@@ -41,6 +41,7 @@ const ProfileNav = props => {
                 component={Link}
                 src={user.avatar}
                 to="/profile"
+                onClick={onClose}
             />
             <Typography
                 className={classes.name}
@@ -53,6 +54,7 @@ const ProfileNav = props => {
     );
 }
 ProfileNav.propTypes = {
+    nClose: PropTypes.func,
     name: PropTypes.string,
     mento: PropTypes.string,
 }

@@ -55,7 +55,7 @@ const TestContents = () => {
         const res = await axios('/post/add', {
             method: 'POST',
             data: {'data': post},
-            headers: new Headers(),
+
         })
         if (res.data) {
             getData();
@@ -67,10 +67,9 @@ const TestContents = () => {
         const remove = window.confirm(el.post + '를(을) 삭제하시겠습니까?');
 
         if (remove) {
-            const body = {id: el.id}
             const res = await axios('/post/del', {
                 method: 'POST',
-                data: {'delete': body},
+                data: {id: el.id},
                 headers: new Headers(),
             })
             if (res.data) {

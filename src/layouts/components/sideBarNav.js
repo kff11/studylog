@@ -48,7 +48,7 @@ const CustomRouterLink = forwardRef((props, ref) => (
 ));
 
 const SidebarNav = props => {
-    const {pages, className} = props;
+    const {pages, className, onClose} = props;
 
     const classes = useStyles();
 
@@ -65,6 +65,7 @@ const SidebarNav = props => {
                         className={classes.button}
                         component={CustomRouterLink}
                         to={page.href}
+                        onClick={onClose}
                     >
                         <div className={classes.icon}>{page.icon}</div>
                         {page.title}
@@ -76,6 +77,7 @@ const SidebarNav = props => {
 };
 
 SidebarNav.propTypes = {
+    onClose: PropTypes.func,
     className: PropTypes.string,
     pages: PropTypes.array.isRequired
 };

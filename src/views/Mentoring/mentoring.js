@@ -4,7 +4,7 @@ const Mentoring = () => {
 
     return (
             <div>
-
+                준비 중 입니다!
             </div>
     );
 }

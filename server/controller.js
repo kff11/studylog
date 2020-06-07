@@ -28,6 +28,7 @@ const clientTokenSign = (result) => {
 moment.tz.setDefault("Asia/Seoul");
 
 module.exports = {
+    // 테스트용
     post: {
         add: (req, res) => {
             model.post.addData(req, data => {
@@ -48,6 +49,31 @@ module.exports = {
         },
     },
 
+    // 일기장
+    diary: {
+        add: (req, res) => {
+            const clientToken = req.cookies.user;
+            const id = jwt.decode(clientToken, jwtKey.secret).id;
+            const name = jwt.decode(clientToken, jwtKey.secret).name;
+            const now_date = moment().format('YYYY-MM-DD HH:mm:ss');
+            model.diary.addData(req, id, name, now_date, data => {
+                return res.send(data);
+            })
+        },
+        get: (req, res) => {
+            const clientToken = req.cookies.user;
+            const id = jwt.decode(clientToken, jwtKey.secret).id;
+            model.diary.getData(id, data => {
+                return res.send(data);
+            })
+        },
+        del: (req, res) => {
+            model.diary.delData(req, data => {
+                // HTTP 상태 코드 중 성공 상태 코드! (200)
+                return res.sendStatus(200)
+            })
+        },
+    },
 
     user: {
         login: (req, res) => {
@@ -59,8 +85,6 @@ module.exports = {
                 if (result[0]) {
                     // Access Token 생성
                     const clientToken = clientTokenSign(result);
-
-                    console.log(clientToken);
 
                     // Refresh Token 생성
                     const refreshToken = jwt.sign({
@@ -87,21 +111,30 @@ module.exports = {
     },
     auth: {
         RefreshToken: (req, res, callback) => {
-            let clientToken = req.cookies.user;
             const refreshToken = req.cookies.userRefreshToken;
+            jwt.verify(refreshToken, jwtKey.secret, (err) => {
+                // RefreshToken의 유효기간이 지나면,
+                if (err) {
+                    res.cookie('user');
+                    res.cookie('userRefreshToken');
+                    callback(false);
+                } else {
+                    // 만료된 AccessToken의 정보를 가져옴
+                    let clientToken = req.cookies.user;
+                    const id = jwt.decode(clientToken, jwtKey.secret).id;
 
-            const id = jwt.decode(clientToken, jwtKey.secret).id;
-            const name = jwt.decode(clientToken, jwtKey.secret).name;
-
-            model.token.authRefreshToken(id, refreshToken, result => {
-                if (result) {
-                    clientToken = clientTokenSign(result);
-                    res.cookie('user', clientToken);
-                    callback(clientToken);
+                    // 데이터 베이스에 저장된 RefreshToken과 비교
+                    model.token.authRefreshToken(id, refreshToken, result => {
+                        if (result) {
+                            // RefreshToken이 확인되면 새로운 AccessToken을 발급
+                            clientToken = clientTokenSign(result);
+                            res.cookie('user', clientToken);
+                            callback(clientToken);
+                        }
+                    })
                 }
-            })
-
-        }
-    }
+            });
+        },
+    },
 
 }
