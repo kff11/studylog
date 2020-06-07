@@ -3,17 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Typography from '@material-ui/core/Typography';
 
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
+import { BoardForm, BoardItem } from "./component/index";
 
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-
-import {AvatarPic} from '../../images';
-import SmsIcon from '@material-ui/icons/Sms';
 
 const drawerWidth = 210;
 
@@ -48,68 +39,8 @@ const Board = () => {
             <div >
                 {/*<BoardList/>*/}
                 {/*<BoardListItem/>*/}
-                <Card className={classes.boardListItem}>
-                    <Card item>
-                        <CardHeader
-                            avatar={
-                                <Avatar aria-label="avatar" src={AvatarPic} />
-                            }
-                            action={
-                                <IconButton aria-label="settings">
-                                    <MoreVertIcon />
-                                </IconButton>
-                            }
-                            title="게시글 제목"
-                            subheader="김승수 September 14, 2016"
-                        />
-                        <CardContent>
-                            <Typography variant="body2"  component="p">
-                                This impressive paella is a perfect party dish and a fun meal to cook together with your
-                                guests. Add 1 cup of frozen peas along with the mussels, if you like.
-                            </Typography>
-                        </CardContent>
-                        <CardActions disableSpacing>
-                            <IconButton  size="small" aria-label="delete" disabled color="primary">
-                                <SmsIcon  />
-                                <Typography variant="subtitle2"  component="p">
-                                    12
-                                </Typography>
-                            </IconButton>
-                        </CardActions>
-                    </Card>
-                </Card>
-
-
-                <Card className={classes.boardListItem}>
-                    <Card item>
-                        <CardHeader
-                            avatar={
-                                <Avatar aria-label="avatar" src={AvatarPic} />
-                            }
-                            action={
-                                <IconButton aria-label="settings">
-                                    <MoreVertIcon />
-                                </IconButton>
-                            }
-                            title="게시글 제목"
-                            subheader="김승수 September 14, 2016"
-                        />
-                        <CardContent>
-                            <Typography variant="body2"  component="p">
-                                This impressive paella is a perfect party dish and a fun meal to cook together with your
-                                guests. Add 1 cup of frozen peas along with the mussels, if you like.
-                            </Typography>
-                        </CardContent>
-                        <CardActions disableSpacing>
-                            <IconButton  size="small" aria-label="delete" disabled color="primary">
-                                <SmsIcon  />
-                                <Typography variant="subtitle2"  component="p">
-                                    12
-                                </Typography>
-                            </IconButton>
-                        </CardActions>
-                    </Card>
-                </Card>
+                <BoardForm/>
+                <BoardItem/>
             </div>
 
 
