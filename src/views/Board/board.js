@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Typography from '@material-ui/core/Typography';
 
-import { BoardForm, BoardItem } from "./component/index";
+import { BoardForm, BoardItem } from "./components/index";
 
 
 const drawerWidth = 210;
