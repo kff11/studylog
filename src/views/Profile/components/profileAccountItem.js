@@ -44,7 +44,7 @@ const ProfileAccountItem = props => {
                             gutterBottom
                             variant="h5"
                         >
-                            <b>{user.name}</b>
+                            {user.name}
                         </Typography>
                         <Typography
                             color="textSecondary"

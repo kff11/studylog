@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import clsx from 'clsx';
 import {
     Card,
     CardActions,
@@ -14,18 +13,18 @@ import {
 import PropTypes from "prop-types";
 
 const ProfileDetailsItem = props => {
-    const {_name, _mento, _email, _phone, _state} = props;
-
-    const [name, setName] = useState('');
-    const [mento, setMento] = useState('');
-    const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
-    const [state, setState] = useState('');
-
+    const {name, mento, email, phone, state} = props;
 
     const handleChange = e => {
-        setName(e.target.value);
     };
+
+    const user = {
+        name: name,
+        mento: mento ? '멘토' : '학습자',
+        email: email,
+        phone: phone,
+        state: state,
+    }
 
     const states = [
         {
@@ -38,10 +37,6 @@ const ProfileDetailsItem = props => {
             value: '인천',
         }
     ];
-
-    useEffect(() => {
-        setName(_name);
-    })
 
     return (
         <Card>
@@ -71,8 +66,7 @@ const ProfileDetailsItem = props => {
                                 margin="dense"
                                 name="name"
                                 onChange={handleChange}
-                                required
-                                value={name}
+                                value={user.name}
                                 variant="outlined"
                             />
                         </Grid>
@@ -88,8 +82,7 @@ const ProfileDetailsItem = props => {
                                 margin="dense"
                                 name="email"
                                 onChange={handleChange}
-                                required
-                                value={email}
+                                value={user.email}
                                 variant="outlined"
                             />
                         </Grid>
@@ -105,7 +98,7 @@ const ProfileDetailsItem = props => {
                                 name="phone"
                                 onChange={handleChange}
                                 type="tel"
-                                value={phone}
+                                value={user.phone}
                                 variant="outlined"
                             />
                         </Grid>
@@ -120,11 +113,10 @@ const ProfileDetailsItem = props => {
                                 margin="dense"
                                 name="state"
                                 onChange={handleChange}
-                                required
                                 select
                                 // eslint-disable-next-line react/jsx-sort-props
                                 SelectProps={{native: true}}
-                                value={state}
+                                value={user.state}
                                 variant="outlined"
                             >
                                 {states.map(option => (

@@ -18,4 +18,7 @@ router.post('/diary/del', verifyToken, controller.diary.del);
 router.post('/user/add', controller.user.addUser);
 router.post('/user/login', controller.user.login);
 
+// 프로필
+router.get('/profile/get', verifyToken, controller.profile.getProfile);
+
 module.exports = router;

@@ -75,6 +75,7 @@ module.exports = {
         },
     },
 
+    // 로그인
     user: {
         login: (req, res) => {
             const body = req.body;
@@ -109,6 +110,8 @@ module.exports = {
             })
         }
     },
+
+    // 토큰 인증
     auth: {
         RefreshToken: (req, res, callback) => {
             const refreshToken = req.cookies.userRefreshToken;
@@ -135,6 +138,18 @@ module.exports = {
                 }
             });
         },
+    },
+
+    // 프로필
+    profile: {
+      getProfile: (req, res, callback) => {
+          console.log('통과');
+          const clientToken = req.cookies.user;
+          const id = jwt.decode(clientToken, jwtKey.secret).id;
+          model.profile.getData(id, result => {
+              callback(result);
+          })
+      }
     },
 
 }

@@ -7,6 +7,7 @@ import {useCookies} from "react-cookie";
 import jwt from "jsonwebtoken";
 import jwtKey from "../../config/jwt";
 import Grid from "@material-ui/core/Grid";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -19,15 +20,22 @@ const Profile = () => {
     const classes = useStyles();
 
     const [cookies] = useCookies('user');
-    const [name, setName] = useState();
+    const [name, setName] = useState('');
     const [mento, setMento] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const [state, setState] = useState('');
+
+    const getProfile = async () => {
+        const res = await axios.get('/profile/get')
+        console.log(res.data);
+    }
 
     const decoded = jwt.decode(cookies.user, jwtKey.secret);
 
     useEffect(() => {
-        setName(decoded.name);
-        setMento(decoded.mento);
-    }, [decoded])
+        getProfile();
+    }, [])
 
     return (
         <div className={classes.root}>
@@ -54,11 +62,11 @@ const Profile = () => {
                     xs={12}
                 >
                     <ProfileDetailsItem
-                        _name={name}
-                        _mento={mento}
-                        _email={''}
-                        _phone={''}
-                        _state={'서울'}
+                        name={name}
+                        mento={mento}
+                        email={''}
+                        phone={''}
+                        state={'서울'}
                     />
                 </Grid>
             </Grid>

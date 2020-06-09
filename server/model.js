@@ -75,7 +75,7 @@ module.exports = {
             })
         },
     },
-
+    // 로그인
     user: {
         login: (body, hash, callback) => {
             User.findAll({
@@ -111,6 +111,7 @@ module.exports = {
             })
         },
     },
+    // 토큰 인증
     token: {
         addRefreshToken: (body, refreshToken) => {
             User.update({
@@ -125,6 +126,17 @@ module.exports = {
                 where: {id: id}
             }).then(result => {
                 result[0].refreshToken === refreshToken ? callback(result) : callback(false)
+            }).catch(err => {
+                throw err;
+            })
+        },
+    },
+    profile: {
+        getData: (id, callback) => {
+            User.findAll({
+                where: {id: id}
+            }).then(result => {
+                callback(result);
             }).catch(err => {
                 throw err;
             })
