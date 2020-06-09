@@ -1,9 +1,9 @@
 import React from "react";
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Typography from '@material-ui/core/Typography';
 
-import { BoardForm, BoardItem } from "./components/index";
+import {BoardForm, BoardItem} from "./components/index";
 
 
 const drawerWidth = 210;
@@ -17,17 +17,17 @@ const useStyles = makeStyles((theme) => ({
         width: drawerWidth,
         padding: 15,
     },
-    root : {
+    root: {
         display: "flex",
         justifyContent: "center",
         // width: 12xs,
     },
-    boardListItem:{
+    boardListItem: {
         Width: 645,
-        maxWidth:645,
-        marginBottom : 20,
+        maxWidth: 645,
+        marginBottom: 20,
     },
-}) );
+}));
 
 const Board = () => {
 
@@ -36,7 +36,7 @@ const Board = () => {
     return (
         <div className={classes.root}>
 
-            <div >
+            <div>
                 {/*<BoardList/>*/}
                 {/*<BoardListItem/>*/}
                 <BoardForm/>
@@ -53,7 +53,7 @@ const Board = () => {
                 }}
                 anchor="right"
             >
-                <div style={{height:"64px",}}></div>
+                <div style={{height: "64px",}}></div>
                 <Typography variant="h6" gutterBottom>
                     가장 댓글이 많은 글
                 </Typography>

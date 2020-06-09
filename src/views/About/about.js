@@ -1,10 +1,11 @@
 import React from "react";
-import {Test} from "./components";
+import {TestContents} from "./components";
 
 const About = () => {
 
     return (
         <div>
+            <TestContents/>
         </div>
     );
 }

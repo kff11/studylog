@@ -22,7 +22,7 @@ const Routes = props => {
         <Switch>
             <RouteWithLayout
                 exact
-                component={TestContents}
+                component={DiaryView}
                 layout={MainLayout}
                 path='/'
             />
