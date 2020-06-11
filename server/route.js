@@ -14,11 +14,10 @@ router.get('/diary/get', verifyToken, controller.diary.get);
 router.post('/diary/add', verifyToken, controller.diary.add);
 router.post('/diary/del', verifyToken, controller.diary.del);
 
-// 로그인, 회원가잆
+// 로그인, 회원가입, 프로필
 router.post('/user/add', controller.user.addUser);
 router.post('/user/login', controller.user.login);
-
-// 프로필
-router.get('/profile/get', verifyToken, controller.profile.getProfile);
+router.post('/user/update', verifyToken, controller.user.updateProfile);
+router.get('/user/get', verifyToken, controller.user.getProfile);
 
 module.exports = router;

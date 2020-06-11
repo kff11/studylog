@@ -110,6 +110,29 @@ module.exports = {
                 }
             })
         },
+        getUser: (id, callback) => {
+            User.findAll({
+                where: {id: id}
+            }).then(result => {
+                callback(result);
+            }).catch(err => {
+                throw err;
+            })
+        },
+        updateUser: (body, id, callback) => {
+            User.update({
+                name: body.name,
+                email: body.email,
+                phone: body.phone,
+                state: body.state,
+            }, {where: {id: id}})
+                .then(result => {
+                    result ? callback(true) : callback(false)
+                })
+                .catch(err => {
+                    throw err;
+                })
+        }
     },
     // 토큰 인증
     token: {
@@ -126,17 +149,6 @@ module.exports = {
                 where: {id: id}
             }).then(result => {
                 result[0].refreshToken === refreshToken ? callback(result) : callback(false)
-            }).catch(err => {
-                throw err;
-            })
-        },
-    },
-    profile: {
-        getData: (id, callback) => {
-            User.findAll({
-                where: {id: id}
-            }).then(result => {
-                callback(result);
             }).catch(err => {
                 throw err;
             })

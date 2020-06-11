@@ -13,18 +13,7 @@ import {
 import PropTypes from "prop-types";
 
 const ProfileDetailsItem = props => {
-    const {name, mento, email, phone, state} = props;
-
-    const handleChange = e => {
-    };
-
-    const user = {
-        name: name,
-        mento: mento ? '멘토' : '학습자',
-        email: email,
-        phone: phone,
-        state: state,
-    }
+    const {name, email, phone, state, handleChangeName, handleChangeEmail, handleChangePhone, handleChangeState, handleSubmitProfile} = props;
 
     const states = [
         {
@@ -65,8 +54,8 @@ const ProfileDetailsItem = props => {
                                 label="이름"
                                 margin="dense"
                                 name="name"
-                                onChange={handleChange}
-                                value={user.name}
+                                onChange={handleChangeName}
+                                value={name}
                                 variant="outlined"
                             />
                         </Grid>
@@ -81,8 +70,8 @@ const ProfileDetailsItem = props => {
                                 label="이메일"
                                 margin="dense"
                                 name="email"
-                                onChange={handleChange}
-                                value={user.email}
+                                onChange={handleChangeEmail}
+                                value={email}
                                 variant="outlined"
                             />
                         </Grid>
@@ -96,9 +85,9 @@ const ProfileDetailsItem = props => {
                                 label="전화번호"
                                 margin="dense"
                                 name="phone"
-                                onChange={handleChange}
+                                onChange={handleChangePhone}
                                 type="tel"
-                                value={user.phone}
+                                value={phone}
                                 variant="outlined"
                             />
                         </Grid>
@@ -112,11 +101,10 @@ const ProfileDetailsItem = props => {
                                 label="지역"
                                 margin="dense"
                                 name="state"
-                                onChange={handleChange}
+                                onChange={handleChangeState}
                                 select
                                 // eslint-disable-next-line react/jsx-sort-props
                                 SelectProps={{native: true}}
-                                value={user.state}
                                 variant="outlined"
                             >
                                 {states.map(option => (
@@ -136,6 +124,7 @@ const ProfileDetailsItem = props => {
                     <Button
                         color="primary"
                         variant="contained"
+                        onClick={handleSubmitProfile}
                     >
                         저장하기
                     </Button>
@@ -151,6 +140,11 @@ ProfileDetailsItem.propTypes = {
     email: PropTypes.string,
     phone: PropTypes.string,
     state: PropTypes.string,
+    handleChangeName: PropTypes.func,
+    handleChangeEmail: PropTypes.func,
+    handleChangePhone: PropTypes.func,
+    handleChangeState: PropTypes.func,
+    handleSubmitProfile: PropTypes.func,
 }
 
 export default ProfileDetailsItem;
