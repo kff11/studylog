@@ -13,7 +13,9 @@ import {
 import PropTypes from "prop-types";
 
 const ProfileDetailsItem = props => {
-    const {name, email, phone, state, handleChangeName, handleChangeEmail, handleChangePhone, handleChangeState, handleSubmitProfile} = props;
+    const {name, email, phone, state,
+        handleChangeName, handleChangeEmail, handleChangePhone, handleChangeState,
+        handleSubmitProfile} = props;
 
     const states = [
         {
@@ -23,8 +25,29 @@ const ProfileDetailsItem = props => {
             value: '경기',
         },
         {
-            value: '인천',
-        }
+            value: '강원',
+        },
+        {
+            value: '충북',
+        },
+        {
+            value: '충남',
+        },
+        {
+            value: '경북',
+        },
+        {
+            value: '경남',
+        },
+        {
+            value: '전북',
+        },
+        {
+            value: '전남',
+        },
+        {
+            value: '제주',
+        },
     ];
 
     return (
@@ -82,6 +105,7 @@ const ProfileDetailsItem = props => {
                         >
                             <TextField
                                 fullWidth
+                                helperText="하이픈(-) 없이 숫자 2~11자"
                                 label="전화번호"
                                 margin="dense"
                                 name="phone"
@@ -98,10 +122,10 @@ const ProfileDetailsItem = props => {
                         >
                             <TextField
                                 fullWidth
-                                label="지역"
                                 margin="dense"
                                 name="state"
                                 onChange={handleChangeState}
+                                value={state}
                                 select
                                 // eslint-disable-next-line react/jsx-sort-props
                                 SelectProps={{native: true}}

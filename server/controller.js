@@ -154,9 +154,4 @@ module.exports = {
             });
         },
     },
-
-    // 프로필
-    profile: {
-    },
-
 }

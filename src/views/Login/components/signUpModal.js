@@ -69,7 +69,7 @@ const SignUpModal = ({handleClose}) => {
     const pushUserData = async () => {
         // 정규표현식!
         const id_check = /^[a-z]+[a-z0-9]{5,14}$/g; // 아이디 *영소문자 시작 6~15자
-        const pw_check = /^[A-za-z0-9]{5,19}$/g; // 비밀번호 *영문 시작 6~20자
+        const pw_check = /^[A-za-z0-9]{5,19}$/g; // 영문, 숫자 6~20자
         const name_check = /^[가-힣]{2,10}$/; // 이름 *한글 2~10자
 
         // 아이디 체크
@@ -125,7 +125,7 @@ const SignUpModal = ({handleClose}) => {
                             <TextField
                                 variant="outlined"
                                 required
-                                helperText='영문자로 시작하는 6~15자'
+                                helperText='영문(소문자)로 시작하는 6~15자'
                                 fullWidth
                                 id="signId"
                                 label="아이디"
@@ -137,7 +137,7 @@ const SignUpModal = ({handleClose}) => {
                             <TextField
                                 variant="outlined"
                                 required
-                                helperText='영문자로 시작하는 6~20자'
+                                helperText='영문, 숫자 6~20자'
                                 fullWidth
                                 label="비밀번호"
                                 type="password"

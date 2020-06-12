@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from "react";
-
 import {ProfileAccountItem, ProfileDetailsItem} from "./components";
-
 import {makeStyles} from '@material-ui/core/styles';
 import Grid from "@material-ui/core/Grid";
 import axios from "axios";
@@ -51,11 +49,17 @@ const Profile = () => {
         setState(e.target.value);
     }
     const handleSubmitProfile = async () => {
-        const name_check = /^[가-힣]{2,10}$/; // 이름 *한글 2~10자
+        const nameCheck = /^[가-힣]{2,10}$/; // 이름 *한글 2~10자
+        const emailCheck = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i; // 이메일 정규표현식
+        const phoneCheck = /^[0-9]{2,11}$/; // 숫자 2~11자
 
         // 이름 체크
-        if (!name_check.test(name)) {
+        if (!nameCheck.test(name)) {
             return alert("이름은 한글로 시작하는 2~10자여야만 합니다.")
+        } else if (!emailCheck.test(email)) {
+            return alert("잘못된 이메일 형식입니다.")
+        } else if (!phoneCheck.test(phone)) {
+            return alert("전화번호는 하이픈(-) 없이 2~11자여야만 합니다.")
         }
 
         const res = await axios('/user/update', {
@@ -67,7 +71,7 @@ const Profile = () => {
                 state: state,
             }
         })
-        if(res.data){
+        if (res.data) {
             getProfile();
             return alert("프로필 수정이 완료되었습니다!");
         }
