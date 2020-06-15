@@ -75,7 +75,7 @@ module.exports = {
             })
         },
     },
-
+    // 로그인
     user: {
         login: (body, hash, callback) => {
             User.findAll({
@@ -110,7 +110,31 @@ module.exports = {
                 }
             })
         },
+        getUser: (id, callback) => {
+            User.findAll({
+                where: {id: id}
+            }).then(result => {
+                callback(result);
+            }).catch(err => {
+                throw err;
+            })
+        },
+        updateUser: (body, id, callback) => {
+            User.update({
+                name: body.name,
+                email: body.email,
+                phone: body.phone,
+                state: body.state,
+            }, {where: {id: id}})
+                .then(result => {
+                    result ? callback(true) : callback(false)
+                })
+                .catch(err => {
+                    throw err;
+                })
+        }
     },
+    // 토큰 인증
     token: {
         addRefreshToken: (body, refreshToken) => {
             User.update({

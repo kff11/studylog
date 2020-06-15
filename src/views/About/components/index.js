@@ -1,0 +1,1 @@
+export {default as TestContents} from './testContents';

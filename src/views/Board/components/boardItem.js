@@ -18,7 +18,7 @@ import Collapse from '@material-ui/core/Collapse';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import { CommentForm, CommentItem } from "../component/index";
+import { CommentForm, CommentItem } from ".//index";
 
 const drawerWidth = 210;
 

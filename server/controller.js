@@ -75,6 +75,7 @@ module.exports = {
         },
     },
 
+    // 로그인, 회원가입, 프로필
     user: {
         login: (req, res) => {
             const body = req.body;
@@ -107,8 +108,25 @@ module.exports = {
             model.user.addUser(body, hash, now_date, result => {
                 res.send(result);
             })
+        },
+        getProfile: (req, res) => {
+            const clientToken = req.cookies.user;
+            const id = jwt.decode(clientToken, jwtKey.secret).id;
+            model.user.getUser(id, result => {
+                res.send(result);
+            })
+        },
+        updateProfile: (req, res) => {
+            const clientToken = req.cookies.user;
+            const id = jwt.decode(clientToken, jwtKey.secret).id;
+            model.user.updateUser(req.body, id, result => {
+                res.send(result);
+            })
         }
+
     },
+
+    // 토큰 인증
     auth: {
         RefreshToken: (req, res, callback) => {
             const refreshToken = req.cookies.userRefreshToken;
@@ -136,5 +154,4 @@ module.exports = {
             });
         },
     },
-
 }

@@ -18,6 +18,11 @@ const useStyles = makeStyles((theme) => ({
         boxShadow: theme.shadows[2],
         padding: theme.spacing(5, 7, 7),
     },
+    signUpModal: {
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[2],
+        padding: theme.spacing(3, 5, 5),
+    },
     image: {
         width: '350px',
         backgroundColor: theme.palette.background.paper,
@@ -73,7 +78,7 @@ const Login = ({logged}) => {
                         timeout: 500,
                     }}>
                     <Fade in={open}>
-                        <div className={classes.paper}>
+                        <div className={classes.signUpModal}>
                             <SignUpModal handleClose={handleClose}/>
                         </div>
                     </Fade>
