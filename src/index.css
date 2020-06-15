@@ -13,5 +13,6 @@ code {
 }
 
 @font-face { font-family: 'KopubWorldDotumMedium'; src: url(./fonts/KoPubWorldDotumMedium.ttf) format('truetype'); }
+@font-face { font-family: 'KopubWorldDotumLight'; src: url(./fonts/KoPubWorldDotumLight.ttf) format('truetype'); }
 @font-face { font-family: 'KopubWorldDotumBold'; src: url(./fonts/KoPubWorldDotumBold.ttf) format('truetype'); }
 @font-face { font-family: 'KopubWorldDotum_Pro_Medium'; src: url(./fonts/KoPubWorldDotum_ProMedium.otf) format('truetype'); }

@@ -11,10 +11,6 @@ const useStyles = makeStyles((theme) => ({
     button: {
         marginLeft: 12,
     },
-    textfield: {
-        height: 600,
-        overflow: "scroll"
-    }
 }));
 
 
@@ -34,7 +30,6 @@ const WriteDiary = ({handleTitleChange, handleContentsChange, onCreate}) => {
                 />
 
                 <TextField
-                    className={classes.textfield}
                     className={classes.bottomMargin}
                     id="outlined-multiline-static"
                     label="Diary Content"

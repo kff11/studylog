@@ -1,26 +1,21 @@
 import React, {useEffect, useState} from "react";
 import {WriteDiary, DiaryList} from "./components/index";
-
-import Typography from '@material-ui/core/Typography';
-import Grid from "@material-ui/core/Grid";
-import Paper from '@material-ui/core/Paper';
-
+import {Grid, Paper, Typography} from "@material-ui/core";
 
 import {makeStyles} from "@material-ui/core/styles";
 import axios from "axios";
 
-//업데트트 된 건가?
-
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     root: {
+        padding: theme.spacing(1),
+    },
+    grow: {
         flexGrow: 1,
-        marginTop: 12,
     },
     paper: {
-        marginTop: 0,
         padding: 20,
     },
-});
+}));
 
 const Diary = () => {
 
@@ -29,11 +24,20 @@ const Diary = () => {
     const [input, setInput] = useState('hello');
     const [contentInput, setContentInput] = useState('content1');
     const [diaries, setDiaries] = useState([]);
+    const [pages, setPages] = useState([]);
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(2);
+
+
+    useEffect(() => {
+        getData();
+    }, [])
 
     // 일기장 리스트 가져오기 (아이디 마다!)
     const getData = async () => {
         const res = await axios.get('/diary/get');
         setDiaries(res.data);
+        getAllPage(res.data.length);
     }
 
     // 일기장 글 작성
@@ -52,6 +56,14 @@ const Diary = () => {
         }
     }
 
+    const getAllPage = (count) => {
+        let pageArray = [];
+        for (let i = 1; i <= count / limit; i++) {
+            pageArray.push(i);
+        }
+        setPages(pageArray);
+    }
+
     const handleTitleChange = (e) => {
         setInput(e.target.value);
     };
@@ -65,13 +77,10 @@ const Diary = () => {
         setContentInput('');
     }
 
-    useEffect(() => {
-        getData();
-    }, [])
 
     return (
-        <div>
-            <Grid container className={classes.root} spacing={3} justify="center">
+        <div className={classes.root}>
+            <Grid container spacing={3} justify="center">
                 <Grid item xs={6}>
                     {/*  Write field */}
                     <Paper className={classes.paper}>
@@ -83,13 +92,15 @@ const Diary = () => {
                             onCreate={handleCreate}
                         />
                     </Paper>
-
                 </Grid>
+                <div className={classes.grow}/>
                 <Grid item xs={3}>
                     <Typography variant="overline" display="block" gutterBottom>
                         리스트
                     </Typography>
                     <DiaryList
+                        page={page}
+                        pages={pages}
                         diaries={diaries}
                     />
                 </Grid>
