@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
@@ -18,7 +18,7 @@ import Collapse from '@material-ui/core/Collapse';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import { CommentForm, CommentItem } from ".//index";
+import { CommentForm, CommentItem , CommentList} from ".//index";
 
 const drawerWidth = 210;
 
@@ -62,6 +62,17 @@ const useStyles = makeStyles((theme) => ({
 
 const BoardItem = () =>{
     const classes = useStyles();
+
+    //댓글 리스트
+    //작성 시간 : form -> boardItem -> comment?
+    const [comments, setComments] = useState(
+        [
+            {id: 0,username:'김지똥' ,contents:'아 졸라 어렵네',date:'2020.20.20'},
+            {id: 1,username:'김슈슈' ,contents:'아 졸라 어렵네',date:'2020.21.21'},
+        ]
+    );
+
+
     const [anchorEl, setAnchorEl] = React.useState(null); //삭제 및 수정
     const [expanded, setExpanded] = React.useState(false); //댓글창 열리게
 
@@ -116,9 +127,11 @@ const BoardItem = () =>{
                         </Typography>
                     </CardContent>
 
-                    <CardActions disableSpacing className={classes.cardActions}>
-                        <IconButton  size="small" aria-label="this article's comments" disabled color="primary">
-                            <SmsIcon  aria-label="comment" />
+                    <CardActions disableSpacing className={classes.cardActions}
+
+                    >
+                        <IconButton  size="small" aria-label="article's comments" disabled color="primary">
+                            <SmsIcon  aria-label="comment icon" />
                             <Typography  aria-label="comment" variant="subtitle2"  component="p">
                                 12
                             </Typography>
@@ -140,7 +153,9 @@ const BoardItem = () =>{
                             {/* 댓글 입력 폼 */}
                             <CommentForm/>
                             {/* 댓글 리스트  */}
-                            <CommentItem/>
+                            <CommentList
+                                comments={comments}
+                            />
                         </CardContent>
                     </Collapse>
 

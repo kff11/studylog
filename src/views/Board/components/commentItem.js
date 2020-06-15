@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const CommentItem = ()=> {
+const CommentItem = (id, username, contents, date)=> {
     const classes = useStyles();
 
     return(
@@ -40,10 +40,15 @@ const CommentItem = ()=> {
                 <Avatar alt="user" src={AvatarPic} />
                 <div className={classes.rightSide}>
                     <div style={{ display:'flex', paddingRight : 16,}}  >
-                        <Typography variant="body2" className={classes.takeFull}>닉네임</Typography>
-                        <Typography variant="body2">2020.20.20</Typography>
+                        <Typography variant="body2" className={classes.takeFull}>
+                            {username}
+                        </Typography>
+                        <Typography variant="body2">
+                            {date}
+                        </Typography>
                     </div>
-                    <Input disabled className={classes.takeFull} defaultValue="written comment" />
+                    <Input disabled className={classes.takeFull}
+                           defaultValue={contents} />
                 </div>
                 <IconButton aria-controls="this card's menu" aria-haspopup="true">
                     <MoreVertIcon  />

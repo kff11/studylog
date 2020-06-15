@@ -20,6 +20,10 @@ const useStyles = makeStyles({
         marginTop: 0,
         padding: 20,
     },
+    diaryList_scroll:{
+        height: 500,
+        overflowY: 'scroll',
+    }
 });
 
 const Diary = () => {
@@ -89,9 +93,11 @@ const Diary = () => {
                     <Typography variant="overline" display="block" gutterBottom>
                         리스트
                     </Typography>
-                    <DiaryList
-                        diaries={diaries}
-                    />
+                    <div className={classes.diaryList_scroll}>
+                        <DiaryList
+                            diaries={diaries}
+                        />
+                    </div>
                 </Grid>
             </Grid>
 

@@ -27,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: 645,
         marginBottom: 20,
     },
+    margin_top: {
+        marginTop:"64px",
+    }
 }));
 
 const Board = () => {
@@ -53,10 +56,15 @@ const Board = () => {
                 }}
                 anchor="right"
             >
-                <div style={{height: "64px",}}></div>
-                <Typography variant="h6" gutterBottom>
+                {/*<div style={{height: "64px",}}></div>*/}
+                <Typography variant="h6" gutterBottom >
                     가장 댓글이 많은 글
                 </Typography>
+                <div className="board-ranking" className={classes.margin_top}>
+                    <Typography variant="body1" gutterBottom>1. 리스트 가져와야함</Typography>
+                    <Typography variant="body1" gutterBottom>2. DB에서 처리해야하나?</Typography>
+                    <Typography variant="body1" gutterBottom>3. 댓글 순위 나누기</Typography>
+                </div>
 
             </Drawer>
 
