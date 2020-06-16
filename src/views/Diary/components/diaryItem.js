@@ -26,7 +26,7 @@ const useStyles = makeStyles({
 const DiaryItem = ({id, title, date, contents, key}) => {
     const classes = useStyles();
     return (
-        <Card className={classes.root}>
+        <Card className={classes.root} elevation={2}>
             <CardActionArea>
                 <CardContent>
                     <Typography className={classes.title} variant="h6" component="h2">

@@ -48,7 +48,7 @@ const DiaryList = ({diaries, page, pages, handleChangePage}) => {
     return (
         <div className={classes.root}>
             {diaryItem}
-            <Card className={classes.card}>
+            <Card className={classes.card} elevation={2}>
                 <ChevronLeft/>
                     <ul className={classes.ul}>
                         {pages ? pages.map((pageNum, key) => {

@@ -30,7 +30,7 @@ const WriteDiary = ({handleTitleChange, handleContentsChange, onCreate}) => {
     const classes = useStyles();
 
     return (
-        <Paper className={classes.root}>
+        <Paper className={classes.root} elevation={2}>
             <div>
                 <TextField
                     className={classes.bottomMargin}

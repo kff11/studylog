@@ -51,7 +51,7 @@ const ProfileDetailsItem = props => {
     ];
 
     return (
-        <Card>
+        <Card elevation={2}>
             <form
                 autoComplete="off"
                 noValidate
