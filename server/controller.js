@@ -63,7 +63,7 @@ module.exports = {
         get: (req, res) => {
             const clientToken = req.cookies.user;
             const id = jwt.decode(clientToken, jwtKey.secret).id;
-            model.diary.getData(id, data => {
+            model.diary.getData(id, req.body.page, req.body.limit, data => {
                 return res.send(data);
             })
         },

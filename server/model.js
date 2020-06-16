@@ -56,11 +56,24 @@ module.exports = {
                 throw err;
             })
         },
-        getData: (id, callback) => {
-            Diary.findAll({
-                where: {[Op.and]: [{user_id: id}]}
-            }).then(result => {
-                callback(result)
+        getData: (id, page, limit, callback) => {
+            let result = {};
+            Diary.count({
+                where: {user_id: id}
+            }).then((countResult) => {
+                result['count'] = countResult;
+
+                Diary.findAll({
+                    where: {user_id: id},
+                    limit: limit,
+                    offset: (page - 1) * limit,
+                }).then(_result => {
+                    result['rows'] = _result
+                    console.log(result['count']);
+                    callback(result)
+                }).catch(err => {
+                    throw err
+                })
             }).catch(err => {
                 throw err
             })

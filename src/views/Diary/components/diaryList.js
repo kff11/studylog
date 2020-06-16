@@ -6,19 +6,22 @@ import {ChevronLeft, ChevronRight} from "@material-ui/icons";
 
 const useStyles = makeStyles({
     root: {
+      minWidth: 300,
+    },
+    card: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
     },
-    centered: {
-        textAlign: 'center'
+    ul: {
+      paddingInlineStart: '15px',
     },
     thisPage: {
         listStyle: 'none',
         marginRight: '15px',
         display: 'inline-block',
         cursor: 'pointer',
-        fontSize: '16px',
+        fontSize: '15px',
     },
     page: {
         listStyle: 'none',
@@ -29,10 +32,10 @@ const useStyles = makeStyles({
     },
 });
 
-const DiaryList = ({diaries, page, pages}) => {
+const DiaryList = ({diaries, page, pages, handleChangePage}) => {
     const classes = useStyles();
 
-    const diaryList = diaries.map(({id, title, contents, date}) => (
+    const diaryItem = diaries.map(({id, title, contents, date}) => (
             <DiaryItem
                 id={id}
                 contents={contents}
@@ -41,33 +44,28 @@ const DiaryList = ({diaries, page, pages}) => {
             />
         )
     );
-    console.log(page);
-    console.log(pages);
-
 
     return (
-        <div>
-            {diaryList}
-            <Card className={classes.root}>
+        <div className={classes.root}>
+            {diaryItem}
+            <Card className={classes.card}>
                 <ChevronLeft/>
-                {pages ? <ul>
-                        {pages.map((el, key) => {
-                            console.log(el);
-                            return (
-                                el === page ?
-                                    <li key={key} className={classes.thisPage}>
-                                        <b> {el} </b>
-                                    </li>
-                                    :
-                                    <li key={key} className={classes.page}>
-                                        {el}
-                                    </li>
-                            )
-                        })
-                        }
+                    <ul className={classes.ul}>
+                        {pages ? pages.map((pageNum, key) => {
+                                return (
+                                    pageNum === page ?
+                                        <li key={key} className={classes.thisPage}>
+                                            <b> {pageNum} </b>
+                                        </li>
+                                        :
+                                        <li key={key} className={classes.page} onClick={() => handleChangePage(pageNum)}>
+                                            {pageNum}
+                                        </li>
+                                )
+                            })
+                            :
+                            null}
                     </ul>
-                    :
-                    null}
                 <ChevronRight/>
             </Card>
         </div>
