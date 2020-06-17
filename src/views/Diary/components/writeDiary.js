@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import TextField from '@material-ui/core/TextField';
+import {Save, Share} from "@material-ui/icons";
 
 import Button from "@material-ui/core/Button";
-import {makeStyles} from "@material-ui/core/styles";
+import {makeStyles, withStyles} from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
+import {Card, Divider} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -12,18 +14,71 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 300,
     },
     bottomMargin: {
-        marginBottom: 20,
+        marginBottom: 30,
     },
     grow: {
         flexGrow: 1,
     },
-    display:{
-      display: 'flex',
+    display: {
+        marginTop: 20,
+        display: 'flex',
     },
     button: {
         marginLeft: 12,
     },
 }));
+
+const DiaryTextField = withStyles({
+    root: {
+        '& label.Mui-focused': {
+            color: '#61380B',
+        },
+        '&:hover fieldset': {
+            bordercolor: '#c48f65',
+        },
+        '& .MuiInput-underline:after': {
+            borderBottomColor: '#c48f65'
+        },
+        '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+                borderColor: '#61380B',
+            },
+            '&:hover fieldset': {
+                bordercolor: '#c48f65',
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: '#c48f65',
+            },
+        },
+    },
+
+})(TextField);
+
+const ContentTextField = withStyles({
+    root: {
+        '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+                borderColor: '#61380B',
+            },
+            '&:hover fieldset': {
+                bordercolor: '#c48f65',
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: '#c48f65',
+            },
+        }
+    }
+})(TextField);
+
+const WriteButton = withStyles({
+    root: {
+        backgroundColor: '#CFB095',
+        '&:hover': {
+            backgroundColor: '#c48f65'
+        },
+        bordercolor: '#FFF'
+    }
+})(Button);
 
 
 const WriteDiary = ({handleTitleChange, handleContentsChange, onCreate}) => {
@@ -32,37 +87,44 @@ const WriteDiary = ({handleTitleChange, handleContentsChange, onCreate}) => {
     return (
         <Paper className={classes.root} elevation={2}>
             <div>
-                <TextField
+                <DiaryTextField
                     className={classes.bottomMargin}
-                    id="standard-textarea"
+                    id="title"
                     label="Title"
                     autoFocus
                     fullWidth
                     onChange={handleTitleChange}
                 />
-
-                <TextField
+                <DiaryTextField
                     className={classes.bottomMargin}
-                    id="outlined-multiline-static"
+                    id="content"
                     label="Diary Content"
                     multiline
-                    rows={18}
+                    rows={19}
                     fullWidth
                     variant="outlined"
                     onChange={handleContentsChange}
                 />
             </div>
-
+            <Divider/>
             <div className={classes.display}>
                 <div className={classes.grow}/>
-                <Button variant="outlined" size="medium" color="default">
+                <Button variant="contained"
+                        size="medium"
+                        color="primary"
+                        startIcon={<Share/>}>
                     공유
                 </Button>
-                <Button
+                <WriteButton
                     className={classes.button}
-                    variant="contained" size="medium" color="primary" onClick={onCreate}>
+                    variant="contained"
+                    size="medium"
+                    color="primary"
+                    startIcon={<Save/>}
+                    onClick={onCreate}
+                >
                     저장
-                </Button>
+                </WriteButton>
             </div>
 
         </Paper>

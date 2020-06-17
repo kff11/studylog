@@ -12,6 +12,7 @@ import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles({
     root: {
+        display: 'flex',
         marginBottom: 12,
     },
     title: {
@@ -23,7 +24,7 @@ const useStyles = makeStyles({
     }
 });
 
-const DiaryItem = ({id, title, date, contents, key}) => {
+const DiaryItem = ({title, date}) => {
     const classes = useStyles();
     return (
         <Card className={classes.root} elevation={2}>

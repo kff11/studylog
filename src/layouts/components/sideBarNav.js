@@ -30,10 +30,10 @@ const useStyles = makeStyles(theme => ({
         marginRight: theme.spacing(1)
     },
     active: {
-        color: theme.palette.primary.main,
+        color: '#61380B',
         fontWeight: theme.typography.fontWeightBold,
         '& $icon': {
-            color: theme.palette.primary.main
+            color: '#61380B'
         }
     }
 }));

@@ -4,7 +4,7 @@ import axios from 'axios';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
-import {makeStyles} from '@material-ui/core/styles';
+import {makeStyles, withStyles} from '@material-ui/core/styles';
 
 import {loginIcon} from '../../../images';
 
@@ -23,6 +23,16 @@ const useStyles = makeStyles((theme) => ({
     },
 
 }));
+
+const LoginButton = withStyles({
+    root: {
+        backgroundColor: '#CFB095',
+        '&:hover': {
+            backgroundColor: '#c48f65'
+        },
+        bordercolor: '#FFF'
+    }
+})(Button);
 
 
 const LoginItem = () => {
@@ -94,12 +104,11 @@ const LoginItem = () => {
                         onChange={(e) => handleChangePw(e)}
                     />
                     <Box mt={1}>
-                        <Button
+                        <LoginButton
                             type="button"
                             fullWidth
                             variant="contained"
-                            color="primary"
-                            onClick={selectUserData}>로그인</Button>
+                            onClick={selectUserData}>로그인</LoginButton>
                     </Box>
                 </form>
             </div>

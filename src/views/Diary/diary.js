@@ -4,6 +4,7 @@ import {Grid, Paper, Typography} from "@material-ui/core";
 
 import {makeStyles} from "@material-ui/core/styles";
 import axios from "axios";
+import Card from "@material-ui/core/Card";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -26,7 +27,7 @@ const Diary = () => {
     const [diaries, setDiaries] = useState([]);
     const [pages, setPages] = useState([]);
     const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(5);
+    const [limit, setLimit] = useState(6);
 
 
     useEffect(() => {
@@ -92,8 +93,8 @@ const Diary = () => {
 
     return (
         <div className={classes.root}>
-            <Grid container spacing={3} justify="center">
-                <Grid item md={6}>
+            <Grid container spacing={4} justify="center">
+                <Grid item md={8}>
                     {/*  Write field */}
                     <WriteDiary
                         value={input}
@@ -103,7 +104,7 @@ const Diary = () => {
                         onCreate={handleCreate}
                     />
                 </Grid>
-                <Grid item md={3}>
+                <Grid item md={4}>
                     <Typography variant="overline" display="block" gutterBottom>
                         리스트
                     </Typography>
@@ -115,7 +116,6 @@ const Diary = () => {
                     />
                 </Grid>
             </Grid>
-
         </div>
     );
 }

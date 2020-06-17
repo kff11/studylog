@@ -52,7 +52,6 @@ module.exports = {
             }).then(result => {
                 callback(result)
             }).catch(err => {
-                console.log(err)
                 throw err;
             })
         },
@@ -69,7 +68,6 @@ module.exports = {
                     offset: (page - 1) * limit,
                 }).then(_result => {
                     result['rows'] = _result
-                    console.log(result['count']);
                     callback(result)
                 }).catch(err => {
                     throw err

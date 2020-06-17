@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {makeStyles} from '@material-ui/core/styles';
+import {makeStyles, withStyles} from '@material-ui/core/styles';
 import {Hidden, Button, Modal, Box, Typography, Link, Backdrop, Fade} from "@material-ui/core";
 
 import {loginPic} from '../../images';
@@ -51,6 +51,7 @@ const Copyright = () => {
         </Typography>
     );
 }
+
 
 const Login = ({logged}) => {
     const classes = useStyles();
