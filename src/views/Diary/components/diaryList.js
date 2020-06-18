@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
         paddingInlineStart: '15px',
     },
     thisPage: {
+        color: '#61380B',
         listStyle: 'none',
         marginRight: '15px',
         display: 'inline-block',
@@ -26,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '15px',
     },
     page: {
+        color: '#c48f65',
         listStyle: 'none',
         marginRight: '15px',
         display: 'inline-block',
@@ -65,11 +67,11 @@ const DiaryList = ({diaries, page, pages, handleChangePage, handleOpen}) => {
                             return (
                                 pageNum === page ?
                                     <li key={key} className={classes.thisPage}>
-                                        <b> {pageNum} </b>
+                                        <b>{pageNum}</b>
                                     </li>
                                     :
                                     <li key={key} className={classes.page} onClick={() => handleChangePage(pageNum)}>
-                                        {pageNum}
+                                        <b>{pageNum}</b>
                                     </li>
                             )
                         })

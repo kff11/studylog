@@ -75,6 +75,9 @@ const WriteDiary = ({handleTitleChange, handleContentsChange, onCreate, title, c
                     id="title"
                     label="Title"
                     value={title}
+                    inputProps={{
+                        maxLength: 30,
+                    }}
                     autoFocus
                     fullWidth
                     onChange={handleTitleChange}

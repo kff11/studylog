@@ -68,14 +68,17 @@ module.exports = {
             })
         },
         del: (req, res) => {
-            model.diary.delDiary(req, data => {
-                // HTTP 상태 코드 중 성공 상태 코드! (200)
-                return res.sendStatus(200)
+            model.diary.delDiary(req, result => {
+                if (result === 1) {
+                    return res.send(true);
+                } else {
+                    return res.send(false);
+                }
             })
         },
         modify: (req, res) => {
             model.diary.modifyDiary(req, result => {
-                if(result[0] === 1){
+                if (result[0] === 1) {
                     return res.send(true);
                 } else {
                     return res.send(false);

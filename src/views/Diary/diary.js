@@ -83,7 +83,7 @@ const Diary = () => {
     }
 
     const delDiary = async () => {
-        const res = await axios('/diray/del', {
+        const res = await axios('/diary/del', {
             method: 'POST',
             data: {
                 id: readId,
@@ -181,6 +181,7 @@ const Diary = () => {
                             title={readTitle}
                             content={readContent}
                             updateDiary={updateDiary}
+                            handleDelete={delDiary}
                             handleReadTitleChange={handleReadTitleChange}
                             handleReadContentChange={handleReadContentChange}
                         />

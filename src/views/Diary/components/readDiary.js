@@ -52,7 +52,7 @@ const DiaryTextField = withStyles({
 
 })(TextField);
 
-const WriteButton = withStyles({
+const ModifyButton = withStyles({
     root: {
         backgroundColor: '#CFB095',
         '&:hover': {
@@ -61,9 +61,18 @@ const WriteButton = withStyles({
     }
 })(Button);
 
+const SaveButton = withStyles({
+    root: {
+        backgroundColor: '#c48f65',
+        '&:hover': {
+
+            backgroundColor: '#996017'
+        },
+    }
+})(Button);
 
 const ReadDiary = props => {
-    const {id, title, content, updateDiary, handleReadTitleChange, handleReadContentChange} = props;
+    const {id, title, content, updateDiary, handleDelete, handleReadTitleChange, handleReadContentChange} = props;
     const classes = useStyles();
 
     const [disable, setDisable] = useState(true);
@@ -115,10 +124,11 @@ const ReadDiary = props => {
                     <Button variant="contained"
                             size="medium"
                             color="secondary"
+                            onClick={handleDelete}
                             startIcon={<Delete/>}>
                         삭제
                     </Button>
-                    <WriteButton
+                    <ModifyButton
                         className={classes.button}
                         variant="contained"
                         size="medium"
@@ -128,12 +138,12 @@ const ReadDiary = props => {
                         startIcon={<Create/>}
                     >
                         수정
-                    </WriteButton>
+                    </ModifyButton>
                 </div>
                 :
                 <div className={classes.display}>
                     <div className={classes.grow}/>
-                    <WriteButton
+                    <SaveButton
                         className={classes.button}
                         variant="contained"
                         size="medium"
@@ -143,7 +153,7 @@ const ReadDiary = props => {
                         startIcon={<Save/>}
                     >
                         완료
-                    </WriteButton>
+                    </SaveButton>
                 </div>
             }
         </Paper>
@@ -154,6 +164,7 @@ ReadDiary.propTypes = {
     title: PropTypes.string,
     content: PropTypes.string,
     updateDiary: PropTypes.func,
+    handleDelete: PropTypes.func,
     handleReadTitleChange: PropTypes.func,
     handleReadContentChange: PropTypes.func,
 }
