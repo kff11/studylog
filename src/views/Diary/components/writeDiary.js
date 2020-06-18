@@ -1,17 +1,16 @@
 import React, {useState} from 'react';
 import TextField from '@material-ui/core/TextField';
-import {Save, Share} from "@material-ui/icons";
+import {Save} from "@material-ui/icons";
 
 import Button from "@material-ui/core/Button";
 import {makeStyles, withStyles} from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-import {Card, Divider} from "@material-ui/core";
+import {Divider} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         padding: theme.spacing(3),
-        minHeight: 500,
-        minWidth: 300,
+
     },
     bottomMargin: {
         marginBottom: 30,
@@ -54,34 +53,18 @@ const DiaryTextField = withStyles({
 
 })(TextField);
 
-const ContentTextField = withStyles({
-    root: {
-        '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-                borderColor: '#61380B',
-            },
-            '&:hover fieldset': {
-                bordercolor: '#c48f65',
-            },
-            '&.Mui-focused fieldset': {
-                borderColor: '#c48f65',
-            },
-        }
-    }
-})(TextField);
-
 const WriteButton = withStyles({
     root: {
-        backgroundColor: '#CFB095',
+        backgroundColor: '#c48f65',
         '&:hover': {
-            backgroundColor: '#c48f65'
+
+            backgroundColor: '#996017'
         },
-        bordercolor: '#FFF'
     }
 })(Button);
 
 
-const WriteDiary = ({handleTitleChange, handleContentsChange, onCreate}) => {
+const WriteDiary = ({handleTitleChange, handleContentsChange, onCreate, title, content}) => {
     const classes = useStyles();
 
     return (
@@ -91,6 +74,7 @@ const WriteDiary = ({handleTitleChange, handleContentsChange, onCreate}) => {
                     className={classes.bottomMargin}
                     id="title"
                     label="Title"
+                    value={title}
                     autoFocus
                     fullWidth
                     onChange={handleTitleChange}
@@ -100,6 +84,7 @@ const WriteDiary = ({handleTitleChange, handleContentsChange, onCreate}) => {
                     id="content"
                     label="Diary Content"
                     multiline
+                    value={content}
                     rows={19}
                     fullWidth
                     variant="outlined"
@@ -109,12 +94,6 @@ const WriteDiary = ({handleTitleChange, handleContentsChange, onCreate}) => {
             <Divider/>
             <div className={classes.display}>
                 <div className={classes.grow}/>
-                <Button variant="contained"
-                        size="medium"
-                        color="primary"
-                        startIcon={<Share/>}>
-                    공유
-                </Button>
                 <WriteButton
                     className={classes.button}
                     variant="contained"

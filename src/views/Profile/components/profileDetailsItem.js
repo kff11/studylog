@@ -11,6 +11,33 @@ import {
 
 } from '@material-ui/core';
 import PropTypes from "prop-types";
+import {withStyles} from "@material-ui/core/styles";
+
+const ProfileTextField = withStyles({
+    root: {
+        '& label.Mui-focused': {
+            color: '#61380B',
+        },
+        '&:hover fieldset': {
+            bordercolor: '#c48f65',
+        },
+        '& .MuiInput-underline:after': {
+            borderBottomColor: '#c48f65'
+        },
+        '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+                borderColor: '#61380B',
+            },
+            '&:hover fieldset': {
+                bordercolor: '#c48f65',
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: '#c48f65',
+            },
+        },
+    },
+
+})(TextField);
 
 const ProfileDetailsItem = props => {
     const {name, email, phone, state,
@@ -71,7 +98,7 @@ const ProfileDetailsItem = props => {
                             md={6}
                             xs={12}
                         >
-                            <TextField
+                            <ProfileTextField
                                 fullWidth
                                 helperText="2글자 이상 10글자 이하의 한글"
                                 label="이름"
@@ -88,7 +115,7 @@ const ProfileDetailsItem = props => {
                             md={6}
                             xs={12}
                         >
-                            <TextField
+                            <ProfileTextField
                                 fullWidth
                                 label="이메일"
                                 margin="dense"
@@ -103,7 +130,7 @@ const ProfileDetailsItem = props => {
                             md={6}
                             xs={12}
                         >
-                            <TextField
+                            <ProfileTextField
                                 fullWidth
                                 helperText="하이픈(-) 없이 숫자 2~11자"
                                 label="전화번호"
@@ -120,7 +147,7 @@ const ProfileDetailsItem = props => {
                             md={6}
                             xs={12}
                         >
-                            <TextField
+                            <ProfileTextField
                                 fullWidth
                                 margin="dense"
                                 name="state"
@@ -139,7 +166,7 @@ const ProfileDetailsItem = props => {
                                         {option.value}
                                     </option>
                                 ))}
-                            </TextField>
+                            </ProfileTextField>
                         </Grid>
                     </Grid>
                 </CardContent>

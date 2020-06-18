@@ -56,23 +56,32 @@ module.exports = {
             const id = jwt.decode(clientToken, jwtKey.secret).id;
             const name = jwt.decode(clientToken, jwtKey.secret).name;
             const now_date = moment().format('YYYY-MM-DD HH:mm:ss');
-            model.diary.addData(req, id, name, now_date, data => {
+            model.diary.addDiary(req, id, name, now_date, data => {
                 return res.send(data);
             })
         },
         get: (req, res) => {
             const clientToken = req.cookies.user;
             const id = jwt.decode(clientToken, jwtKey.secret).id;
-            model.diary.getData(id, req.body.page, req.body.limit, data => {
+            model.diary.getDiary(id, req.body.page, req.body.limit, data => {
                 return res.send(data);
             })
         },
         del: (req, res) => {
-            model.diary.delData(req, data => {
+            model.diary.delDiary(req, data => {
                 // HTTP 상태 코드 중 성공 상태 코드! (200)
                 return res.sendStatus(200)
             })
         },
+        modify: (req, res) => {
+            model.diary.modifyDiary(req, result => {
+                if(result[0] === 1){
+                    return res.send(true);
+                } else {
+                    return res.send(false);
+                }
+            })
+        }
     },
 
     // 로그인, 회원가입, 프로필

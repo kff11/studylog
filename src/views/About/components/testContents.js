@@ -129,7 +129,7 @@ const TestContents = () => {
                                 renderTable()
                                 : <TableRow>
                                     <TableCell colSpan='3' align='center'>
-                                        <CircularProgress/>
+                                        <CircularProgress className={classes.progress}/>
                                     </TableCell>
                                 </TableRow>}
                         </TableBody>

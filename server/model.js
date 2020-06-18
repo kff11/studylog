@@ -42,7 +42,7 @@ module.exports = {
     },
     // 일기장
     diary: {
-        addData: (req, id, name, date, callback) => {
+        addDiary: (req, id, name, date, callback) => {
             Diary.create({
                 user_id: id,
                 user_name: name,
@@ -55,7 +55,7 @@ module.exports = {
                 throw err;
             })
         },
-        getData: (id, page, limit, callback) => {
+        getDiary: (id, page, limit, callback) => {
             let result = {};
             Diary.count({
                 where: {user_id: id}
@@ -76,7 +76,7 @@ module.exports = {
                 throw err
             })
         },
-        delData: (req, callback) => {
+        delDiary: (req, callback) => {
             Diary.destroy({
                 where: {id: req.body.id}
             }).then(result => {
@@ -85,6 +85,18 @@ module.exports = {
                 throw err
             })
         },
+        modifyDiary: (req, callback) => {
+            Diary.update({
+                title: req.body.title,
+                contents: req.body.contents,
+            }, {
+                where: {id: req.body.id}
+            }).then(result => {
+                callback(result)
+            }).catch(err => {
+                throw err;
+            })
+        }
     },
     // 로그인
     user: {

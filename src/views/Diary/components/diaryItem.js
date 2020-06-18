@@ -24,11 +24,11 @@ const useStyles = makeStyles({
     }
 });
 
-const DiaryItem = ({title, date}) => {
+const DiaryItem = ({title, date, handleOpen}) => {
     const classes = useStyles();
     return (
         <Card className={classes.root} elevation={2}>
-            <CardActionArea>
+            <CardActionArea onClick={handleOpen}>
                 <CardContent>
                     <Typography className={classes.title} variant="h6" component="h2">
                         {title}
