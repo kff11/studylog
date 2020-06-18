@@ -9,6 +9,8 @@ import {Redirect} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     modal: {
+        marginRight: 30,
+        marginLeft: 30,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -19,6 +21,8 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(5, 7, 7),
     },
     signUpModal: {
+        border: '3px solid',
+        borderColor: '#61380B',
         backgroundColor: theme.palette.background.paper,
         boxShadow: theme.shadows[2],
         padding: theme.spacing(3, 5, 5),
@@ -68,23 +72,20 @@ const Login = ({logged}) => {
 
     const renderSignUpModal = () => {
         return (
-            <div>
-                <Modal
-                    className={classes.modal}
-                    open={open}
-                    onClose={handleClose}
-                    closeAfterTransition
-                    BackdropComponent={Backdrop}
-                    BackdropProps={{
-                        timeout: 500,
-                    }}>
-                    <Fade in={open}>
-                        <div className={classes.signUpModal}>
-                            <SignUpModal handleClose={handleClose}/>
-                        </div>
-                    </Fade>
-                </Modal>
-            </div>
+            <Modal
+                className={classes.modal}
+                open={open}
+                onClose={handleClose}
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}>
+                <Fade in={open}>
+                    <div className={classes.signUpModal}>
+                        <SignUpModal handleClose={handleClose}/>
+                    </div>
+                </Fade>
+            </Modal>
         );
     }
 

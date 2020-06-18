@@ -30,10 +30,35 @@ const LoginButton = withStyles({
         '&:hover': {
             backgroundColor: '#c48f65'
         },
-        bordercolor: '#FFF'
     }
 })(Button);
 
+const LoginTextField = withStyles({
+    root: {
+        '& label.Mui-focused': {
+            color: '#61380B',
+        },
+        '&:hover fieldset': {
+            bordercolor: '#c48f65',
+        },
+        '& .MuiInput-underline:after': {
+            borderBottomColor: '#c48f65'
+        },
+        '& .MuiOutlinedInput-root': {
+            fontSize: 15,
+            '& fieldset': {
+                borderColor: '#61380B',
+            },
+            '&:hover fieldset': {
+                bordercolor: '#c48f65',
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: '#c48f65',
+            },
+        },
+
+    },
+})(TextField);
 
 const LoginItem = () => {
     const classes = useStyles();
@@ -82,23 +107,23 @@ const LoginItem = () => {
             <div className={classes.paper}>
                 <img src={loginIcon} width='200' alt=""/>
                 <form className={classes.form} noValidate>
-                    <TextField
+                    <LoginTextField
                         size="small"
                         variant="outlined"
                         margin="none"
                         required
                         fullWidth
-                        label="아이디"
+                        label="Id"
                         autoFocus
                         onChange={(e) => handleChangeId(e)}
                     />
-                    <TextField
+                    <LoginTextField
                         size="small"
                         variant="outlined"
                         margin="dense"
                         required
                         fullWidth
-                        label="비밀번호"
+                        label="Password"
                         type="password"
                         autoComplete="current-password"
                         onChange={(e) => handleChangePw(e)}
@@ -107,6 +132,7 @@ const LoginItem = () => {
                         <LoginButton
                             type="button"
                             fullWidth
+                            color="primary"
                             variant="contained"
                             onClick={selectUserData}>로그인</LoginButton>
                     </Box>
