@@ -21,7 +21,7 @@ const theme = createMuiTheme({
 
 const style = {
     fontcolor: '#000',
-    fontFamily: 'KopubWorldDotumBold'
+    fontFamily: 'KopubWorldDotumLight'
 }
 
 ReactDOM.render(
@@ -36,7 +36,7 @@ ReactDOM.render(
             </MuiThemeProvider>
         </CookiesProvider>
     </React.StrictMode>,
-    document.getElementById('root')
+    document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change

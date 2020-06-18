@@ -15,6 +15,7 @@ const App = () => {
         if (cookies.user && cookies.user !== 'undefined') {
             setLogged(true);
         }
+        document.body.style.backgroundColor = "#FBF5EF"
     }, [cookies])
 
 

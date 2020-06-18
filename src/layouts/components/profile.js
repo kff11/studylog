@@ -17,8 +17,9 @@ const useStyles = makeStyles(theme => ({
         height: 60
     },
     name: {
-        fontWeight: '550',
-        marginTop: theme.spacing(1)
+        fontWeight: theme.typography.fontWeightBold,
+        color: '#61380B',
+        marginTop: theme.spacing(1),
     }
 }));
 

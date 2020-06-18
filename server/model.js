@@ -42,7 +42,7 @@ module.exports = {
     },
     // 일기장
     diary: {
-        addData: (req, id, name, date, callback) => {
+        addDiary: (req, id, name, date, callback) => {
             Diary.create({
                 user_id: id,
                 user_name: name,
@@ -52,20 +52,31 @@ module.exports = {
             }).then(result => {
                 callback(result)
             }).catch(err => {
-                console.log(err)
                 throw err;
             })
         },
-        getData: (id, callback) => {
-            Diary.findAll({
-                where: {[Op.and]: [{user_id: id}]}
-            }).then(result => {
-                callback(result)
+        getDiary: (id, page, limit, callback) => {
+            let result = {};
+            Diary.count({
+                where: {user_id: id}
+            }).then((countResult) => {
+                result['count'] = countResult;
+
+                Diary.findAll({
+                    where: {user_id: id},
+                    limit: limit,
+                    offset: (page - 1) * limit,
+                }).then(_result => {
+                    result['rows'] = _result
+                    callback(result)
+                }).catch(err => {
+                    throw err
+                })
             }).catch(err => {
                 throw err
             })
         },
-        delData: (req, callback) => {
+        delDiary: (req, callback) => {
             Diary.destroy({
                 where: {id: req.body.id}
             }).then(result => {
@@ -74,8 +85,20 @@ module.exports = {
                 throw err
             })
         },
+        modifyDiary: (req, callback) => {
+            Diary.update({
+                title: req.body.title,
+                contents: req.body.contents,
+            }, {
+                where: {id: req.body.id}
+            }).then(result => {
+                callback(result)
+            }).catch(err => {
+                throw err;
+            })
+        }
     },
-
+    // 로그인
     user: {
         login: (body, hash, callback) => {
             User.findAll({
@@ -110,7 +133,31 @@ module.exports = {
                 }
             })
         },
+        getUser: (id, callback) => {
+            User.findAll({
+                where: {id: id}
+            }).then(result => {
+                callback(result);
+            }).catch(err => {
+                throw err;
+            })
+        },
+        updateUser: (body, id, callback) => {
+            User.update({
+                name: body.name,
+                email: body.email,
+                phone: body.phone,
+                state: body.state,
+            }, {where: {id: id}})
+                .then(result => {
+                    result ? callback(true) : callback(false)
+                })
+                .catch(err => {
+                    throw err;
+                })
+        }
     },
+    // 토큰 인증
     token: {
         addRefreshToken: (body, refreshToken) => {
             User.update({

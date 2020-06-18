@@ -8,7 +8,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import '../App.css';
+import '../../../App.css';
 import {makeStyles, withStyles} from "@material-ui/core/styles";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
@@ -129,7 +129,7 @@ const TestContents = () => {
                                 renderTable()
                                 : <TableRow>
                                     <TableCell colSpan='3' align='center'>
-                                        <CircularProgress/>
+                                        <CircularProgress className={classes.progress}/>
                                     </TableCell>
                                 </TableRow>}
                         </TableBody>

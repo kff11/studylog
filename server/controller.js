@@ -56,25 +56,38 @@ module.exports = {
             const id = jwt.decode(clientToken, jwtKey.secret).id;
             const name = jwt.decode(clientToken, jwtKey.secret).name;
             const now_date = moment().format('YYYY-MM-DD HH:mm:ss');
-            model.diary.addData(req, id, name, now_date, data => {
+            model.diary.addDiary(req, id, name, now_date, data => {
                 return res.send(data);
             })
         },
         get: (req, res) => {
             const clientToken = req.cookies.user;
             const id = jwt.decode(clientToken, jwtKey.secret).id;
-            model.diary.getData(id, data => {
+            model.diary.getDiary(id, req.body.page, req.body.limit, data => {
                 return res.send(data);
             })
         },
         del: (req, res) => {
-            model.diary.delData(req, data => {
-                // HTTP 상태 코드 중 성공 상태 코드! (200)
-                return res.sendStatus(200)
+            model.diary.delDiary(req, result => {
+                if (result === 1) {
+                    return res.send(true);
+                } else {
+                    return res.send(false);
+                }
             })
         },
+        modify: (req, res) => {
+            model.diary.modifyDiary(req, result => {
+                if (result[0] === 1) {
+                    return res.send(true);
+                } else {
+                    return res.send(false);
+                }
+            })
+        }
     },
 
+    // 로그인, 회원가입, 프로필
     user: {
         login: (req, res) => {
             const body = req.body;
@@ -107,8 +120,25 @@ module.exports = {
             model.user.addUser(body, hash, now_date, result => {
                 res.send(result);
             })
+        },
+        getProfile: (req, res) => {
+            const clientToken = req.cookies.user;
+            const id = jwt.decode(clientToken, jwtKey.secret).id;
+            model.user.getUser(id, result => {
+                res.send(result);
+            })
+        },
+        updateProfile: (req, res) => {
+            const clientToken = req.cookies.user;
+            const id = jwt.decode(clientToken, jwtKey.secret).id;
+            model.user.updateUser(req.body, id, result => {
+                res.send(result);
+            })
         }
+
     },
+
+    // 토큰 인증
     auth: {
         RefreshToken: (req, res, callback) => {
             const refreshToken = req.cookies.userRefreshToken;
@@ -136,5 +166,4 @@ module.exports = {
             });
         },
     },
-
 }

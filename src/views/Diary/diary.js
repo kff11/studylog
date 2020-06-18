@@ -1,100 +1,226 @@
 import React, {useEffect, useState} from "react";
-import {WriteDiary, DiaryList} from "./components/index";
-
-import Typography from '@material-ui/core/Typography';
-import Grid from "@material-ui/core/Grid";
-import Paper from '@material-ui/core/Paper';
-
+import {WriteDiary, ReadDiary, DiaryList} from "./components/index";
+import {Backdrop, Fade, Grid, Modal, Paper, Typography} from "@material-ui/core";
 
 import {makeStyles} from "@material-ui/core/styles";
 import axios from "axios";
 
-//업데트트 된 건가?
-
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     root: {
+        padding: theme.spacing(1),
+    },
+    modal: {
+        marginRight: 30,
+        marginLeft: 30,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    grow: {
         flexGrow: 1,
-        marginTop: 12,
     },
     paper: {
-        marginTop: 0,
         padding: 20,
     },
-});
+    diaryModal: {
+        maxWidth: 500,
+        border: '3px solid',
+        borderColor: '#61380B',
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[2],
+    },
+}));
 
 const Diary = () => {
 
     const classes = useStyles();
 
-    const [input, setInput] = useState('hello');
-    const [contentInput, setContentInput] = useState('content1');
+    const [open, setOpen] = useState(false);
+    const [titleInput, setTitleInput] = useState('');
+    const [contentInput, setContentInput] = useState('');
     const [diaries, setDiaries] = useState([]);
+    const [pages, setPages] = useState([]);
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(6);
+    const [readId, setReadId] = useState('');
+    const [readTitle, setReadTitle] = useState('');
+    const [readContent, setReadContent] = useState('');
+
+
+    useEffect(() => {
+        getDiary(1);
+    }, [])
 
     // 일기장 리스트 가져오기 (아이디 마다!)
-    const getData = async () => {
-        const res = await axios.get('/diary/get');
-        setDiaries(res.data);
+    const getDiary = async (pageNum) => {
+        const res = await axios('/diary/get', {
+            method: 'POST',
+            data: {
+                page: pageNum,
+                limit: limit,
+            }
+        });
+        setDiaries(res.data['rows']);
+        getAllPage(res.data['count']);
     }
 
     // 일기장 글 작성
-    const addData = async (e) => {
+    const addDiary = async (e) => {
         e.preventDefault();
-        setInput('');
         const res = await axios('/diary/add', {
             method: 'POST',
             data: {
-                title: input,
+                title: titleInput,
                 contents: contentInput,
             },
         })
         if (res.data) {
-            getData();
+            alert("일기가 작성되었습니다!");
+            setTitleInput('');
+            setContentInput('');
+            getDiary(page);
         }
     }
 
+    const delDiary = async () => {
+        const res = await axios('/diary/del', {
+            method: 'POST',
+            data: {
+                id: readId,
+            },
+        })
+        if (res.data) {
+            alert('삭제되었습니다!')
+            getDiary(page);
+            handleClose();
+        }
+    }
+
+    const updateDiary = async () => {
+        const res = await axios('/diary/modify', {
+            method: 'POST',
+            data: {
+                id: readId,
+                title: readTitle,
+                contents: readContent,
+            },
+        })
+        if (res.data) {
+            alert('수정되었습니다!')
+            getDiary(page);
+        }
+    }
+
+    const getAllPage = (count) => {
+        let pageArray = [];
+        for (let i = 1; i <= Math.ceil(count / limit); i++) {
+            pageArray.push(i);
+        }
+        setPages(pageArray);
+    }
+
+    const handleOpen = (id, title, content) => {
+        setReadId(id);
+        setReadTitle(title);
+        setReadContent(content);
+        setOpen(true);
+    }
+    const handleClose = () => {
+        setOpen(false);
+    }
+
     const handleTitleChange = (e) => {
-        setInput(e.target.value);
+        setTitleInput(e.target.value);
     };
+
     const handleContentsChange = (e) => {
         setContentInput(e.target.value);
     };
 
-    const handleCreate = (e) => {
-        addData(e);
-        setInput('');
-        setContentInput('');
+    const handleReadTitleChange = (e) => {
+        setReadTitle(e.target.value);
     }
 
-    useEffect(() => {
-        getData();
-    }, [])
+    const handleReadContentChange = (e) => {
+        setReadContent(e.target.value);
+    }
+
+    const handleChangePage = (pageNum) => {
+        setPage(pageNum);
+        getDiary(pageNum);
+    }
+
+    const handleCreate = (e) => {
+        if (titleInput.trim() === '') {
+            alert('제목을 입력해 주세요!')
+        } else if (contentInput.trim() === '') {
+            alert('내용을 입력해 주세요!')
+        } else {
+            addDiary(e);
+            setTitleInput('');
+            setContentInput('');
+        }
+    }
+
+    const renderDiary = () => {
+        return (
+            <Modal
+                closeAfterTransition
+                className={classes.modal}
+                open={open}
+                onClose={handleClose}
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+            >
+                <Fade in={open}>
+                    <div className={classes.diaryModal}>
+                        <ReadDiary
+                            id={readId}
+                            title={readTitle}
+                            content={readContent}
+                            updateDiary={updateDiary}
+                            handleDelete={delDiary}
+                            handleReadTitleChange={handleReadTitleChange}
+                            handleReadContentChange={handleReadContentChange}
+                        />
+                    </div>
+                </Fade>
+
+            </Modal>
+
+        );
+    }
+
 
     return (
-        <div>
-            <Grid container className={classes.root} spacing={3} justify="center">
-                <Grid item xs={6}>
+        <div className={classes.root}>
+            <Grid container spacing={4} justify="center">
+                <Grid item md={8}>
                     {/*  Write field */}
-                    <Paper className={classes.paper}>
-                        <WriteDiary
-                            value={input}
-                            contentValue={contentInput}
-                            handleTitleChange={handleTitleChange}
-                            handleContentsChange={handleContentsChange}
-                            onCreate={handleCreate}
-                        />
-                    </Paper>
-
+                    <WriteDiary
+                        title={titleInput}
+                        content={contentInput}
+                        handleTitleChange={handleTitleChange}
+                        handleContentsChange={handleContentsChange}
+                        onCreate={handleCreate}
+                    />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item md={4}>
                     <Typography variant="overline" display="block" gutterBottom>
                         리스트
                     </Typography>
                     <DiaryList
+                        page={page}
+                        pages={pages}
                         diaries={diaries}
+                        handleOpen={handleOpen}
+                        handleChangePage={handleChangePage}
                     />
                 </Grid>
             </Grid>
-
+            {renderDiary()}
         </div>
     );
 }

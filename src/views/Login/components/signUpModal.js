@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import {makeStyles} from '@material-ui/core/styles';
+import {makeStyles, withStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from "@material-ui/core/Link";
 
@@ -27,7 +27,6 @@ const Copyright = () => {
 }
 const useStyles = makeStyles((theme) => ({
     paper: {
-        marginTop: theme.spacing(8),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -40,10 +39,44 @@ const useStyles = makeStyles((theme) => ({
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing(3),
     },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-    },
 }));
+
+const SignUpTextField = withStyles({
+    root: {
+        '& label.Mui-focused': {
+            color: '#61380B',
+        },
+        '&:hover fieldset': {
+            bordercolor: '#c48f65',
+        },
+        '& .MuiInput-underline:after': {
+            borderBottomColor: '#c48f65'
+        },
+        '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+                borderColor: '#61380B',
+            },
+            '&:hover fieldset': {
+                bordercolor: '#c48f65',
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: '#c48f65',
+            },
+        },
+    },
+
+})(TextField);
+
+const SingUpButton = withStyles({
+    root: {
+        backgroundColor: '#CFB095',
+        '&:hover': {
+            backgroundColor: '#c48f65'
+        },
+        bordercolor: '#FFF'
+    }
+})(Button);
+
 
 const SignUpModal = ({handleClose}) => {
 
@@ -54,31 +87,26 @@ const SignUpModal = ({handleClose}) => {
     const [password_crt, setPassword_crt] = React.useState("");
     const [name, setName] = React.useState("");
 
-    const changeID = () => {
-        const id_v = document.getElementById('signId').value;
-        console.log(id_v)
-        setID(id_v);
+    const changeID = (e) => {
+        setID(e.target.value);
     }
 
-    const changePW = () => {
-        const pw_v = document.getElementById('signPassword').value;
-        setPassword(pw_v);
+    const changePW = (e) => {
+        setPassword(e.target.value);
     }
 
-    const changePW_C = () => {
-        const pwc_v = document.getElementById('signPassword_correct').value;
-        setPassword_crt(pwc_v);
+    const changePW_C = (e) => {
+        setPassword_crt(e.target.value);
     }
 
-    const changeName = () => {
-        const name_v = document.getElementById('name').value;
-        setName(name_v);
+    const changeName = (e) => {
+        setName(e.target.value);
     }
 
     const pushUserData = async () => {
         // 정규표현식!
         const id_check = /^[a-z]+[a-z0-9]{5,14}$/g; // 아이디 *영소문자 시작 6~15자
-        const pw_check = /^[A-za-z0-9]{5,19}$/g; // 비밀번호 *영문 시작 6~20자
+        const pw_check = /^[A-za-z0-9]{5,19}$/g; // 영문, 숫자 6~20자
         const name_check = /^[가-힣]{2,10}$/; // 이름 *한글 2~10자
 
         // 아이디 체크
@@ -131,9 +159,10 @@ const SignUpModal = ({handleClose}) => {
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <TextField
+                            <SignUpTextField
                                 variant="outlined"
                                 required
+                                helperText='영문(소문자)로 시작하는 6~15자'
                                 fullWidth
                                 id="signId"
                                 label="아이디"
@@ -142,9 +171,10 @@ const SignUpModal = ({handleClose}) => {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField
+                            <SignUpTextField
                                 variant="outlined"
                                 required
+                                helperText='영문, 숫자 6~20자'
                                 fullWidth
                                 label="비밀번호"
                                 type="password"
@@ -154,7 +184,7 @@ const SignUpModal = ({handleClose}) => {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField
+                            <SignUpTextField
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -166,8 +196,9 @@ const SignUpModal = ({handleClose}) => {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField
+                            <SignUpTextField
                                 autoComplete="name"
+                                helperText='한글로 시작하는 2~10자'
                                 name="name"
                                 variant="outlined"
                                 required
@@ -179,14 +210,14 @@ const SignUpModal = ({handleClose}) => {
                         </Grid>
                     </Grid>
                     <br/>
-                    <Button
+                    <SingUpButton
                         fullWidth
                         variant="contained"
                         color="primary"
                         onClick={pushUserData}
                     >
                         회원가입
-                    </Button>
+                    </SingUpButton>
                 </form>
             </div>
             <Box mt={5}>
