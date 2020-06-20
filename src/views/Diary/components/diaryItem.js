@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -11,29 +11,27 @@ import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles({
-    root : {
-        marginBottom : 12,
+    root: {
+        display: 'flex',
+        marginBottom: 12,
     },
-    title : {
-        fontSize : 16,
+    title: {
+        fontSize: 16,
     },
-    date : {
-        fontSize : 12,
-        textAlign:"right",
+    date: {
+        fontSize: 12,
+        textAlign: "right",
     }
 });
 
-const DiaryItem = ({id, title, date, contents, key}) => {
+const DiaryItem = ({title, date, handleOpen}) => {
     const classes = useStyles();
-    return(
-        <Card className={classes.root}>
-            <CardActionArea>
+    return (
+        <Card className={classes.root} elevation={2}>
+            <CardActionArea onClick={handleOpen}>
                 <CardContent>
-                    <Typography className={classes.title} variant="h6" component="h2" >
+                    <Typography className={classes.title} variant="h6" component="h2">
                         {title}
-                    </Typography>
-                    <Typography variant="h6" component="h2" >
-                        {contents}
                     </Typography>
                     <Typography className={classes.date} variant="body2" color="textSecondary" component="p">
                         {date}

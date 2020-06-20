@@ -36,7 +36,7 @@ const ProfileAccountItem = props => {
     }
 
     return (
-        <Card>
+        <Card elevation={2}>
             <CardContent>
                 <div className={classes.details}>
                     <div>

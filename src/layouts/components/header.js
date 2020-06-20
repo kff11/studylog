@@ -7,10 +7,11 @@ import {Link} from "react-router-dom";
 import {useCookies} from "react-cookie";
 import PropTypes from "prop-types";
 import Badge from "@material-ui/core/Badge";
+import '../../index.css';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        boxShadow: 'none'
+        backgroundColor: '#c48f65'
     },
     grow: {
         flexGrow: 1,
@@ -21,16 +22,20 @@ const useStyles = makeStyles((theme) => ({
             display: 'flex',
         },
     },
-    signOutButton: {
+    icon: {
+        color: '#61380B',
         marginLeft: theme.spacing(1)
     },
     link: {
-        color: '#FFF',
+        color: '#61380B',
         textDecoration: 'none',
     },
     iconlink: {
         color: 'inherit',
         textDecoration: 'none',
+    },
+    title: {
+        fontFamily: 'aSpace'
     },
 }));
 
@@ -56,8 +61,8 @@ const Head = props => {
             <AppBar className={classes.root}>
                 <Toolbar>
                     <Link className={classes.link} to='/'>
-                        <Typography variant="h6" noWrap>
-                            스터디로그
+                        <Typography className={classes.title} variant="h5" noWrap>
+                            StudyLog
                         </Typography>
                     </Link>
                     <div className={classes.grow}/>
@@ -68,11 +73,11 @@ const Head = props => {
                                 color="primary"
                                 variant="dot"
                             >
-                                <Notifications/>
+                                <Notifications className={classes.icon}/>
                             </Badge>
                         </IconButton>
                         <IconButton
-                            className={classes.signOutButton}
+                            className={classes.icon}
                             color="inherit"
                             onClick={handleLogout}
                         >
@@ -84,7 +89,7 @@ const Head = props => {
                             color="inherit"
                             onClick={onSidebarOpen}
                         >
-                            <MenuIcon/>
+                            <MenuIcon className={classes.icon}/>
                         </IconButton>
                     </Hidden>
                 </Toolbar>

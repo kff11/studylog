@@ -21,7 +21,7 @@ const theme = createMuiTheme({
 
 const style = {
     fontcolor: '#000',
-    fontFamily: 'KopubWorldDotumBold'
+    fontFamily: 'KopubWorldDotumLight'
 }
 
 ReactDOM.render(

@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import {makeStyles} from '@material-ui/core/styles';
+import {makeStyles, withStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from "@material-ui/core/Link";
 
@@ -40,6 +40,43 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(3),
     },
 }));
+
+const SignUpTextField = withStyles({
+    root: {
+        '& label.Mui-focused': {
+            color: '#61380B',
+        },
+        '&:hover fieldset': {
+            bordercolor: '#c48f65',
+        },
+        '& .MuiInput-underline:after': {
+            borderBottomColor: '#c48f65'
+        },
+        '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+                borderColor: '#61380B',
+            },
+            '&:hover fieldset': {
+                bordercolor: '#c48f65',
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: '#c48f65',
+            },
+        },
+    },
+
+})(TextField);
+
+const SingUpButton = withStyles({
+    root: {
+        backgroundColor: '#CFB095',
+        '&:hover': {
+            backgroundColor: '#c48f65'
+        },
+        bordercolor: '#FFF'
+    }
+})(Button);
+
 
 const SignUpModal = ({handleClose}) => {
 
@@ -122,7 +159,7 @@ const SignUpModal = ({handleClose}) => {
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <TextField
+                            <SignUpTextField
                                 variant="outlined"
                                 required
                                 helperText='영문(소문자)로 시작하는 6~15자'
@@ -134,7 +171,7 @@ const SignUpModal = ({handleClose}) => {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField
+                            <SignUpTextField
                                 variant="outlined"
                                 required
                                 helperText='영문, 숫자 6~20자'
@@ -147,7 +184,7 @@ const SignUpModal = ({handleClose}) => {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField
+                            <SignUpTextField
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -159,7 +196,7 @@ const SignUpModal = ({handleClose}) => {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField
+                            <SignUpTextField
                                 autoComplete="name"
                                 helperText='한글로 시작하는 2~10자'
                                 name="name"
@@ -173,14 +210,14 @@ const SignUpModal = ({handleClose}) => {
                         </Grid>
                     </Grid>
                     <br/>
-                    <Button
+                    <SingUpButton
                         fullWidth
                         variant="contained"
                         color="primary"
                         onClick={pushUserData}
                     >
                         회원가입
-                    </Button>
+                    </SingUpButton>
                 </form>
             </div>
             <Box mt={5}>

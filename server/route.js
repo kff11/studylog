@@ -10,9 +10,10 @@ router.post('/post/add', controller.post.add);
 router.post('/post/del', controller.post.del);
 
 // 일기장
-router.get('/diary/get', verifyToken, controller.diary.get);
+router.post('/diary/get', verifyToken, controller.diary.get);
 router.post('/diary/add', verifyToken, controller.diary.add);
 router.post('/diary/del', verifyToken, controller.diary.del);
+router.post('/diary/modify', verifyToken, controller.diary.modify)
 
 // 로그인, 회원가입, 프로필
 router.post('/user/add', controller.user.addUser);

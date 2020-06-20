@@ -4,7 +4,7 @@ import axios from 'axios';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
-import {makeStyles} from '@material-ui/core/styles';
+import {makeStyles, withStyles} from '@material-ui/core/styles';
 
 import {loginIcon} from '../../../images';
 
@@ -24,6 +24,41 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
+const LoginButton = withStyles({
+    root: {
+        backgroundColor: '#CFB095',
+        '&:hover': {
+            backgroundColor: '#c48f65'
+        },
+    }
+})(Button);
+
+const LoginTextField = withStyles({
+    root: {
+        '& label.Mui-focused': {
+            color: '#61380B',
+        },
+        '&:hover fieldset': {
+            bordercolor: '#c48f65',
+        },
+        '& .MuiInput-underline:after': {
+            borderBottomColor: '#c48f65'
+        },
+        '& .MuiOutlinedInput-root': {
+            fontSize: 15,
+            '& fieldset': {
+                borderColor: '#61380B',
+            },
+            '&:hover fieldset': {
+                bordercolor: '#c48f65',
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: '#c48f65',
+            },
+        },
+
+    },
+})(TextField);
 
 const LoginItem = () => {
     const classes = useStyles();
@@ -72,34 +107,34 @@ const LoginItem = () => {
             <div className={classes.paper}>
                 <img src={loginIcon} width='200' alt=""/>
                 <form className={classes.form} noValidate>
-                    <TextField
+                    <LoginTextField
                         size="small"
                         variant="outlined"
                         margin="none"
                         required
                         fullWidth
-                        label="아이디"
+                        label="Id"
                         autoFocus
                         onChange={(e) => handleChangeId(e)}
                     />
-                    <TextField
+                    <LoginTextField
                         size="small"
                         variant="outlined"
                         margin="dense"
                         required
                         fullWidth
-                        label="비밀번호"
+                        label="Password"
                         type="password"
                         autoComplete="current-password"
                         onChange={(e) => handleChangePw(e)}
                     />
                     <Box mt={1}>
-                        <Button
+                        <LoginButton
                             type="button"
                             fullWidth
-                            variant="contained"
                             color="primary"
-                            onClick={selectUserData}>로그인</Button>
+                            variant="contained"
+                            onClick={selectUserData}>로그인</LoginButton>
                     </Box>
                 </form>
             </div>
