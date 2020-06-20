@@ -14,7 +14,7 @@ const salt = require(path.join(__dirname, 'config', 'db.json')).salt;
 const clientTokenSign = (result) => {
     return (
         jwt.sign({
-                id: result[0].id,
+                user_id: result[0].user_id,
                 name: result[0].name,
                 mento: result[0].mento,
             },
@@ -53,18 +53,18 @@ module.exports = {
     diary: {
         add: (req, res) => {
             const clientToken = req.cookies.user;
-            const id = jwt.decode(clientToken, jwtKey.secret).id;
+            const user_id = jwt.decode(clientToken, jwtKey.secret).user_id;
             const name = jwt.decode(clientToken, jwtKey.secret).name;
             const now_date = moment().format('YYYY-MM-DD HH:mm:ss');
-            model.diary.addDiary(req, id, name, now_date, data => {
+            model.diary.addDiary(req, user_id, name, now_date, data => {
                 return res.send(data);
             })
         },
         get: (req, res) => {
             const clientToken = req.cookies.user;
-            const id = jwt.decode(clientToken, jwtKey.secret).id;
-            model.diary.getDiary(id, req.body.page, req.body.limit, data => {
-                return res.send(data);
+            const user_id = jwt.decode(clientToken, jwtKey.secret).user_id;
+            model.diary.getDiary(user_id, req.body.page, req.body.limit, result => {
+                return res.send(result);
             })
         },
         del: (req, res) => {
@@ -96,11 +96,20 @@ module.exports = {
         }
     },
 
+    // 게시판
+    board: {
+        getBoard: (req, res) => {
+            model.board.getBoard(req.body.page, req.body.limit, result => {
+                return res.send(result);
+            })
+        }
+    },
+
     // 로그인, 회원가입, 프로필
     user: {
         login: (req, res) => {
             const body = req.body;
-            const hash = hashing.enc(body.id, body.password, salt);
+            const hash = hashing.enc(body.user_id, body.password, salt);
 
             model.user.login(body, hash, result => {
                 // 로그인에 성공하면
@@ -124,7 +133,7 @@ module.exports = {
         addUser: (req, res) => {
             const now_date = moment().format('YYYY-MM-DD HH:mm:ss');
             const body = req.body;
-            const hash = hashing.enc(body.id, body.password, salt);
+            const hash = hashing.enc(body.user_id, body.password, salt);
 
             model.user.addUser(body, hash, now_date, result => {
                 res.send(result);
@@ -132,15 +141,15 @@ module.exports = {
         },
         getProfile: (req, res) => {
             const clientToken = req.cookies.user;
-            const id = jwt.decode(clientToken, jwtKey.secret).id;
-            model.user.getUser(id, result => {
+            const user_id = jwt.decode(clientToken, jwtKey.secret).user_id;
+            model.user.getUser(user_id, result => {
                 res.send(result);
             })
         },
         updateProfile: (req, res) => {
             const clientToken = req.cookies.user;
-            const id = jwt.decode(clientToken, jwtKey.secret).id;
-            model.user.updateUser(req.body, id, result => {
+            const user_id = jwt.decode(clientToken, jwtKey.secret).user_id;
+            model.user.updateUser(req.body, user_id, result => {
                 res.send(result);
             })
         }
@@ -160,10 +169,10 @@ module.exports = {
                 } else {
                     // 만료된 AccessToken의 정보를 가져옴
                     let clientToken = req.cookies.user;
-                    const id = jwt.decode(clientToken, jwtKey.secret).id;
+                    const user_id = jwt.decode(clientToken, jwtKey.secret).user_id;
 
                     // 데이터 베이스에 저장된 RefreshToken과 비교
-                    model.token.authRefreshToken(id, refreshToken, result => {
+                    model.token.authRefreshToken(user_id, refreshToken, result => {
                         if (result) {
                             // RefreshToken이 확인되면 새로운 AccessToken을 발급
                             clientToken = clientTokenSign(result);

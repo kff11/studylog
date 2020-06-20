@@ -127,7 +127,7 @@ const SignUpModal = ({handleClose}) => {
         }
 
         const data = {
-            id: id,
+            user_id: id,
             password: password,
             name: name,
         };

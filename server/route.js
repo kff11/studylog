@@ -16,6 +16,13 @@ router.post('/diary/del', verifyToken, controller.diary.del);
 router.post('/diary/modify', verifyToken, controller.diary.modify)
 router.post('/diary/share', verifyToken, controller.diary.share)
 
+// 게시판
+router.post('/board/get', verifyToken, controller.board.getBoard);
+/*router.post('/board/comment/get', verifyToken, controller.board.getComments);
+router.post('/board/comment/add', verifyToken, controller.board.addComments);
+router.post('/board/comment/del', verifyToken, controller.board.delComments);
+router.post('/board/comment/modify', verifyToken, controller.board.modifyComments);*/
+
 // 로그인, 회원가입, 프로필
 router.post('/user/add', controller.user.addUser);
 router.post('/user/login', controller.user.login);

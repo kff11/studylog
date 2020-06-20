@@ -60,13 +60,14 @@ module.exports = {
             let result = {};
             Diary.count({
                 where: {user_id: id}
-            }).then((countResult) => {
+            }).then(countResult => {
                 result['count'] = countResult;
 
                 Diary.findAll({
                     where: {user_id: id},
                     limit: limit,
                     offset: (page - 1) * limit,
+                    order: sequelize.literal('user_id DESC')
                 }).then(_result => {
                     result['rows'] = _result
                     callback(result)
@@ -110,11 +111,34 @@ module.exports = {
             })
         }
     },
+    board: {
+        getBoard: (page, limit, callback) => {
+            let result = {};
+            Diary.count({
+                where: {isBoard: true}
+            }).then((countResult) => {
+                result['count'] = countResult;
+
+                Diary.findAll({
+                    where: {isBoard: true},
+                    limit: limit,
+                    offset: (page - 1) * limit,
+                }).then(_result => {
+                    result['rows'] = _result
+                    callback(result)
+                }).catch(err => {
+                    throw err
+                })
+            }).catch(err => {
+                throw err
+            })
+        },
+    },
     // 로그인
     user: {
         login: (body, hash, callback) => {
             User.findAll({
-                where: {[Op.and]: [{id: body.id, password: hash}]}
+                where: {[Op.and]: [{user_id: body.user_id, password: hash}]}
             }).then(result => {
                 if (result[0]) {
                     callback(result);
@@ -128,26 +152,26 @@ module.exports = {
         },
         addUser: (body, hash_pw, now, callback) => {
             User.findAll({
-                where: {id: body.id},
+                where: {user_id: body.user_id},
             }).then(result => {
                 if (result[0]) {
                     callback(false);
                 } else {
                     User.create({
-                        id: body.id,
+                        user_id: body.user_id,
                         password: hash_pw,
                         signUp_date: now,
                         name: body.name,
                         admin: false,
                         mento: false,
                         refreshToken: "none",
-                    }).then(() => callback(true));
+                    }).then(callback(true));
                 }
             })
         },
         getUser: (id, callback) => {
             User.findAll({
-                where: {id: id}
+                where: {user_id: id}
             }).then(result => {
                 callback(result);
             }).catch(err => {
@@ -160,7 +184,7 @@ module.exports = {
                 email: body.email,
                 phone: body.phone,
                 state: body.state,
-            }, {where: {id: id}})
+            }, {where: {user_id: id}})
                 .then(result => {
                     result ? callback(true) : callback(false)
                 })
@@ -174,14 +198,14 @@ module.exports = {
         addRefreshToken: (body, refreshToken) => {
             User.update({
                 refreshToken: refreshToken
-            }, {where: {id: body.id}})
+            }, {where: {user_id: body.id}})
                 .catch(err => {
                     throw err;
                 })
         },
-        authRefreshToken: (id, refreshToken, callback) => {
+        authRefreshToken: (user_id, refreshToken, callback) => {
             User.findAll({
-                where: {id: id}
+                where: {user_id: user_id}
             }).then(result => {
                 result[0].refreshToken === refreshToken ? callback(result) : callback(false)
             }).catch(err => {

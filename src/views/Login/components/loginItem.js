@@ -88,8 +88,10 @@ const LoginItem = () => {
 
         const res = await axios('/user/login', {
             method: 'POST',
-            data: {id, password},
-            password: password,
+            data: {
+                user_id: id,
+                password: password
+            },
             headers: new Headers(),
         });
 
