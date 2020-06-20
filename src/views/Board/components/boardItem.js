@@ -62,18 +62,46 @@ const useStyles = makeStyles((theme) => ({
 
 const BoardItem = () =>{
     const classes = useStyles();
+    const setid = 1;
 
-    //댓글 리스트
+
     //작성 시간 : form -> boardItem -> comment?
     const [comments, setComments] = useState(
         [
-            {id: 0,username:'김지똥' ,contents:'아 졸라 어렵네',date:'2020.20.20'},
-            {id: 1,username:'김슈슈' ,contents:'아 졸라 어렵네',date:'2020.21.21'},
+            {id: 0,username:'김지똥' ,contents:'아 어렵네',date:'2020.20.20'},
+            {id: 1,username:'김슈슈' ,contents:'아 너무 어렵네',date:'2020.21.21'},
         ]
     );
 
     const [anchorEl, setAnchorEl] = React.useState(null); //삭제 및 수정
     const [expanded, setExpanded] = React.useState(false); //댓글창 열리게
+
+    //댓글 작성성
+    const [input, setInput] = React.useState('');
+
+    const handleKeyPress = (e)=>{
+        //눌려진 키가 Enter이면 handleCreate호출파기
+        if(e.key === 'Enter'){
+            handleCreate();
+        }
+    }
+    const handleChange = (e) =>{
+        setInput(e.target.value);
+    }
+
+    const handleCreate = (e) => {
+        setInput('');
+        setComments(
+            comments.concat({
+                id: comments.length,
+                username: '유저 네임',
+                contents: input,
+                date: '2020.20.23'
+            })
+        )
+        console.log('create');
+    }
+
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -132,7 +160,7 @@ const BoardItem = () =>{
                         <IconButton  size="small" aria-label="article's comments" disabled color="primary">
                             <SmsIcon  aria-label="comment icon" />
                             <Typography  aria-label="comment" variant="subtitle2"  component="p">
-                                12
+                                {comments.length}
                             </Typography>
                         </IconButton>
                         <IconButton
@@ -151,7 +179,12 @@ const BoardItem = () =>{
                     <Collapse in={expanded} timeout="auto" unmountOnExit>
                         <CardContent className={classes.delTopPadding}>
                             {/* 댓글 입력 폼 */}
-                            <CommentForm/>
+                            <CommentForm
+                                value={input}
+                                onChange={handleChange}
+                                onCreate={handleCreate}
+                                onKeyPress={handleKeyPress}
+                            />
                             <CommentList
                                 comments={comments}
                             />

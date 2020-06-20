@@ -5,7 +5,6 @@ const CommentList = ( {comments} ) => {
     // {id, username, contents, date}
     const commentList = comments.map(({id,username,contents,date}) => (
                 <CommentItem
-                     //id
                     username={username}
                     contents={contents} //댓글 내용
                     date={date} //댓글 쓴 날짜
