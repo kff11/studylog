@@ -20,19 +20,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const CommentForm = ()=> {
+const CommentForm = ( {value, onChange,onCreate,onKeyPress} )=> {
     const classes = useStyles();
 
     return(
         <div>
             <Divider />
-            <form action="#" className={classes.form}>
+            <div className={classes.form}>
                 <Avatar alt="user" src={AvatarPic} />
-                <Input className={classes.textField} defaultValue="Hello world" inputProps={{ 'aria-label': 'description' }} />
-                <Button size="small" variant="contained" color="primary">
+                <Input className={classes.textField}
+                       value={value}
+                       inputProps={{ 'aria-label': 'description' }}
+                       onChange={onChange}
+                       onKeyPress={onKeyPress}
+                />
+                <Button size="small" variant="contained" color="primary"
+                        onClick={onCreate}>
                     ok
                 </Button>
-            </form>
+            </div>
         </div>
     );
 }
