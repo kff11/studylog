@@ -72,7 +72,6 @@ const BoardItem = () =>{
         ]
     );
 
-
     const [anchorEl, setAnchorEl] = React.useState(null); //삭제 및 수정
     const [expanded, setExpanded] = React.useState(false); //댓글창 열리게
 
@@ -128,7 +127,7 @@ const BoardItem = () =>{
                     </CardContent>
 
                     <CardActions disableSpacing className={classes.cardActions}
-
+                                 onClick={handleExpandClick}
                     >
                         <IconButton  size="small" aria-label="article's comments" disabled color="primary">
                             <SmsIcon  aria-label="comment icon" />
@@ -146,13 +145,13 @@ const BoardItem = () =>{
                         >
                             <ExpandMoreIcon />
                         </IconButton>
+
                     </CardActions>
 
                     <Collapse in={expanded} timeout="auto" unmountOnExit>
                         <CardContent className={classes.delTopPadding}>
                             {/* 댓글 입력 폼 */}
                             <CommentForm/>
-                            {/* 댓글 리스트  */}
                             <CommentList
                                 comments={comments}
                             />

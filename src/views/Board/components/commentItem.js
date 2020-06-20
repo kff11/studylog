@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const CommentItem = (id, username, contents, date)=> {
+const CommentItem = ( {username, contents, date} ) => {
     const classes = useStyles();
 
     return(
@@ -47,8 +47,11 @@ const CommentItem = (id, username, contents, date)=> {
                             {date}
                         </Typography>
                     </div>
-                    <Input disabled className={classes.takeFull}
-                           defaultValue={contents} />
+                    <Typography variant="body2">
+                        {contents}
+                    </Typography>
+                    {/*<Input disabled className={classes.takeFull}*/}
+                    {/*       defaultValue={contents} />*/}
                 </div>
                 <IconButton aria-controls="this card's menu" aria-haspopup="true">
                     <MoreVertIcon  />
