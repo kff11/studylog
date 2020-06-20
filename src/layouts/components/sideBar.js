@@ -49,14 +49,14 @@ const SideBar = props => {
             icon: <MenuBookIcon/>
         },
         {
+            title: '공유 게시판',
+            href: '/board',
+            icon: <AssignmentIcon/>
+        },
+        {
             title: '멘토링',
             href: '/mentoring',
             icon: <SupervisedUserCircleIcon/>
-        },
-        {
-            title: '게시판',
-            href: '/board',
-            icon: <AssignmentIcon/>
         },
         {
             title: 'About',

@@ -26,7 +26,6 @@ const drawerWidth = 210;
 const useStyles = makeStyles((theme) => ({
     root: {
         justifyContent: "center",
-        width: 645,
         marginBottom: 20,
     },
     expand: {

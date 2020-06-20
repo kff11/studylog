@@ -67,7 +67,7 @@ module.exports = {
                     where: {user_id: id},
                     limit: limit,
                     offset: (page - 1) * limit,
-                    order: sequelize.literal('user_id DESC')
+                    order: sequelize.literal('id DESC')
                 }).then(_result => {
                     result['rows'] = _result
                     callback(result)
@@ -99,9 +99,10 @@ module.exports = {
                 throw err;
             })
         },
-        shareDiary: (req, callback) => {
+        shareDiary: (req, date, callback) => {
             Diary.update({
-                isBoard: true
+                isBoard: true,
+                board_date: date,
             }, {
                 where: {id: req.body.id}
             }).then(result => {
@@ -123,6 +124,7 @@ module.exports = {
                     where: {isBoard: true},
                     limit: limit,
                     offset: (page - 1) * limit,
+                    order: sequelize.literal('board_date DESC')
                 }).then(_result => {
                     result['rows'] = _result
                     callback(result)
@@ -137,11 +139,11 @@ module.exports = {
     // 로그인
     user: {
         login: (body, hash, callback) => {
-            User.findAll({
-                where: {[Op.and]: [{user_id: body.user_id, password: hash}]}
+            User.findOne({
+                where: {user_id: body.user_id, password: hash}
             }).then(result => {
-                if (result[0]) {
-                    callback(result);
+                if (result.dataValues) {
+                    callback(result.dataValues);
                 } else {
                     callback(false);
                 }
@@ -198,16 +200,16 @@ module.exports = {
         addRefreshToken: (body, refreshToken) => {
             User.update({
                 refreshToken: refreshToken
-            }, {where: {user_id: body.id}})
+            }, {where: {user_id: body.user_id}})
                 .catch(err => {
                     throw err;
                 })
         },
         authRefreshToken: (user_id, refreshToken, callback) => {
-            User.findAll({
+            User.findOne({
                 where: {user_id: user_id}
             }).then(result => {
-                result[0].refreshToken === refreshToken ? callback(result) : callback(false)
+                result.dataValues.refreshToken === refreshToken ? callback(result.dataValues) : callback(false)
             }).catch(err => {
                 throw err;
             })

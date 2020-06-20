@@ -1,13 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {makeStyles} from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import Typography from '@material-ui/core/Typography';
 
 import {BoardItem, BoardList} from "./components/index";
 import axios from "axios";
-
-
-const drawerWidth = 210;
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -57,15 +53,16 @@ const Board = () => {
 
     return (
         <div className={classes.root}>
-
-            <div>
-                <BoardList
-                    boards={boards}
-                    page={page}
-                    pages={pages}
-                    handleChangePage={handleChangePage}
-                />
-            </div>
+            <Grid container justify="center">
+                <Grid item xs={12}>
+                    <BoardList
+                        boards={boards}
+                        page={page}
+                        pages={pages}
+                        handleChangePage={handleChangePage}
+                    />
+                </Grid>
+            </Grid>
         </div>
     );
 }

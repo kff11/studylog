@@ -127,6 +127,7 @@ const Diary = () => {
             })
             if (res.data) {
                 alert('공유되었습니다!')
+                handleClose();
                 getDiary(page);
             } else {
                 alert('잠시 후 다시 시도해 주십시오.')

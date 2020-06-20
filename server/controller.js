@@ -14,9 +14,9 @@ const salt = require(path.join(__dirname, 'config', 'db.json')).salt;
 const clientTokenSign = (result) => {
     return (
         jwt.sign({
-                user_id: result[0].user_id,
-                name: result[0].name,
-                mento: result[0].mento,
+                user_id: result.user_id,
+                name: result.name,
+                mento: result.mento,
             },
             jwtKey.secret, {
                 expiresIn: '1h',
@@ -86,7 +86,8 @@ module.exports = {
             })
         },
         share: (req, res) => {
-            model.diary.shareDiary(req, result => {
+            const now_date = moment().format('YYYY-MM-DD HH:mm:ss');
+            model.diary.shareDiary(req, now_date, result => {
                 if(result[0] === 1){
                     return res.send(true);
                 } else {
@@ -113,7 +114,7 @@ module.exports = {
 
             model.user.login(body, hash, result => {
                 // 로그인에 성공하면
-                if (result[0]) {
+                if (result) {
                     // Access Token 생성
                     const clientToken = clientTokenSign(result);
 
