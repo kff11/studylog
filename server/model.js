@@ -142,12 +142,11 @@ module.exports = {
             User.findOne({
                 where: {user_id: body.user_id, password: hash}
             }).then(result => {
-                if (result.dataValues) {
+                try {
                     callback(result.dataValues);
-                } else {
+                } catch (err) {
                     callback(false);
                 }
-
             }).catch(err => {
                 throw err;
             })
