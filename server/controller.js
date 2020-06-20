@@ -84,6 +84,15 @@ module.exports = {
                     return res.send(false);
                 }
             })
+        },
+        share: (req, res) => {
+            model.diary.shareDiary(req, result => {
+                if(result[0] === 1){
+                    return res.send(true);
+                } else {
+                    return res.send(false);
+                }
+            })
         }
     },
 

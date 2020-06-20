@@ -49,6 +49,7 @@ module.exports = {
                 title: req.body.title,
                 contents: req.body.contents,
                 date: date,
+                isBoard: false,
             }).then(result => {
                 callback(result)
             }).catch(err => {
@@ -89,6 +90,17 @@ module.exports = {
             Diary.update({
                 title: req.body.title,
                 contents: req.body.contents,
+            }, {
+                where: {id: req.body.id}
+            }).then(result => {
+                callback(result)
+            }).catch(err => {
+                throw err;
+            })
+        },
+        shareDiary: (req, callback) => {
+            Diary.update({
+                isBoard: true
             }, {
                 where: {id: req.body.id}
             }).then(result => {

@@ -72,7 +72,7 @@ const SaveButton = withStyles({
 })(Button);
 
 const ReadDiary = props => {
-    const {id, title, content, updateDiary, handleDelete, handleReadTitleChange, handleReadContentChange} = props;
+    const {title, content, updateDiary, shareDiary, handleDelete, handleReadTitleChange, handleReadContentChange} = props;
     const classes = useStyles();
 
     const [disable, setDisable] = useState(true);
@@ -117,6 +117,7 @@ const ReadDiary = props => {
                     <Button variant="contained"
                             size="medium"
                             color="primary"
+                            onClick={shareDiary}
                             startIcon={<Share/>}>
                         공유
                     </Button>
@@ -164,6 +165,7 @@ ReadDiary.propTypes = {
     title: PropTypes.string,
     content: PropTypes.string,
     updateDiary: PropTypes.func,
+    shareDiary: PropTypes.func,
     handleDelete: PropTypes.func,
     handleReadTitleChange: PropTypes.func,
     handleReadContentChange: PropTypes.func,
