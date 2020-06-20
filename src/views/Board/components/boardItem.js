@@ -63,6 +63,7 @@ const useStyles = makeStyles((theme) => ({
 const BoardItem = () =>{
     const classes = useStyles();
     const setid = 1;
+    const currentTime = new Date();
 
 
     //작성 시간 : form -> boardItem -> comment?
@@ -96,7 +97,7 @@ const BoardItem = () =>{
                 id: comments.length,
                 username: '유저 네임',
                 contents: input,
-                date: '2020.20.23'
+                date: currentTime.toLocaleDateString() + currentTime.toLocaleTimeString()
             })
         )
         console.log('create');
