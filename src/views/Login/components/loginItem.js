@@ -88,14 +88,16 @@ const LoginItem = () => {
 
         const res = await axios('/user/login', {
             method: 'POST',
-            data: {id, password},
-            password: password,
+            data: {
+                user_id: id,
+                password: password
+            },
             headers: new Headers(),
         });
+        console.log(res.data);
 
         if (res.data) {
             window.location.reload();
-
         } else {
             return alert('아이디 혹은 비밀번호가 일치하지 않습니다.')
         }

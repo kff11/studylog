@@ -1,90 +1,68 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {makeStyles} from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import Typography from '@material-ui/core/Typography';
 
-import Tooltip from '@material-ui/core/Tooltip';
-import Fab from '@material-ui/core/Fab';
-import SearchIcon from '@material-ui/icons/Search';
-
-import {BoardForm, BoardItem} from "./components/index";
-
-
-const drawerWidth = 210;
+import {BoardItem, BoardList} from "./components/index";
+import axios from "axios";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-    },
-    drawerPaper: {
-        width: drawerWidth,
-        padding: 15,
-    },
     root: {
-        position: 'relative',
-        width : '100%',
-        // display: "flex",
-        // justifyContent: "center",
-        // width: 12xs,
+        display: "flex",
+        justifyContent: "center",
+        padding: theme.spacing(1),
     },
-    boardListItem: {
-        Width: 645,
-        maxWidth: 645,
-        marginBottom: 20,
-    },
-    margin_top: {
-        marginTop:"64px",
-    },
-    absolute: {
-        position: 'absolute',
-        top: theme.spacing(2),
-        right: theme.spacing(3),
-    }
 }));
 
 const Board = () => {
 
+    const [boards, setBoards] = useState([]);
+    const [pages, setPages] = useState([]);
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(3);
+
     const classes = useStyles();
+
+    useEffect(() => {
+        getBoard(1);
+    }, [])
+
+    const getBoard = async (pageNum) => {
+        const res = await axios('/board/get', {
+            method: 'POST',
+            data: {
+                page: pageNum,
+                limit: limit,
+            }
+        });
+        setBoards(res.data['rows']);
+        getAllPage(res.data['count']);
+    }
+
+    const getAllPage = (count) => {
+        let pageArray = [];
+        for (let i = 1; i <= Math.ceil(count / limit); i++) {
+            pageArray.push(i);
+        }
+        setPages(pageArray);
+    }
+
+    const handleChangePage = (pageNum) => {
+        setPage(pageNum);
+        getBoard(pageNum);
+    }
 
     return (
         <div className={classes.root}>
-
-            <Tooltip title="Search" aria-label="Search">
-                <Fab color="secondary" className={classes.absolute}>
-                    <SearchIcon />
-                </Fab>
-            </Tooltip>
-
-            <div>
-                {/*<BoardList/>*/}
-                {/*<BoardListItem/>*/}
-                <BoardItem/>
-            </div>
-
-
-            {/*rightDrawer*/}
-            {/*<Drawer*/}
-            {/*    className={classes.drawer}*/}
-            {/*    variant="permanent"*/}
-            {/*    classes={{*/}
-            {/*        paper: classes.drawerPaper,*/}
-            {/*    }}*/}
-            {/*    anchor="right"*/}
-            {/*>*/}
-            {/*    /!*<div style={{height: "64px",}}></div>*!/*/}
-            {/*    <Typography variant="h6" gutterBottom >*/}
-            {/*        가장 댓글이 많은 글*/}
-            {/*    </Typography>*/}
-            {/*    <div className="board-ranking" className={classes.margin_top}>*/}
-            {/*        <Typography variant="body1" gutterBottom>1. 리스트 가져와야함</Typography>*/}
-            {/*        <Typography variant="body1" gutterBottom>2. DB에서 처리해야하나?</Typography>*/}
-            {/*        <Typography variant="body1" gutterBottom>3. 댓글 순위 나누기</Typography>*/}
-            {/*    </div>*/}
-
-            {/*</Drawer>*/}
-
-
+            <Grid container justify="center">
+                <Grid item xs={12}>
+                    <BoardList
+                        boards={boards}
+                        page={page}
+                        pages={pages}
+                        handleChangePage={handleChangePage}
+                    />
+                </Grid>
+            </Grid>
         </div>
     );
 }

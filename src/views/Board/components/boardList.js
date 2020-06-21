@@ -1,25 +1,21 @@
 import React, {useState} from 'react';
-import {DiaryItem} from "./index";
+import {BoardItem} from "./index";
 import {makeStyles} from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
+import PropTypes, {func} from "prop-types";
 import {ChevronLeft, ChevronRight} from "@material-ui/icons";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        minWidth: 300,
     },
     card: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: theme.spacing(2),
-        paddingBottom: theme.spacing(2),
         marginBottom: 12,
     },
     ul: {
-        marginBlockStart: '0em',
-        marginBlockEnd: '0em',
         paddingInlineStart: '15px',
     },
     thisPage: {
@@ -43,25 +39,26 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const DiaryList = ({diaries, page, pages, handleChangePage, handleOpen}) => {
+const BoardList = ({boards, page, pages, handleChangePage}) => {
     const classes = useStyles();
 
-    const diaryItem = diaries.map(({id, title, contents, date}) => (
-            <DiaryItem
-                id={id}
+    const boardItem = boards.map(({user_name, title, contents, date}) => (
+            <BoardItem
+                name={user_name}
                 contents={contents}
                 title={title}
                 date={date}
-                handleOpen={() => handleOpen(id, title, contents)}
             />
         )
     );
 
     return (
         <div className={classes.root}>
-            {diaries.length !== 0 ? diaryItem :
+            {boards.length !== 0 ?
+                boardItem
+                :
                 <Card className={classes.card} elevation={2}>
-                    첫글을 작성해 주세요!
+                    <CircularProgress className={classes.progress}/>
                 </Card>
             }
             <Card className={classes.card} elevation={2}>
@@ -87,5 +84,11 @@ const DiaryList = ({diaries, page, pages, handleChangePage, handleOpen}) => {
         </div>
     );
 }
+BoardList.propTypes = {
+    boards: PropTypes.array,
+    page: PropTypes.number,
+    pages: PropTypes.number,
+    handleChangePage: PropTypes.func,
+}
 
-export default DiaryList;
+export default BoardList;

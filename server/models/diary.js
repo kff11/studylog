@@ -26,8 +26,16 @@ module.exports = (sequelize, DataTypes) => {
             },
             date: {
                 type: DataTypes.DATE,
-                allowNull: false
+                allowNull: false,
             },
+            isBoard: {
+                type: DataTypes.BOOLEAN,
+                allowNull: false,
+            },
+            board_date: {
+                type: DataTypes.DATE,
+                allowNull: false,
+            }
         },
         {
             charset: 'utf8',

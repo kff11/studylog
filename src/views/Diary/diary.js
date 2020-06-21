@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
         padding: 20,
     },
     diaryModal: {
-        maxWidth: 500,
         border: '3px solid',
         borderColor: '#61380B',
         backgroundColor: theme.palette.background.paper,
@@ -79,20 +78,24 @@ const Diary = () => {
             setTitleInput('');
             setContentInput('');
             getDiary(page);
+        } else {
+            alert('잠시 후 다시 시도해 주십시오.')
         }
     }
 
     const delDiary = async () => {
-        const res = await axios('/diary/del', {
-            method: 'POST',
-            data: {
-                id: readId,
-            },
-        })
-        if (res.data) {
-            alert('삭제되었습니다!')
-            getDiary(page);
-            handleClose();
+        if (window.confirm('삭제하시겠습니까?')) {
+            const res = await axios('/diary/del', {
+                method: 'POST',
+                data: {
+                    id: readId,
+                },
+            })
+            if (res.data) {
+                alert('삭제되었습니다!')
+                handleClose();
+                getDiary(page);
+            }
         }
     }
 
@@ -108,6 +111,24 @@ const Diary = () => {
         if (res.data) {
             alert('수정되었습니다!')
             getDiary(page);
+        }
+    }
+
+    const shareDiary = async () => {
+        if (window.confirm('공유하시겠습니까?')) {
+            const res = await axios('/diary/share', {
+                method: 'POST',
+                data: {
+                    id: readId
+                },
+            })
+            if (res.data) {
+                alert('공유되었습니다!')
+                handleClose();
+                getDiary(page);
+            } else {
+                alert('잠시 후 다시 시도해 주십시오.')
+            }
         }
     }
 
@@ -165,7 +186,6 @@ const Diary = () => {
     const renderDiary = () => {
         return (
             <Modal
-                closeAfterTransition
                 className={classes.modal}
                 open={open}
                 onClose={handleClose}
@@ -177,10 +197,10 @@ const Diary = () => {
                 <Fade in={open}>
                     <div className={classes.diaryModal}>
                         <ReadDiary
-                            id={readId}
                             title={readTitle}
                             content={readContent}
                             updateDiary={updateDiary}
+                            shareDiary={shareDiary}
                             handleDelete={delDiary}
                             handleReadTitleChange={handleReadTitleChange}
                             handleReadContentChange={handleReadContentChange}

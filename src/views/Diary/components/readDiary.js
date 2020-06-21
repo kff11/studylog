@@ -5,11 +5,17 @@ import Button from "@material-ui/core/Button";
 import {makeStyles, withStyles} from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import PropTypes from "prop-types";
-import {Divider} from "@material-ui/core";
+import {Divider, Typography} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         padding: theme.spacing(3),
+    },
+    titleMargin: {
+        marginTop: 15,
+        marginBottom: 15,
+        marginLeft: 5,
+        marginRight: 5,
     },
     bottomMargin: {
         marginBottom: 30,
@@ -72,7 +78,7 @@ const SaveButton = withStyles({
 })(Button);
 
 const ReadDiary = props => {
-    const {id, title, content, updateDiary, handleDelete, handleReadTitleChange, handleReadContentChange} = props;
+    const {title, content, updateDiary, shareDiary, handleDelete, handleReadTitleChange, handleReadContentChange} = props;
     const classes = useStyles();
 
     const [disable, setDisable] = useState(true);
@@ -87,36 +93,58 @@ const ReadDiary = props => {
 
     return (
         <Paper className={classes.root} elevation={2}>
-            <div>
-                <DiaryTextField
-                    className={classes.bottomMargin}
-                    disabled={disable}
-                    id="title"
-                    label="Title"
-                    value={title}
-                    onChange={handleReadTitleChange}
-                    autoFocus
-                    fullWidth
-                />
-                <DiaryTextField
-                    className={classes.bottomMargin}
-                    disabled={disable}
-                    id="content"
-                    label="Diary Content"
-                    multiline
-                    value={content}
-                    onChange={handleReadContentChange}
-                    rows={19}
-                    fullWidth
-                    variant="outlined"
-                />
-            </div>
+            {disable ?
+                <div>
+                    <DiaryTextField
+                        className={classes.titleMargin}
+                        id="title"
+                        value={title}
+                        autoFocus
+                        fullWidth
+                    />
+                    <DiaryTextField
+                        className={classes.bottomMargin}
+                        id="content"
+                        multiline
+                        value={content}
+                        rows={19}
+                        fullWidth
+                        variant="outlined"
+                    />
+                </div>
+                :
+                <div>
+                    <DiaryTextField
+                        className={classes.titleMargin}
+                        disabled={disable}
+                        id="title"
+                        label="Title"
+                        value={title}
+                        onChange={handleReadTitleChange}
+                        autoFocus
+                        fullWidth
+                    />
+                    <DiaryTextField
+                        className={classes.bottomMargin}
+                        disabled={disable}
+                        id="content"
+                        label="Diary Content"
+                        multiline
+                        value={content}
+                        onChange={handleReadContentChange}
+                        rows={19}
+                        fullWidth
+                        variant="outlined"
+                    />
+                </div>
+            }
             <Divider/>
             {disable ?
                 <div className={classes.display}>
                     <Button variant="contained"
                             size="medium"
                             color="primary"
+                            onClick={shareDiary}
                             startIcon={<Share/>}>
                         공유
                     </Button>
@@ -164,6 +192,7 @@ ReadDiary.propTypes = {
     title: PropTypes.string,
     content: PropTypes.string,
     updateDiary: PropTypes.func,
+    shareDiary: PropTypes.func,
     handleDelete: PropTypes.func,
     handleReadTitleChange: PropTypes.func,
     handleReadContentChange: PropTypes.func,
