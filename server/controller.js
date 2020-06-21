@@ -144,7 +144,7 @@ module.exports = {
             const clientToken = req.cookies.user;
             const user_id = jwt.decode(clientToken, jwtKey.secret).user_id;
             model.user.getUser(user_id, result => {
-                res.send(result);
+                res.send(result[0]);
             })
         },
         updateProfile: (req, res) => {

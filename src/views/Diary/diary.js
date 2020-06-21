@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
         padding: 20,
     },
     diaryModal: {
-        maxWidth: 500,
         border: '3px solid',
         borderColor: '#61380B',
         backgroundColor: theme.palette.background.paper,
@@ -112,8 +111,6 @@ const Diary = () => {
         if (res.data) {
             alert('수정되었습니다!')
             getDiary(page);
-        } else {
-            alert('잠시 후 다시 시도해 주십시오.')
         }
     }
 

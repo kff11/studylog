@@ -50,6 +50,7 @@ module.exports = {
                 contents: req.body.contents,
                 date: date,
                 isBoard: false,
+                board_date: 0,
             }).then(result => {
                 callback(result)
             }).catch(err => {

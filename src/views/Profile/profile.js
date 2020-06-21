@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
 const Profile = () => {
     const classes = useStyles();
 
+    const [userId, setUserId] = useState('');
     const [name, setName] = useState('');
     const [_name, _setName] = useState('');
     const [mento, setMento] = useState('');
@@ -24,12 +25,13 @@ const Profile = () => {
     const getProfile = async () => {
         const res = await axios.get('/user/get')
         if (res.data) {
-            setName(res.data[0].name);
-            _setName(res.data[0].name);
-            setMento(res.data[0].mento);
-            setEmail(res.data[0].email);
-            setPhone(res.data[0].phone);
-            setState(res.data[0].state);
+            setUserId(res.data.user_id);
+            setName(res.data.name);
+            _setName(res.data.name);
+            setMento(res.data.mento);
+            setEmail(res.data.email);
+            setPhone(res.data.phone);
+            setState(res.data.state);
         }
     }
 
@@ -95,6 +97,7 @@ const Profile = () => {
                     xs={12}
                 >
                     <ProfileAccountItem
+                        userId={userId}
                         name={_name}
                         mento={mento}
                     />
