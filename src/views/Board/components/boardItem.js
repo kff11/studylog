@@ -1,32 +1,36 @@
 import React, {useState} from 'react';
 import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import Avatar from "@material-ui/core/Avatar";
+import {
+    CardHeader,
+    IconButton,
+    Avatar,
+    CardContent,
+    Typography,
+    CardActions,
+    Collapse,
+    MenuItem,
+    Menu
+} from "@material-ui/core";
 import {AvatarPic} from "../../../images";
-import IconButton from "@material-ui/core/IconButton";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-import CardActions from "@material-ui/core/CardActions";
 import SmsIcon from "@material-ui/icons/Sms";
 import {makeStyles} from "@material-ui/core/styles";
-import PropTypes, {func} from "prop-types";
+import PropTypes from "prop-types";
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import clsx from 'clsx';
-import Collapse from '@material-ui/core/Collapse';
 
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 
 import {CommentForm, CommentItem, CommentList} from ".//index";
-
-const drawerWidth = 210;
 
 const useStyles = makeStyles((theme) => ({
     root: {
         justifyContent: "center",
         marginBottom: 20,
+    },
+    title: {
+        fontSize: 17,
+        marginBottom: 5,
     },
     expand: {
         transform: 'rotate(0deg)',
@@ -52,9 +56,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const BoardItem = props => {
-    const {name, title, date, contents, _comments} = props;
+    const {name, title, date, contents, _comments, verify, handleOpen} = props;
     const classes = useStyles();
-    const setid = 1;
     const currentTime = new Date();
 
 
@@ -66,8 +69,8 @@ const BoardItem = props => {
         ]
     );
 
-    const [anchorEl, setAnchorEl] = React.useState(null); //삭제 및 수정
-    const [expanded, setExpanded] = React.useState(false); //댓글창 열리게
+    const [anchorEl, setAnchorEl] = useState(null); //삭제 및 수정
+    const [expanded, setExpanded] = useState(false); //댓글창 열리게
 
     //댓글 작성성
     const [input, setInput] = React.useState('');
@@ -108,19 +111,25 @@ const BoardItem = props => {
         setAnchorEl(null);
     };
 
+    const handleMenuOpen = () => {
+        handleClose();
+        handleOpen();
+    }
+
 
     return (
         <Card className={classes.root} elevation={2}>
             <CardHeader
                 avatar={<Avatar aria-label="avatar" src={AvatarPic}/>}
                 action={
-                    <IconButton aria-controls="this card's menu" aria-haspopup="true" onClick={handleClick}>
+                    <IconButton disabled={verify} aria-controls="this card's menu" aria-haspopup="true"
+                                onClick={handleClick}>
                         <MoreVertIcon/>
                     </IconButton>
 
                 }
-                title={<b>{title}</b>}
-                subheader={name + ' ' + date}
+                title={<div className={classes.title}>{title}</div>}
+                subheader={<div><b>{name}</b> {date.substr(0, 16)}</div>}
             />
             <Menu
                 id="simple-menu"
@@ -129,8 +138,8 @@ const BoardItem = props => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose}>삭제하기</MenuItem>
-                <MenuItem onClick={handleClose}>수정하기</MenuItem>
+                <MenuItem onClick={handleMenuOpen}>수정하기</MenuItem>
+                <MenuItem onClick={handleClose}>공유취소</MenuItem>
             </Menu>
             <CardContent className={classes.cardContent}>
                 <Typography variant="body2" component="p">
@@ -177,11 +186,15 @@ const BoardItem = props => {
 }
 
 BoardItem.propTypes = {
+    loginId: PropTypes.string,
+    user_id: PropTypes.string,
     name: PropTypes.string,
     title: PropTypes.string,
     contents: PropTypes.string,
     date: PropTypes.string,
+    verify: PropTypes.bool,
     comments: PropTypes.object,
+    handleOpen: PropTypes.func,
 }
 
 export default BoardItem;

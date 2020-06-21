@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {WriteDiary, ReadDiary, DiaryList} from "./components/index";
-import {Backdrop, Fade, Grid, Modal, Paper, Typography} from "@material-ui/core";
+import {Backdrop, Fade, Grid, Modal, Typography} from "@material-ui/core";
 
 import {makeStyles} from "@material-ui/core/styles";
 import axios from "axios";
@@ -40,10 +40,11 @@ const Diary = () => {
     const [diaries, setDiaries] = useState([]);
     const [pages, setPages] = useState([]);
     const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(6);
+    const [limit] = useState(6);
     const [readId, setReadId] = useState('');
     const [readTitle, setReadTitle] = useState('');
     const [readContent, setReadContent] = useState('');
+    const [readShared, setReadShared] = useState(false);
 
 
     useEffect(() => {
@@ -132,6 +133,24 @@ const Diary = () => {
         }
     }
 
+    const cancelShare = async () => {
+        if (window.confirm('공유를 취소하시겠습니까?')) {
+            const res = await axios('/diary/cancel', {
+                method: 'POST',
+                data: {
+                    id: readId
+                },
+            })
+            if(res.data){
+                alert('공유가 취소되었습니다!');
+                handleClose();
+                getDiary(page);
+            } else {
+                alert('잠시 후 다시 시도해 주십시오.');
+            }
+        }
+    }
+
     const getAllPage = (count) => {
         let pageArray = [];
         for (let i = 1; i <= Math.ceil(count / limit); i++) {
@@ -140,10 +159,11 @@ const Diary = () => {
         setPages(pageArray);
     }
 
-    const handleOpen = (id, title, content) => {
+    const handleOpen = (id, title, content, isBoard) => {
         setReadId(id);
         setReadTitle(title);
         setReadContent(content);
+        setReadShared(isBoard)
         setOpen(true);
     }
     const handleClose = () => {
@@ -199,8 +219,10 @@ const Diary = () => {
                         <ReadDiary
                             title={readTitle}
                             content={readContent}
+                            isShared={readShared}
                             updateDiary={updateDiary}
                             shareDiary={shareDiary}
+                            cancelShare={cancelShare}
                             handleDelete={delDiary}
                             handleReadTitleChange={handleReadTitleChange}
                             handleReadContentChange={handleReadContentChange}

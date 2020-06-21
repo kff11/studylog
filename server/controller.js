@@ -34,7 +34,6 @@ module.exports = {
             model.post.addData(req, data => {
                 return res.send(data)
             })
-
         },
         get: (req, res) => {
             model.post.getData(data => {
@@ -88,7 +87,16 @@ module.exports = {
         share: (req, res) => {
             const now_date = moment().format('YYYY-MM-DD HH:mm:ss');
             model.diary.shareDiary(req, now_date, result => {
-                if(result[0] === 1){
+                if (result[0] === 1) {
+                    return res.send(true);
+                } else {
+                    return res.send(false);
+                }
+            })
+        },
+        cancel: (req, res) => {
+            model.diary.cancelShare(req, result => {
+                if (result[0] === 1) {
                     return res.send(true);
                 } else {
                     return res.send(false);
@@ -150,7 +158,16 @@ module.exports = {
         updateProfile: (req, res) => {
             const clientToken = req.cookies.user;
             const user_id = jwt.decode(clientToken, jwtKey.secret).user_id;
+            const mento = jwt.decode(clientToken, jwtKey.secret).mento;
+
             model.user.updateUser(req.body, user_id, result => {
+                const profile = {
+                    user_id: user_id,
+                    name: req.body.name,
+                    mento: mento
+                }
+                const _clientToken = clientTokenSign(profile);
+                res.cookie('user', _clientToken);
                 res.send(result);
             })
         }

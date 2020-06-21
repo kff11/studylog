@@ -17,7 +17,6 @@ module.exports = {
             }).then(result => {
                 callback(result)
             }).catch(err => {
-                console.log(err)
                 throw err;
             })
 
@@ -30,7 +29,6 @@ module.exports = {
             })
         },
         delData: (req, callback) => {
-            console.log(req.body.id);
             Test.destroy({
                 where: {id: req.body.id}
             }).then(result => {
@@ -111,6 +109,17 @@ module.exports = {
             }).catch(err => {
                 throw err;
             })
+        },
+        cancelShare: (req, callback) => {
+            Diary.update({
+                isBoard: false,
+            }, {
+                where: {id: req.body.id}
+            }).then(result => {
+                callback(result)
+            }).catch(err => {
+                throw err;
+            })
         }
     },
     board: {
@@ -118,7 +127,7 @@ module.exports = {
             let result = {};
             Diary.count({
                 where: {isBoard: true}
-            }).then((countResult) => {
+            }).then(countResult => {
                 result['count'] = countResult;
 
                 Diary.findAll({
@@ -137,7 +146,7 @@ module.exports = {
             })
         },
     },
-    // 로그인
+    // 로그인 및 프로필
     user: {
         login: (body, hash, callback) => {
             User.findOne({
@@ -171,24 +180,32 @@ module.exports = {
                 }
             })
         },
-        getUser: (id, callback) => {
+        getUser: (user_id, callback) => {
             User.findAll({
-                where: {user_id: id}
+                where: {user_id: user_id}
             }).then(result => {
                 callback(result);
             }).catch(err => {
                 throw err;
             })
         },
-        updateUser: (body, id, callback) => {
+        updateUser: (body, user_id, callback) => {
             User.update({
                 name: body.name,
                 email: body.email,
                 phone: body.phone,
                 state: body.state,
-            }, {where: {user_id: id}})
-                .then(result => {
-                    result ? callback(true) : callback(false)
+            }, {where: {user_id: user_id}})
+                .then(() => {
+                    Diary.update({
+                        user_name: body.name,
+                    }, {where: {user_id: user_id}})
+                        .then(result => {
+                            result[0] >= 0 ? callback(true) : callback(false)
+                        })
+                        .catch(err => {
+                            throw err;
+                        })
                 })
                 .catch(err => {
                     throw err;

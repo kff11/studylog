@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {BoardItem} from "./index";
 import {makeStyles} from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import PropTypes, {func} from "prop-types";
+import PropTypes from "prop-types";
 import {ChevronLeft, ChevronRight} from "@material-ui/icons";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
@@ -39,15 +39,19 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const BoardList = ({boards, page, pages, handleChangePage}) => {
+const BoardList = props => {
+    const {boards, page, pages, loginId, handleOpen, handleChangePage} = props;
     const classes = useStyles();
 
-    const boardItem = boards.map(({user_name, title, contents, date}) => (
+    const boardItem = boards.map(({id, user_id, user_name, title, contents, board_date, isBoard}) => (
             <BoardItem
+                user_id={user_id}
                 name={user_name}
                 contents={contents}
                 title={title}
-                date={date}
+                verify={!(user_id === loginId) ? true : false}
+                date={board_date}
+                handleOpen={() => handleOpen(id, title, contents, isBoard)}
             />
         )
     );
@@ -88,6 +92,7 @@ BoardList.propTypes = {
     boards: PropTypes.array,
     page: PropTypes.number,
     pages: PropTypes.number,
+    loginId: PropTypes.string,
     handleChangePage: PropTypes.func,
 }
 

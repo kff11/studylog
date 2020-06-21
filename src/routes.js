@@ -2,7 +2,7 @@ import React from 'react';
 import {Switch, Route} from 'react-router-dom';
 
 import {Main as MainLayout} from './layouts';
-import { RouteWithLayout, TestContents} from './components';
+import { RouteWithLayout} from './components';
 
 import {
     Diary as DiaryView,

@@ -15,6 +15,7 @@ router.post('/diary/add', verifyToken, controller.diary.add);
 router.post('/diary/del', verifyToken, controller.diary.del);
 router.post('/diary/modify', verifyToken, controller.diary.modify)
 router.post('/diary/share', verifyToken, controller.diary.share)
+router.post('/diary/cancel', verifyToken, controller.diary.cancel)
 
 // 게시판
 router.post('/board/get', verifyToken, controller.board.getBoard);

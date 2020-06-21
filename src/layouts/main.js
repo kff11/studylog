@@ -4,7 +4,7 @@ import {Head, SideBar} from "./components";
 
 import clsx from 'clsx';
 import {makeStyles, useTheme} from "@material-ui/core/styles";
-import {colors, useMediaQuery} from "@material-ui/core";
+import {useMediaQuery} from "@material-ui/core";
 import PropTypes from "prop-types";
 import jwt from "jsonwebtoken";
 import jwtKey from "../config/jwt";
@@ -36,7 +36,7 @@ const Main = props => {
 
     const theme = useTheme();
     const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
-    const [cookies, setCookies] = useCookies('user');
+    const [cookies] = useCookies('user');
 
     const [openSidebar, setOpenSidebar] = useState(false);
     const [name, setName] = useState('');

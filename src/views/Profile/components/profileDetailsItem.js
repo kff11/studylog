@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React  from 'react';
 import {
     Card,
     CardActions,
@@ -8,7 +8,6 @@ import {
     Grid,
     Divider,
     Button,
-
 } from '@material-ui/core';
 import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core/styles";
@@ -70,6 +69,9 @@ const ProfileDetailsItem = props => {
         },
         {
             value: '충남',
+        },
+        {
+            value: '울산',
         },
         {
             value: '경북',

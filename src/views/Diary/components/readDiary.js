@@ -5,7 +5,7 @@ import Button from "@material-ui/core/Button";
 import {makeStyles, withStyles} from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import PropTypes from "prop-types";
-import {Divider, Typography} from "@material-ui/core";
+import {Divider} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -78,7 +78,8 @@ const SaveButton = withStyles({
 })(Button);
 
 const ReadDiary = props => {
-    const {title, content, updateDiary, shareDiary, handleDelete, handleReadTitleChange, handleReadContentChange} = props;
+    const {title, content, updateDiary, shareDiary, isShared, cancelShare,
+        handleDelete, handleReadTitleChange, handleReadContentChange} = props;
     const classes = useStyles();
 
     const [disable, setDisable] = useState(true);
@@ -141,13 +142,24 @@ const ReadDiary = props => {
             <Divider/>
             {disable ?
                 <div className={classes.display}>
-                    <Button variant="contained"
-                            size="medium"
-                            color="primary"
-                            onClick={shareDiary}
-                            startIcon={<Share/>}>
-                        공유
-                    </Button>
+                    {!isShared ?
+                        <Button variant="contained"
+                                size="medium"
+                                color="primary"
+                                onClick={shareDiary}
+                                startIcon={<Share/>}>
+                            공유
+                        </Button>
+                        :
+                        <Button variant="outlined"
+                                size="medium"
+                                color="primary"
+                                onClick={cancelShare}
+                                startIcon={<Share/>}>
+                            공유중
+                        </Button>
+                    }
+
                     <div className={classes.grow}/>
                     <Button variant="contained"
                             size="medium"
@@ -191,8 +203,10 @@ ReadDiary.propTypes = {
     id: PropTypes.number,
     title: PropTypes.string,
     content: PropTypes.string,
+    isShared: PropTypes.bool,
     updateDiary: PropTypes.func,
     shareDiary: PropTypes.func,
+    cancelShare: PropTypes.func,
     handleDelete: PropTypes.func,
     handleReadTitleChange: PropTypes.func,
     handleReadContentChange: PropTypes.func,

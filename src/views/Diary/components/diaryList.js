@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {DiaryItem} from "./index";
 import {makeStyles} from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import {ChevronLeft, ChevronRight} from "@material-ui/icons";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -46,13 +45,13 @@ const useStyles = makeStyles((theme) => ({
 const DiaryList = ({diaries, page, pages, handleChangePage, handleOpen}) => {
     const classes = useStyles();
 
-    const diaryItem = diaries.map(({id, title, contents, date}) => (
+    const diaryItem = diaries.map(({id, title, contents, date, isBoard}) => (
             <DiaryItem
                 id={id}
                 contents={contents}
                 title={title}
                 date={date}
-                handleOpen={() => handleOpen(id, title, contents)}
+                handleOpen={() => handleOpen(id, title, contents, isBoard)}
             />
         )
     );
