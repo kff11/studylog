@@ -26,10 +26,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ProfileAccountItem = props => {
-    const {name, mento} = props;
+    const {userId, name, mento} = props;
     const classes = useStyles();
 
     const user = {
+        userId: userId,
         name: name,
         avatar: AvatarPic,
         mento: mento ? '멘토' : '학습자',
@@ -45,6 +46,12 @@ const ProfileAccountItem = props => {
                             variant="h5"
                         >
                             {user.name}
+                        </Typography>
+                        <Typography
+                            color="textSecondary"
+                            variant="body2"
+                        >
+                            {user.userId}
                         </Typography>
                         <Typography
                             color="textSecondary"
@@ -78,6 +85,7 @@ const ProfileAccountItem = props => {
 }
 
 ProfileAccountItem.propTypes = {
+    userId: PropTypes.string,
     name: PropTypes.string,
     mento: PropTypes.string,
 }

@@ -11,6 +11,12 @@ const useStyles = makeStyles((theme) => ({
     root: {
         padding: theme.spacing(3),
     },
+    titleMargin: {
+        marginTop: 15,
+        marginBottom: 15,
+        marginLeft: 5,
+        marginRight: 5,
+    },
     bottomMargin: {
         marginBottom: 30,
     },
@@ -72,7 +78,8 @@ const SaveButton = withStyles({
 })(Button);
 
 const ReadDiary = props => {
-    const {id, title, content, updateDiary, handleDelete, handleReadTitleChange, handleReadContentChange} = props;
+    const {title, content, updateDiary, shareDiary, isShared, cancelShare,
+        handleDelete, handleReadTitleChange, handleReadContentChange} = props;
     const classes = useStyles();
 
     const [disable, setDisable] = useState(true);
@@ -87,39 +94,72 @@ const ReadDiary = props => {
 
     return (
         <Paper className={classes.root} elevation={2}>
-            <div>
-                <DiaryTextField
-                    className={classes.bottomMargin}
-                    disabled={disable}
-                    id="title"
-                    label="Title"
-                    value={title}
-                    onChange={handleReadTitleChange}
-                    autoFocus
-                    fullWidth
-                />
-                <DiaryTextField
-                    className={classes.bottomMargin}
-                    disabled={disable}
-                    id="content"
-                    label="Diary Content"
-                    multiline
-                    value={content}
-                    onChange={handleReadContentChange}
-                    rows={19}
-                    fullWidth
-                    variant="outlined"
-                />
-            </div>
+            {disable ?
+                <div>
+                    <DiaryTextField
+                        className={classes.titleMargin}
+                        id="title"
+                        value={title}
+                        autoFocus
+                        fullWidth
+                    />
+                    <DiaryTextField
+                        className={classes.bottomMargin}
+                        id="content"
+                        multiline
+                        value={content}
+                        rows={19}
+                        fullWidth
+                        variant="outlined"
+                    />
+                </div>
+                :
+                <div>
+                    <DiaryTextField
+                        className={classes.titleMargin}
+                        disabled={disable}
+                        id="title"
+                        label="Title"
+                        value={title}
+                        onChange={handleReadTitleChange}
+                        autoFocus
+                        fullWidth
+                    />
+                    <DiaryTextField
+                        className={classes.bottomMargin}
+                        disabled={disable}
+                        id="content"
+                        label="Diary Content"
+                        multiline
+                        value={content}
+                        onChange={handleReadContentChange}
+                        rows={19}
+                        fullWidth
+                        variant="outlined"
+                    />
+                </div>
+            }
             <Divider/>
             {disable ?
                 <div className={classes.display}>
-                    <Button variant="contained"
-                            size="medium"
-                            color="primary"
-                            startIcon={<Share/>}>
-                        공유
-                    </Button>
+                    {!isShared ?
+                        <Button variant="contained"
+                                size="medium"
+                                color="primary"
+                                onClick={shareDiary}
+                                startIcon={<Share/>}>
+                            공유
+                        </Button>
+                        :
+                        <Button variant="outlined"
+                                size="medium"
+                                color="primary"
+                                onClick={cancelShare}
+                                startIcon={<Share/>}>
+                            공유중
+                        </Button>
+                    }
+
                     <div className={classes.grow}/>
                     <Button variant="contained"
                             size="medium"
@@ -163,7 +203,10 @@ ReadDiary.propTypes = {
     id: PropTypes.number,
     title: PropTypes.string,
     content: PropTypes.string,
+    isShared: PropTypes.bool,
     updateDiary: PropTypes.func,
+    shareDiary: PropTypes.func,
+    cancelShare: PropTypes.func,
     handleDelete: PropTypes.func,
     handleReadTitleChange: PropTypes.func,
     handleReadContentChange: PropTypes.func,

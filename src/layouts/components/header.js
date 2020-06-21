@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {makeStyles} from "@material-ui/core/styles";
-import {AppBar, Toolbar, Typography, IconButton, MenuItem, Hidden} from "@material-ui/core";
+import {AppBar, Toolbar, Typography, IconButton, Hidden} from "@material-ui/core";
 import {Menu as MenuIcon, Input, Notifications} from "@material-ui/icons";
 
 import {Link} from "react-router-dom";

@@ -1,7 +1,7 @@
 import React from "react";
 
 import Avatar from "@material-ui/core/Avatar";
-import {AvatarPic} from "../../../images";
+import { AvatarPic2 } from "../../../images";
 import Input from "@material-ui/core/Input";
 
 import {makeStyles} from "@material-ui/core/styles";
@@ -9,6 +9,9 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from "@material-ui/core/IconButton";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Button from "@material-ui/core/Button";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import Card from "@material-ui/core/Card";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -32,18 +35,27 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const CommentItem = ()=> {
+const CommentItem = ( {username, contents, date} ) => {
     const classes = useStyles();
+
 
     return(
             <div className={classes.root}>
-                <Avatar alt="user" src={AvatarPic} />
+                <Avatar alt="user" src={AvatarPic2} />
                 <div className={classes.rightSide}>
                     <div style={{ display:'flex', paddingRight : 16,}}  >
-                        <Typography variant="body2" className={classes.takeFull}>닉네임</Typography>
-                        <Typography variant="body2">2020.20.20</Typography>
+                        <Typography variant="body2" className={classes.takeFull}>
+                            {username}
+                        </Typography>
+                        <Typography variant="body2">
+                            {date}
+                        </Typography>
                     </div>
-                    <Input disabled className={classes.takeFull} defaultValue="written comment" />
+                    <Typography variant="body2">
+                        {contents}
+                    </Typography>
+                    {/*<Input disabled className={classes.takeFull}*/}
+                    {/*       defaultValue={contents} />*/}
                 </div>
                 <IconButton aria-controls="this card's menu" aria-haspopup="true">
                     <MoreVertIcon  />

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React  from 'react';
 import {
     Card,
     CardActions,
@@ -8,7 +8,6 @@ import {
     Grid,
     Divider,
     Button,
-
 } from '@material-ui/core';
 import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core/styles";
@@ -39,6 +38,17 @@ const ProfileTextField = withStyles({
 
 })(TextField);
 
+const SaveButton = withStyles({
+    root: {
+        margin: 7,
+        backgroundColor: '#c48f65',
+        '&:hover': {
+
+            backgroundColor: '#996017'
+        },
+    }
+})(Button);
+
 const ProfileDetailsItem = props => {
     const {name, email, phone, state,
         handleChangeName, handleChangeEmail, handleChangePhone, handleChangeState,
@@ -59,6 +69,9 @@ const ProfileDetailsItem = props => {
         },
         {
             value: '충남',
+        },
+        {
+            value: '울산',
         },
         {
             value: '경북',
@@ -172,13 +185,13 @@ const ProfileDetailsItem = props => {
                 </CardContent>
                 <Divider/>
                 <CardActions>
-                    <Button
+                    <SaveButton
                         color="primary"
                         variant="contained"
                         onClick={handleSubmitProfile}
                     >
                         저장하기
-                    </Button>
+                    </SaveButton>
                 </CardActions>
             </form>
         </Card>

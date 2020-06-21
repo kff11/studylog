@@ -72,6 +72,12 @@ const LoginItem = () => {
     const handleChangePw = (e) => {
         setPassword(e.target.value);
     }
+    const handleKeyPress = (e) => {
+        //눌려진 키가 Enter이면 handleCreate호출파기
+        if (e.key === 'Enter') {
+            selectUserData(e);
+        }
+    }
 
     const selectUserData = async (e) => {
         e.preventDefault();
@@ -88,14 +94,16 @@ const LoginItem = () => {
 
         const res = await axios('/user/login', {
             method: 'POST',
-            data: {id, password},
-            password: password,
+            data: {
+                user_id: id,
+                password: password
+            },
             headers: new Headers(),
         });
+        console.log(res.data);
 
         if (res.data) {
             window.location.reload();
-
         } else {
             return alert('아이디 혹은 비밀번호가 일치하지 않습니다.')
         }
@@ -115,6 +123,7 @@ const LoginItem = () => {
                         fullWidth
                         label="Id"
                         autoFocus
+                        onKeyPress={handleKeyPress}
                         onChange={(e) => handleChangeId(e)}
                     />
                     <LoginTextField
@@ -126,6 +135,7 @@ const LoginItem = () => {
                         label="Password"
                         type="password"
                         autoComplete="current-password"
+                        onKeyPress={handleKeyPress}
                         onChange={(e) => handleChangePw(e)}
                     />
                     <Box mt={1}>
