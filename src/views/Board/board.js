@@ -5,11 +5,32 @@ import {BoardItem, BoardList} from "./components/index";
 import axios from "axios";
 import Grid from "@material-ui/core/Grid";
 
+import Tooltip from '@material-ui/core/Tooltip';
+import Fab from '@material-ui/core/Fab';
+import SearchIcon from '@material-ui/icons/Search';
+
+import Backdrop from '@material-ui/core/Backdrop';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+
+
 const useStyles = makeStyles((theme) => ({
-    root: {
+    root:{
+        position: 'relative',
+    },
+    grid: {
         display: "flex",
         justifyContent: "center",
         padding: theme.spacing(1),
+    },
+    absolute: {
+        position: 'absolute',
+        top: theme.spacing(2),
+        right: theme.spacing(3),
+    },
+    backdrop: {
+        zIndex: theme.zIndex.drawer + 1,
+        color: '#fff',
     },
 }));
 
@@ -19,6 +40,8 @@ const Board = () => {
     const [pages, setPages] = useState([]);
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(3);
+    const [openSearch, setOpenSearch] = React.useState(false); //search-button
+    const [searchWord, setSearchWord]  = React.useState('전체 보기');
 
     const classes = useStyles();
 
@@ -51,18 +74,47 @@ const Board = () => {
         getBoard(pageNum);
     }
 
+    const handleSearchClose = () => {
+        setOpenSearch(false);
+    };
+    const handleSearchToggle = () => {
+        setOpenSearch(!openSearch);
+    };
+
     return (
         <div className={classes.root}>
-            <Grid container justify="center">
-                <Grid item xs={12}>
-                    <BoardList
-                        boards={boards}
-                        page={page}
-                        pages={pages}
-                        handleChangePage={handleChangePage}
-                    />
+
+            {/* 검색 창 등장! */}
+            <Backdrop className={classes.backdrop} open={openSearch} >
+                <SearchIcon onClick={handleSearchClose} />
+                <TextField id="standard-basic" label="검색어를 입력해주세요" />
+            </Backdrop>
+
+            {/* 검색 버튼 */}
+            <Tooltip title="Search" aria-label="Search" onClick={handleSearchToggle}>
+                <Fab color="secondary" className={classes.absolute}>
+                    <SearchIcon />
+                </Fab>
+            </Tooltip>
+
+            {/* 검색어 등장! */}
+            <Typography variant="h5" component="h2" gutterBottom xs={8}>
+                #{searchWord}
+            </Typography>
+
+            <div className={classes.grid}>
+                <Grid container justify="center" >
+                    <Grid item xs={8}>
+                        <BoardList
+                            boards={boards}
+                            page={page}
+                            pages={pages}
+                            handleChangePage={handleChangePage}
+                        />
+                    </Grid>
                 </Grid>
-            </Grid>
+            </div>
+
         </div>
     );
 }
