@@ -4,6 +4,7 @@ const {
     Test,
     User,
     Diary,
+    Reply,
     Sequelize: {Op}
 } = require('./models');
 sequelize.query('SET NAMES utf8;');
@@ -122,6 +123,7 @@ module.exports = {
             })
         }
     },
+    // 공유 게시판
     board: {
         getBoard: (page, limit, callback) => {
             let result = {};
@@ -139,12 +141,46 @@ module.exports = {
                     result['rows'] = _result
                     callback(result)
                 }).catch(err => {
-                    throw err
+                    throw err;
                 })
             }).catch(err => {
-                throw err
+                throw err;
             })
         },
+    },
+    // 댓글
+    comment: {
+        getComments: (diary_id, callback) => {
+            Reply.findAll({
+                where: {diary_id: diary_id},
+            }).then(result => {
+                callback(result)
+            }).catch(err => {
+                throw err;
+            })
+        },
+        addComment: (diary_id, user_id, user_name, contents, date, callback) => {
+            Reply.create({
+                diary_id: diary_id,
+                user_id: user_id,
+                user_name: user_name,
+                contents: contents,
+                date: date,
+            }).then(
+                callback(true)
+            ).catch(err => {
+                throw err;
+            })
+        },
+        delComment: (id, callback) => {
+            Reply.destroy({
+                where: {id: id}
+            }).then(
+                callback(true)
+            ).catch(err => {
+                throw err;
+            })
+        }
     },
     // 로그인 및 프로필
     user: {

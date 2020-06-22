@@ -114,6 +114,27 @@ module.exports = {
         }
     },
 
+    // 댓글
+    comment: {
+        getComments: (req, res) => {
+            model.comment.getComments(req.body.diary_id, result => {
+                return res.send(result);
+            })
+        },
+        addComment: (req, res) => {
+            const now_date = moment().format('MM-DD HH:mm');
+            const body = req.body;
+            model.comment.addComment(body.diary_id, body.user_id, body.user_name, body.contents, now_date, result => {
+                return res.send(result);
+            })
+        },
+        delComment: (req, res) => {
+            model.comment.delComment(req.body.id, result => {
+                return res.send(result);
+            })
+        }
+    },
+
     // 로그인, 회원가입, 프로필
     user: {
         login: (req, res) => {

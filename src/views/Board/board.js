@@ -135,7 +135,7 @@ const Board = () => {
                     id: readId
                 },
             })
-            if(res.data){
+            if (res.data) {
                 alert('공유가 취소되었습니다!');
                 handleClose();
                 getBoard(page);
@@ -206,6 +206,7 @@ const Board = () => {
                         page={page}
                         pages={pages}
                         loginId={decoded.user_id}
+                        loginName={decoded.name}
                         handleOpen={handleOpen}
                         handleChangePage={handleChangePage}
                     />

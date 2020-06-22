@@ -19,10 +19,9 @@ router.post('/diary/cancel', verifyToken, controller.diary.cancel)
 
 // 게시판
 router.post('/board/get', verifyToken, controller.board.getBoard);
-/*router.post('/board/comment/get', verifyToken, controller.board.getComments);
-router.post('/board/comment/add', verifyToken, controller.board.addComments);
-router.post('/board/comment/del', verifyToken, controller.board.delComments);
-router.post('/board/comment/modify', verifyToken, controller.board.modifyComments);*/
+router.post('/comment/get', verifyToken, controller.comment.getComments);
+router.post('/comment/add', verifyToken, controller.comment.addComment);
+router.post('/comment/del', verifyToken, controller.comment.delComment);
 
 // 로그인, 회원가입, 프로필
 router.post('/user/add', controller.user.addUser);

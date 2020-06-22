@@ -40,12 +40,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const BoardList = props => {
-    const {boards, page, pages, loginId, handleOpen, handleChangePage} = props;
+    const {boards, page, pages, loginId, loginName, handleOpen, handleChangePage} = props;
     const classes = useStyles();
 
     const boardItem = boards.map(({id, user_id, user_name, title, contents, board_date, isBoard}) => (
             <BoardItem
-                user_id={user_id}
+                id={id}
+                loginId={loginId}
+                loginName={loginName}
                 name={user_name}
                 contents={contents}
                 title={title}
@@ -93,6 +95,7 @@ BoardList.propTypes = {
     page: PropTypes.number,
     pages: PropTypes.number,
     loginId: PropTypes.string,
+    loginName: PropTypes.string,
     handleChangePage: PropTypes.func,
 }
 
