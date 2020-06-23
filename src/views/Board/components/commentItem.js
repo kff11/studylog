@@ -35,23 +35,8 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const CommentItem = ({id, user_name, contents, date, verify, getComments}) => {
+const CommentItem = ({id, user_name, contents, date, verify, delComment}) => {
     const classes = useStyles();
-
-    const delComment = async () => {
-        if(window.confirm('댓글을 삭제하시겠습니까?')){
-            const res = await axios('/comment/del', {
-                method: 'POST',
-                data: {
-                    id: id,
-                }
-            })
-            if(res.data){
-                alert('삭제되었습니다!')
-                getComments();
-            }
-        }
-    }
 
     return (
         <div className={classes.root}>
@@ -72,7 +57,7 @@ const CommentItem = ({id, user_name, contents, date, verify, getComments}) => {
                 {/*       defaultValue={contents} />*/}
             </div>
             <IconButton disabled={verify} aria-controls="this card's menu" aria-haspopup="true"
-                        onClick={delComment}>
+                        onClick={() => delComment(id)}>
                 <Delete/>
             </IconButton>
         </div>

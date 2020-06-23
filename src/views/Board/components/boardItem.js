@@ -93,6 +93,21 @@ const BoardItem = props => {
         }
     }
 
+    const delComment = async (id) => {
+        if (window.confirm('댓글을 삭제하시겠습니까?')) {
+            const res = await axios('/comment/del', {
+                method: 'POST',
+                data: {
+                    id: id,
+                }
+            })
+            if (res.data) {
+                alert('삭제되었습니다!')
+                getComments();
+            }
+        }
+    }
+
     const handleKeyPress = (e) => {
         //눌려진 키가 Enter이면 handleCreate호출파기
         if (e.key === 'Enter') {
@@ -112,7 +127,7 @@ const BoardItem = props => {
 
     useEffect(() => {
         getComments();
-    }, []);
+    }, [id]);
 
     return (
         <Card className={classes.root} elevation={2}>
@@ -138,9 +153,9 @@ const BoardItem = props => {
             >
                 <IconButton size="small" aria-label="article's comments" disabled color="primary">
                     <SmsIcon aria-label="comment icon"/>
-                    {/*<Typography aria-label="comment" variant="subtitle2" component="p">
-                        {comments.length}
-                    </Typography>*/}
+                    <Typography aria-label="comment" variant="subtitle2" component="p" style={{marginLeft: 4, marginBottom: 1}}>
+                        <b>{comments.length}</b>
+                    </Typography>
                 </IconButton>
                 <IconButton
                     className={clsx(classes.expand, {
@@ -164,7 +179,7 @@ const BoardItem = props => {
                     />
                     <CommentList
                         loginId={loginId}
-                        getComments={getComments}
+                        delComment={delComment}
                         comments={comments}
                     />
                 </CardContent>

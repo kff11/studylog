@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {CommentItem} from "./index";
 
-const CommentList = ({comments, getComments, loginId}) => {
+const CommentList = ({comments, loginId, delComment}) => {
     // {id, username, contents, date}
     const commentList = comments.map(({id, user_id, user_name, contents, date}) => (
             <CommentItem
@@ -10,7 +10,7 @@ const CommentList = ({comments, getComments, loginId}) => {
                 contents={contents} //댓글 내용
                 date={date} //댓글 쓴 날짜
                 verify={!(user_id === loginId) ? true : false}
-                getComments={getComments}
+                delComment={delComment}
             />
         )
     );

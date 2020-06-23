@@ -64,6 +64,15 @@ const Board = () => {
         getAllPage(res.data['count']);
     }
 
+    const commentsInit = async () => {
+        const res = await axios('/comment/init', {
+            method: 'POST',
+            data: {
+                diary_id: '12'
+            }
+        })
+    }
+
     const getAllPage = (count) => {
         let pageArray = [];
         for (let i = 1; i <= Math.ceil(count / limit); i++) {
