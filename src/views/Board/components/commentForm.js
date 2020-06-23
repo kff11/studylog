@@ -1,7 +1,6 @@
 import React from "react";
 import {makeStyles, withStyles} from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
-import {AvatarPic} from "../../../images";
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import TextField from "@material-ui/core/TextField";
@@ -45,14 +44,14 @@ const WriteButton = withStyles({
     }
 })(Button);
 
-const CommentForm = ({value, onChange, onCreate, onKeyPress}) => {
+const CommentForm = ({value, onChange, onCreate, avatar, onKeyPress}) => {
     const classes = useStyles();
 
     return (
         <div>
             <Divider/>
             <div className={classes.form}>
-                <Avatar alt="user" src={AvatarPic}/>
+                <Avatar alt="user" src={avatar}/>
                 <CommentTextField className={classes.textField}
                        value={value}
                        inputProps={{'aria-label': 'description'}}

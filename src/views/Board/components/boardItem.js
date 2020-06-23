@@ -170,6 +170,7 @@ const BoardItem = props => {
                     {/* 댓글 입력 폼 */}
                     <CommentForm
                         value={input}
+                        avatar={avatar}
                         onChange={handleChange}
                         onCreate={addComment}
                         onKeyPress={handleKeyPress}
