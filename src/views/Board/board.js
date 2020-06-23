@@ -189,6 +189,7 @@ const Board = () => {
                         pages={pages}
                         loginId={decoded.user_id}
                         loginName={decoded.name}
+                        CommentAvatar={decoded.avatar}
                         handleOpen={handleOpen}
                         handleChangePage={handleChangePage}
                     />

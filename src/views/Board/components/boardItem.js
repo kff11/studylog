@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const BoardItem = props => {
-    const {id, loginId, loginName, name, title, date, contents, verify, avatar, handleOpen} = props;
+    const {id, loginId, loginName, name, title, date, contents, verify, avatar, CommentAvatar, handleOpen} = props;
     const classes = useStyles();
 
     //작성 시간 : form -> boardItem -> comment?
@@ -170,7 +170,7 @@ const BoardItem = props => {
                     {/* 댓글 입력 폼 */}
                     <CommentForm
                         value={input}
-                        avatar={avatar}
+                        avatar={CommentAvatar}
                         onChange={handleChange}
                         onCreate={addComment}
                         onKeyPress={handleKeyPress}
@@ -199,6 +199,7 @@ BoardItem.propTypes = {
     date: PropTypes.string,
     verify: PropTypes.bool,
     comments: PropTypes.object,
+    CommentAvatar: PropTypes.string,
     handleOpen: PropTypes.func,
 }
 
