@@ -7,7 +7,7 @@ const controller = require('./controller');
 const {verifyToken} = require('./authorization');
 
 const upload = multer({
-        dest: 'public/images/'
+        dest: 'build/images/'
     }
 )
 
