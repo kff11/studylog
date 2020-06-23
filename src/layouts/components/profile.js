@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Link} from 'react-router-dom';
 import PropTypes from "prop-types";
 import {Avatar, Typography} from "@material-ui/core";
@@ -32,11 +32,6 @@ const ProfileNav = props => {
         avatar: avatar,
         mento: mento ? '멘토' : '학습자',
     }
-
-    useEffect(() => {
-        console.log(avatar);
-        console.log(user.avatar);
-    })
 
     return (
         <div className={classes.root}>

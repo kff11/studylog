@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {CommentItem} from "./index";
 
 const CommentList = ({comments, loginId, delComment}) => {

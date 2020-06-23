@@ -62,7 +62,6 @@ const Profile = () => {
             const formData = new FormData();
             formData.append('img', e.target.files[0]);
             const res = await axios.post('/user/addImg', formData);
-
             if (res.data) {
                 alert('사진 수정이 완료되었습니다!')
                 window.location.reload();

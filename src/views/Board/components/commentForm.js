@@ -1,7 +1,6 @@
 import React from "react";
 import {makeStyles, withStyles} from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
-import Input from '@material-ui/core/Input';
 import {AvatarPic} from "../../../images";
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';

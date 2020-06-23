@@ -64,15 +64,6 @@ const Board = () => {
         getAllPage(res.data['count']);
     }
 
-    const commentsInit = async () => {
-        const res = await axios('/comment/init', {
-            method: 'POST',
-            data: {
-                diary_id: '12'
-            }
-        })
-    }
-
     const getAllPage = (count) => {
         let pageArray = [];
         for (let i = 1; i <= Math.ceil(count / limit); i++) {
@@ -115,24 +106,6 @@ const Board = () => {
         if (res.data) {
             alert('수정되었습니다!')
             getBoard(page);
-        }
-    }
-
-    const shareDiary = async () => {
-        if (window.confirm('공유하시겠습니까?')) {
-            const res = await axios('/diary/share', {
-                method: 'POST',
-                data: {
-                    id: readId
-                },
-            })
-            if (res.data) {
-                alert('공유되었습니다!')
-                handleClose();
-                getBoard(page);
-            } else {
-                alert('잠시 후 다시 시도해 주십시오.')
-            }
         }
     }
 

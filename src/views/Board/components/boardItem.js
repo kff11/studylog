@@ -19,7 +19,7 @@ import clsx from 'clsx';
 import axios from 'axios';
 
 
-import {CommentForm, CommentItem, CommentList} from "./index";
+import {CommentForm, CommentList} from "./index";
 
 const useStyles = makeStyles((theme) => ({
     root: {
