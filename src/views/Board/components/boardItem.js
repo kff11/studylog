@@ -8,11 +8,7 @@ import {
     Typography,
     CardActions,
     Collapse,
-    MenuItem,
-    Menu
 } from "@material-ui/core";
-import {AvatarPic} from "../../../images";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import SmsIcon from "@material-ui/icons/Sms";
 import {Create} from "@material-ui/icons";
 import {makeStyles} from "@material-ui/core/styles";
@@ -58,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const BoardItem = props => {
-    const {id, loginId, loginName, name, title, date, contents, verify, handleOpen} = props;
+    const {id, loginId, loginName, name, title, date, contents, verify, avatar, handleOpen} = props;
     const classes = useStyles();
 
     //작성 시간 : form -> boardItem -> comment?
@@ -132,7 +128,7 @@ const BoardItem = props => {
     return (
         <Card className={classes.root} elevation={2}>
             <CardHeader
-                avatar={<Avatar aria-label="avatar" src={AvatarPic}/>}
+                avatar={<Avatar aria-label="avatar" src={avatar}/>}
                 action={
                     <IconButton disabled={verify} aria-controls="this card's menu" aria-haspopup="true"
                                 onClick={handleOpen}>
@@ -153,7 +149,8 @@ const BoardItem = props => {
             >
                 <IconButton size="small" aria-label="article's comments" disabled color="primary">
                     <SmsIcon aria-label="comment icon"/>
-                    <Typography aria-label="comment" variant="subtitle2" component="p" style={{marginLeft: 4, marginBottom: 1}}>
+                    <Typography aria-label="comment" variant="subtitle2" component="p"
+                                style={{marginLeft: 4, marginBottom: 1}}>
                         <b>{comments.length}</b>
                     </Typography>
                 </IconButton>
@@ -194,6 +191,7 @@ BoardItem.propTypes = {
     loginId: PropTypes.string,
     loginName: PropTypes.string,
     user_id: PropTypes.string,
+    avatar: PropTypes.string,
     name: PropTypes.string,
     title: PropTypes.string,
     contents: PropTypes.string,

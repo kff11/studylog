@@ -41,7 +41,7 @@ module.exports = {
     },
     // 일기장
     diary: {
-        addDiary: (req, id, name, date, callback) => {
+        addDiary: (req, id, name, date, avatar, callback) => {
             Diary.create({
                 user_id: id,
                 user_name: name,
@@ -50,6 +50,7 @@ module.exports = {
                 date: date,
                 isBoard: false,
                 board_date: 0,
+                avatar: avatar
             }).then(result => {
                 callback(result)
             }).catch(err => {
@@ -159,13 +160,14 @@ module.exports = {
                 throw err;
             })
         },
-        addComment: (diary_id, user_id, user_name, contents, date, callback) => {
+        addComment: (diary_id, user_id, user_name, contents, date, avatar, callback) => {
             Reply.create({
                 diary_id: diary_id,
                 user_id: user_id,
                 user_name: user_name,
                 contents: contents,
                 date: date,
+                avatar: avatar,
             }).then(
                 callback(true)
             ).catch(err => {
@@ -236,8 +238,68 @@ module.exports = {
                     Diary.update({
                         user_name: body.name,
                     }, {where: {user_id: user_id}})
-                        .then(result => {
-                            result[0] >= 0 ? callback(true) : callback(false)
+                        .then(() => {
+                            Reply.update({
+                                user_name: body.name,
+                            }, {where: {user_id: user_id}})
+                                .then(result => {
+                                    result[0] >= 0 ? callback(true) : callback(false)
+                                })
+                                .catch(err => {
+                                    throw err;
+                                })
+                        })
+                        .catch(err => {
+                            throw err;
+                        })
+                })
+                .catch(err => {
+                    throw err;
+                })
+        },
+        updateImage: (user_id, filename, callback) => {
+            User.update({
+                avatar: '/images/' + filename,
+            }, {where: {user_id: user_id}})
+                .then(() => {
+                    console.log('1단계')
+                    Diary.update({
+                        avatar: '/images/' + filename,
+                    }, {where: {user_id: user_id}})
+                        .then(() => {
+                            console.log('2단계')
+                            Reply.update({
+                                avatar: '/images/' + filename,
+                            }, {where: {user_id: user_id}})
+                                .then(callback(true))
+                                .catch(err => {
+                                    throw err;
+                                })
+                        })
+                        .catch(err => {
+                            throw err;
+                        })
+                })
+                .catch(err => {
+                    throw err;
+                })
+        },
+        delImage: (user_id, avatar, callback) => {
+            User.update({
+                avatar: null,
+            }, {where: {user_id: user_id}})
+                .then(() => {
+                    Diary.update({
+                        avatar: null,
+                    }, {where: {user_id: user_id}})
+                        .then(() => {
+                            Reply.update({
+                                avatar: null,
+                            }, {where: {user_id: user_id}})
+                                .then(callback(true))
+                                .catch(err => {
+                                    throw err;
+                                })
                         })
                         .catch(err => {
                             throw err;

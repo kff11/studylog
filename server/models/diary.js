@@ -35,7 +35,10 @@ module.exports = (sequelize, DataTypes) => {
             board_date: {
                 type: DataTypes.STRING(25),
                 allowNull: false,
-            }
+            },
+            avatar: {
+                type: DataTypes.STRING(50),
+            },
         },
         {
             charset: 'utf8',

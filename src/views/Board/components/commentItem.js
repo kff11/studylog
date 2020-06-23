@@ -1,13 +1,11 @@
 import React from "react";
 
 import Avatar from "@material-ui/core/Avatar";
-import {AvatarPic2} from "../../../images";
 
 import {makeStyles} from "@material-ui/core/styles";
 import Typography from '@material-ui/core/Typography';
 import IconButton from "@material-ui/core/IconButton";
 import {Delete} from "@material-ui/icons";
-import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -35,12 +33,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const CommentItem = ({id, user_name, contents, date, verify, delComment}) => {
+const CommentItem = ({id, user_name, contents, date, verify, avatar, delComment}) => {
     const classes = useStyles();
 
     return (
         <div className={classes.root}>
-            <Avatar alt="user" src={AvatarPic2}/>
+            <Avatar alt="user" src={avatar}/>
             <div className={classes.rightSide}>
                 <div style={{display: 'flex', paddingRight: 16,}}>
                     <Typography variant="body2" className={classes.takeFull}>

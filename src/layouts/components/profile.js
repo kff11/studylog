@@ -1,7 +1,6 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Link} from 'react-router-dom';
 import PropTypes from "prop-types";
-import {AvatarPic} from "../../images";
 import {Avatar, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 
@@ -24,15 +23,20 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ProfileNav = props => {
-    const {name, mento, onClose} = props;
+    const {name, mento, avatar, onClose} = props;
 
     const classes = useStyles();
 
     const user = {
         name: name,
-        avatar: AvatarPic,
+        avatar: avatar,
         mento: mento ? '멘토' : '학습자',
     }
+
+    useEffect(() => {
+        console.log(avatar);
+        console.log(user.avatar);
+    })
 
     return (
         <div className={classes.root}>
@@ -40,7 +44,7 @@ const ProfileNav = props => {
                 alt="Person"
                 className={classes.avatar}
                 component={Link}
-                src={user.avatar}
+                src={avatar}
                 to="/profile"
                 onClick={onClose}
             />
@@ -55,9 +59,10 @@ const ProfileNav = props => {
     );
 }
 ProfileNav.propTypes = {
-    nClose: PropTypes.func,
+    onClose: PropTypes.func,
     name: PropTypes.string,
     mento: PropTypes.string,
+    avatar: PropTypes.string,
 }
 
 export default ProfileNav;

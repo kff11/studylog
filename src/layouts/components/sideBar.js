@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SideBar = props => {
-    const {open, variant, onClose, name, mento} = props;
+    const {open, variant, onClose, name, mento, avatar} = props;
 
     const classes = useStyles();
 
@@ -77,6 +77,7 @@ const SideBar = props => {
                 <ProfileNav
                     name={name}
                     mento={mento}
+                    avatar={avatar}
                     onClose={onClose}
                 />
                 <Divider className={classes.divider}/>
@@ -96,6 +97,7 @@ SideBar.propTypes = {
     variant: PropTypes.string.isRequired,
     name: PropTypes.string,
     mento: PropTypes.bool,
+    avatar: PropTypes.string,
 };
 
 export default SideBar;

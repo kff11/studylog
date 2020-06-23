@@ -21,6 +21,7 @@ const Profile = () => {
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [state, setState] = useState('');
+    const [avatar, setAvatar] = useState('');
 
     const getProfile = async () => {
         const res = await axios.get('/user/get')
@@ -32,24 +33,53 @@ const Profile = () => {
             setEmail(res.data.email);
             setPhone(res.data.phone);
             setState(res.data.state);
+            setAvatar(res.data.avatar);
         }
     }
 
     const handleChangeName = (e) => {
         setName(e.target.value);
     }
+
     const handleChangeMento = (e) => {
         setMento(e.target.value);
     }
+
     const handleChangeEmail = (e) => {
         setEmail(e.target.value);
     }
+
     const handleChangePhone = (e) => {
         setPhone(e.target.value);
     }
+
     const handleChangeState = (e) => {
         setState(e.target.value);
     }
+
+    const handleChangeImage = async (e) => {
+        if (window.confirm('사진을 수정하시겠습니까?')) {
+            const formData = new FormData();
+            formData.append('img', e.target.files[0]);
+            const res = await axios.post('/user/addImg', formData);
+
+            if (res.data) {
+                alert('사진 수정이 완료되었습니다!')
+                window.location.reload();
+            }
+        }
+    }
+
+    const handleDeleteImage = async () => {
+        if (window.confirm('사진을 삭제하시겠습니까?')) {
+            const res = await axios.get('/user/delImg');
+            if (res.data) {
+                alert('사진 삭제가 완료되었습니다!')
+                window.location.reload();
+            }
+        }
+    }
+
     const handleSubmitProfile = async () => {
         const nameCheck = /^[가-힣]{2,10}$/; // 이름 *한글 2~10자
         const emailCheck = /^[0-9a-zA-Z]([-_]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i; // 이메일 정규표현식
@@ -102,6 +132,9 @@ const Profile = () => {
                         userId={userId}
                         name={_name}
                         mento={mento}
+                        avatar={avatar}
+                        handleChangeImage={handleChangeImage}
+                        handleDeleteImage={handleDeleteImage}
                     />
                 </Grid>
                 <Grid

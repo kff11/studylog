@@ -28,6 +28,9 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING(25),
                 allowNull: false,
             },
+            avatar: {
+                type: DataTypes.STRING(50),
+            },
         },
         {
             charset: 'utf8',

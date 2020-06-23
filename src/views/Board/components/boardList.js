@@ -43,7 +43,7 @@ const BoardList = props => {
     const {boards, page, pages, loginId, loginName, handleOpen, handleChangePage} = props;
     const classes = useStyles();
 
-    const boardItem = boards.map(({id, user_id, user_name, title, contents, board_date, isBoard}) => (
+    const boardItem = boards.map(({id, user_id, user_name, title, contents, board_date, avatar, isBoard}) => (
             <BoardItem
                 id={id}
                 loginId={loginId}
@@ -53,6 +53,7 @@ const BoardList = props => {
                 title={title}
                 verify={!(user_id === loginId) ? true : false}
                 date={board_date}
+                avatar={avatar}
                 handleOpen={() => handleOpen(id, title, contents, isBoard)}
             />
         )
