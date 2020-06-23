@@ -16,6 +16,11 @@ app.use(express.json());
 app.use('/', router);
 app.use('/', require('redirect-https')());
 
+fs.readdir('public/images', (err) => {
+    if (err) {
+        fs.mkdirSync('public/images');
+    }
+})
 
 if (process.env.NODE_ENV === 'production') {
     // 배포일 때

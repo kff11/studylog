@@ -1,11 +1,15 @@
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define(
-        'diary',
+        'reply',
         {
             id: {
                 type: DataTypes.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,
+                allowNull: false,
+            },
+            diary_id: {
+                type: DataTypes.INTEGER,
                 allowNull: false,
             },
             user_id: {
@@ -16,23 +20,11 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING(25),
                 allowNull: false,
             },
-            title: {
-                type: DataTypes.STRING(50),
-                allowNull: false,
-            },
             contents: {
                 type: DataTypes.STRING(300),
                 allowNull: false,
             },
             date: {
-                type: DataTypes.DATE,
-                allowNull: false,
-            },
-            isBoard: {
-                type: DataTypes.BOOLEAN,
-                allowNull: false,
-            },
-            board_date: {
                 type: DataTypes.STRING(25),
                 allowNull: false,
             },

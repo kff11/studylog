@@ -40,17 +40,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const BoardList = props => {
-    const {boards, page, pages, loginId, handleOpen, handleChangePage} = props;
+    const {boards, page, pages, loginId, loginName, CommentAvatar, handleOpen, handleChangePage} = props;
     const classes = useStyles();
 
-    const boardItem = boards.map(({id, user_id, user_name, title, contents, board_date, isBoard}) => (
+    const boardItem = boards.map(({id, user_id, user_name, title, contents, board_date, avatar, isBoard}) => (
             <BoardItem
-                user_id={user_id}
+                id={id}
+                loginId={loginId}
+                loginName={loginName}
                 name={user_name}
                 contents={contents}
                 title={title}
                 verify={!(user_id === loginId) ? true : false}
                 date={board_date}
+                CommentAvatar={CommentAvatar}
+                avatar={avatar}
                 handleOpen={() => handleOpen(id, title, contents, isBoard)}
             />
         )
@@ -93,6 +97,8 @@ BoardList.propTypes = {
     page: PropTypes.number,
     pages: PropTypes.number,
     loginId: PropTypes.string,
+    loginName: PropTypes.string,
+    CommentAvatar: PropTypes.string,
     handleChangePage: PropTypes.func,
 }
 

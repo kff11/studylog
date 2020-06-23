@@ -24,6 +24,10 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false
             },
 
+            avatar: {
+              type: DataTypes.STRING(50),
+            },
+
             name: {
                 type: DataTypes.STRING(25),
                 allowNull: false,
@@ -53,11 +57,11 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.DATE,
                 allowNull: false
             },
-
             refreshToken: {
                 type: DataTypes.STRING(200),
                 allowNull: false
             },
+
         },
         {
             charset: 'utf8',

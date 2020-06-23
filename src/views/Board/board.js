@@ -109,24 +109,6 @@ const Board = () => {
         }
     }
 
-    const shareDiary = async () => {
-        if (window.confirm('공유하시겠습니까?')) {
-            const res = await axios('/diary/share', {
-                method: 'POST',
-                data: {
-                    id: readId
-                },
-            })
-            if (res.data) {
-                alert('공유되었습니다!')
-                handleClose();
-                getBoard(page);
-            } else {
-                alert('잠시 후 다시 시도해 주십시오.')
-            }
-        }
-    }
-
     const cancelShare = async () => {
         if (window.confirm('공유를 취소하시겠습니까?')) {
             const res = await axios('/diary/cancel', {
@@ -135,7 +117,7 @@ const Board = () => {
                     id: readId
                 },
             })
-            if(res.data){
+            if (res.data) {
                 alert('공유가 취소되었습니다!');
                 handleClose();
                 getBoard(page);
@@ -206,6 +188,8 @@ const Board = () => {
                         page={page}
                         pages={pages}
                         loginId={decoded.user_id}
+                        loginName={decoded.name}
+                        CommentAvatar={decoded.avatar}
                         handleOpen={handleOpen}
                         handleChangePage={handleChangePage}
                     />

@@ -41,7 +41,7 @@ const Main = props => {
     const [openSidebar, setOpenSidebar] = useState(false);
     const [name, setName] = useState('');
     const [mento, setMento] = useState('');
-
+    const [avatar, setAvatar] = useState('');
     const decoded = jwt.decode(cookies.user, jwtKey.secret);
 
     const handleSidebarOpen = () => {
@@ -57,6 +57,7 @@ const Main = props => {
     useEffect(() => {
         setName(decoded.name);
         setMento(decoded.mento);
+        setAvatar(decoded.avatar);
     }, [decoded])
 
     return (
@@ -70,6 +71,7 @@ const Main = props => {
                 mento={mento}
                 onClose={handleSidebarClose}
                 open={shouldOpenSidebar}
+                avatar={avatar}
                 variant={isDesktop ? 'persistent' : 'temporary'}
             />
             <main className={classes.content}>

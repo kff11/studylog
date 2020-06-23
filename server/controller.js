@@ -17,6 +17,7 @@ const clientTokenSign = (result) => {
                 user_id: result.user_id,
                 name: result.name,
                 mento: result.mento,
+                avatar: result.avatar,
             },
             jwtKey.secret, {
                 expiresIn: '1h',
@@ -54,8 +55,9 @@ module.exports = {
             const clientToken = req.cookies.user;
             const user_id = jwt.decode(clientToken, jwtKey.secret).user_id;
             const name = jwt.decode(clientToken, jwtKey.secret).name;
+            const avatar = jwt.decode(clientToken, jwtKey.secret).avatar;
             const now_date = moment().format('YYYY-MM-DD HH:mm:ss');
-            model.diary.addDiary(req, user_id, name, now_date, data => {
+            model.diary.addDiary(req, user_id, name, now_date, avatar, data => {
                 return res.send(data);
             })
         },
@@ -114,6 +116,30 @@ module.exports = {
         }
     },
 
+    // 댓글
+    comment: {
+        getComments: (req, res) => {
+            model.comment.getComments(req.body.diary_id, result => {
+                return res.send(result);
+            })
+        },
+        addComment: (req, res) => {
+            const clientToken = req.cookies.user;
+            const avatar = jwt.decode(clientToken, jwtKey.secret).avatar;
+            const now_date = moment().format('MM-DD HH:mm');
+            const body = req.body;
+            model.comment.addComment(body.diary_id, body.user_id, body.user_name, body.contents, now_date,
+                    avatar, result => {
+                return res.send(result);
+            })
+        },
+        delComment: (req, res) => {
+            model.comment.delComment(req.body.id, result => {
+                return res.send(result);
+            })
+        }
+    },
+
     // 로그인, 회원가입, 프로필
     user: {
         login: (req, res) => {
@@ -152,23 +178,62 @@ module.exports = {
             const clientToken = req.cookies.user;
             const user_id = jwt.decode(clientToken, jwtKey.secret).user_id;
             model.user.getUser(user_id, result => {
-                res.send(result[0]);
+                return res.send(result[0]);
             })
         },
         updateProfile: (req, res) => {
             const clientToken = req.cookies.user;
             const user_id = jwt.decode(clientToken, jwtKey.secret).user_id;
             const mento = jwt.decode(clientToken, jwtKey.secret).mento;
+            const avatar = jwt.decode(clientToken, jwtKey.secret).avatar;
 
             model.user.updateUser(req.body, user_id, result => {
                 const profile = {
                     user_id: user_id,
                     name: req.body.name,
-                    mento: mento
+                    mento: mento,
+                    avatar: avatar,
                 }
                 const _clientToken = clientTokenSign(profile);
                 res.cookie('user', _clientToken);
-                res.send(result);
+                return res.send(result);
+            })
+        },
+        updateImage: (req, res) => {
+            const clientToken = req.cookies.user;
+            const user_id = jwt.decode(clientToken, jwtKey.secret).user_id;
+            const name = jwt.decode(clientToken, jwtKey.secret).name;
+            const mento = jwt.decode(clientToken, jwtKey.secret).mento;
+
+            model.user.updateImage(user_id, req.file.filename, result => {
+                const profile = {
+                    user_id: user_id,
+                    name: name,
+                    mento: mento,
+                    avatar: '/images/' + req.file.filename,
+                }
+                const _clientToken = clientTokenSign(profile);
+                res.cookie('user', _clientToken);
+                return res.send(result);
+            })
+        },
+        delImage: (req, res) => {
+            const clientToken = req.cookies.user;
+            const user_id = jwt.decode(clientToken, jwtKey.secret).user_id;
+            const name = jwt.decode(clientToken, jwtKey.secret).name;
+            const mento = jwt.decode(clientToken, jwtKey.secret).mento;
+            const avatar = jwt.decode(clientToken, jwtKey.secret).avatar;
+
+            model.user.delImage(user_id, avatar, result => {
+                const profile = {
+                    user_id: user_id,
+                    name: name,
+                    mento: mento,
+                    avatar: null,
+                }
+                const _clientToken = clientTokenSign(profile);
+                res.cookie('user', _clientToken);
+                return res.send(result);
             })
         }
 

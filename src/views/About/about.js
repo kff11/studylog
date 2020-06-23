@@ -1,11 +1,17 @@
 import React from "react";
-import {TestContents} from "./components";
+import {Desktop, Mobile} from "../../images";
+import {Hidden} from "@material-ui/core";
 
 const About = () => {
 
     return (
         <div>
-            <TestContents/>
+            <Hidden smDown>
+                <img src={Desktop} alt='설명' width='950' height='700'/>
+            </Hidden>
+            <Hidden mdUp>
+                <img src={Mobile} alt='설명' width='350' height='900'/>
+            </Hidden>
         </div>
     );
 }

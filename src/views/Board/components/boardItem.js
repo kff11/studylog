@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Card from "@material-ui/core/Card";
 import {
     CardHeader,
@@ -8,20 +8,18 @@ import {
     Typography,
     CardActions,
     Collapse,
-    MenuItem,
-    Menu
 } from "@material-ui/core";
-import {AvatarPic} from "../../../images";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import SmsIcon from "@material-ui/icons/Sms";
+import {Create} from "@material-ui/icons";
 import {makeStyles} from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import clsx from 'clsx';
+import axios from 'axios';
 
 
-import {CommentForm, CommentItem, CommentList} from ".//index";
+import {CommentForm, CommentList} from "./index";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -56,91 +54,91 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const BoardItem = props => {
-    const {name, title, date, contents, _comments, verify, handleOpen} = props;
+    const {id, loginId, loginName, name, title, date, contents, verify, avatar, CommentAvatar, handleOpen} = props;
     const classes = useStyles();
-    const currentTime = new Date();
-
 
     //작성 시간 : form -> boardItem -> comment?
-    const [comments, setComments] = useState(
-        [
-            {id: 0, username: '김지똥', contents: '아 어렵네', date: '2020.20.20'},
-            {id: 1, username: '김슈슈', contents: '아 너무 어렵네', date: '2020.21.21'},
-        ]
-    );
-
-    const [anchorEl, setAnchorEl] = useState(null); //삭제 및 수정
+    const [comments, setComments] = useState([]);
     const [expanded, setExpanded] = useState(false); //댓글창 열리게
+    const [input, setInput] = useState(''); //댓글 작성성
 
-    //댓글 작성성
-    const [input, setInput] = React.useState('');
+    const getComments = async () => {
+        const res = await axios('/comment/get', {
+            method: 'POST',
+            data: {
+                diary_id: id,
+            }
+        });
+        setComments(res.data);
+    }
+
+    const addComment = async () => {
+        const res = await axios('/comment/add', {
+            method: 'POST',
+            data: {
+                diary_id: id,
+                user_name: loginName,
+                user_id: loginId,
+                contents: input
+            }
+        })
+        if (res.data) {
+            alert('댓글 작성되었습니다!')
+            getComments();
+            setInput('');
+        }
+    }
+
+    const delComment = async (id) => {
+        if (window.confirm('댓글을 삭제하시겠습니까?')) {
+            const res = await axios('/comment/del', {
+                method: 'POST',
+                data: {
+                    id: id,
+                }
+            })
+            if (res.data) {
+                alert('삭제되었습니다!')
+                getComments();
+            }
+        }
+    }
 
     const handleKeyPress = (e) => {
         //눌려진 키가 Enter이면 handleCreate호출파기
         if (e.key === 'Enter') {
-            handleCreate();
+            addComment();
         }
     }
     const handleChange = (e) => {
         setInput(e.target.value);
     }
 
-    const handleCreate = (e) => {
-        setInput('');
-        setComments(
-            comments.concat({
-                id: comments.length,
-                username: '유저 네임',
-                contents: input,
-                date: currentTime.toLocaleDateString() + currentTime.toLocaleTimeString()
-            })
-        )
-        console.log('create');
-    }
-
-
     const handleExpandClick = () => {
         setExpanded(!expanded);
+        if (!expanded) {
+            getComments();
+        }
     };
 
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-    const handleMenuOpen = () => {
-        handleClose();
-        handleOpen();
-    }
-
+    useEffect(() => {
+        getComments();
+    }, [id]);
 
     return (
         <Card className={classes.root} elevation={2}>
             <CardHeader
-                avatar={<Avatar aria-label="avatar" src={AvatarPic}/>}
+                avatar={<Avatar aria-label="avatar" src={avatar}/>}
                 action={
                     <IconButton disabled={verify} aria-controls="this card's menu" aria-haspopup="true"
-                                onClick={handleClick}>
-                        <MoreVertIcon/>
+                                onClick={handleOpen}>
+                        <Create/>
                     </IconButton>
 
                 }
                 title={<div className={classes.title}>{title}</div>}
                 subheader={<div><b>{name}</b> {date.substr(0, 16)}</div>}
             />
-            <Menu
-                id="simple-menu"
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-            >
-                <MenuItem onClick={handleMenuOpen}>수정하기</MenuItem>
-                <MenuItem onClick={handleClose}>공유취소</MenuItem>
-            </Menu>
             <CardContent className={classes.cardContent}>
                 <Typography variant="body2" component="p">
                     {contents}
@@ -151,8 +149,9 @@ const BoardItem = props => {
             >
                 <IconButton size="small" aria-label="article's comments" disabled color="primary">
                     <SmsIcon aria-label="comment icon"/>
-                    <Typography aria-label="comment" variant="subtitle2" component="p">
-                        {comments.length}
+                    <Typography aria-label="comment" variant="subtitle2" component="p"
+                                style={{marginLeft: 4, marginBottom: 1}}>
+                        <b>{comments.length}</b>
                     </Typography>
                 </IconButton>
                 <IconButton
@@ -171,11 +170,14 @@ const BoardItem = props => {
                     {/* 댓글 입력 폼 */}
                     <CommentForm
                         value={input}
+                        avatar={CommentAvatar}
                         onChange={handleChange}
-                        onCreate={handleCreate}
+                        onCreate={addComment}
                         onKeyPress={handleKeyPress}
                     />
                     <CommentList
+                        loginId={loginId}
+                        delComment={delComment}
                         comments={comments}
                     />
                 </CardContent>
@@ -186,14 +188,18 @@ const BoardItem = props => {
 }
 
 BoardItem.propTypes = {
+    id: PropTypes.number,
     loginId: PropTypes.string,
+    loginName: PropTypes.string,
     user_id: PropTypes.string,
+    avatar: PropTypes.string,
     name: PropTypes.string,
     title: PropTypes.string,
     contents: PropTypes.string,
     date: PropTypes.string,
     verify: PropTypes.bool,
     comments: PropTypes.object,
+    CommentAvatar: PropTypes.string,
     handleOpen: PropTypes.func,
 }
 

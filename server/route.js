@@ -1,8 +1,15 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const path = require('path');
+
 const controller = require('./controller');
 const {verifyToken} = require('./authorization');
 
+const upload = multer({
+        dest: 'build/images/'
+    }
+)
 
 // 테스트
 router.get('/post/get', verifyToken, controller.post.get);
@@ -19,15 +26,18 @@ router.post('/diary/cancel', verifyToken, controller.diary.cancel)
 
 // 게시판
 router.post('/board/get', verifyToken, controller.board.getBoard);
-/*router.post('/board/comment/get', verifyToken, controller.board.getComments);
-router.post('/board/comment/add', verifyToken, controller.board.addComments);
-router.post('/board/comment/del', verifyToken, controller.board.delComments);
-router.post('/board/comment/modify', verifyToken, controller.board.modifyComments);*/
+
+// 댓글
+router.post('/comment/get', verifyToken, controller.comment.getComments);
+router.post('/comment/add', verifyToken, controller.comment.addComment);
+router.post('/comment/del', verifyToken, controller.comment.delComment);
 
 // 로그인, 회원가입, 프로필
 router.post('/user/add', controller.user.addUser);
 router.post('/user/login', controller.user.login);
 router.post('/user/update', verifyToken, controller.user.updateProfile);
+router.post('/user/addImg', verifyToken, upload.single('img'), controller.user.updateImage);
+router.get('/user/delImg', verifyToken, controller.user.delImage);
 router.get('/user/get', verifyToken, controller.user.getProfile);
 
 module.exports = router;
