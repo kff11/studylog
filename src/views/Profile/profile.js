@@ -102,7 +102,6 @@ const Profile = () => {
                 state: state,
             }
         })
-        console.log(res.data);
         if (res.data) {
             getProfile();
             alert("프로필 수정이 완료되었습니다!");

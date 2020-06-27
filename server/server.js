@@ -16,9 +16,9 @@ app.use(express.json());
 app.use('/', router);
 app.use('/', require('redirect-https')());
 
-fs.readdir('public/images', (err) => {
+fs.readdir('/images', (err) => {
     if (err) {
-        fs.mkdirSync('public/images');
+        fs.mkdirSync('/images');
     }
 })
 

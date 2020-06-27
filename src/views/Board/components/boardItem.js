@@ -123,6 +123,7 @@ const BoardItem = props => {
 
     useEffect(() => {
         getComments();
+        setExpanded(false);
     }, [id]);
 
     return (
